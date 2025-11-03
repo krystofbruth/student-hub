@@ -6,4 +6,17 @@ export default defineNuxtConfig({
   runtimeConfig: {
     dbUri: "mongodb://127.0.0.1:27017",
   },
+  nitro: {
+    experimental: {
+      openAPI: true,
+    },
+    openAPI: {
+      meta: {
+        title: "StudentHub API",
+        description: "Student information aggregation tool.",
+        version: "0.1.0",
+      },
+      production: "prerender",
+    },
+  },
 });
