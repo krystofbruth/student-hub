@@ -1,5 +1,16 @@
 import { InternalServerError } from "../openapi/InternalServerError.response";
 import { ValidationError } from "../openapi/ValidationError.response";
+import { CreateUserResponse } from "#shared/types/CreateUserResponse";
+import { CreateUserRequest } from "#shared/types/CreateUserRequest";
+import z from "zod";
+import { ErrorCodes, ErrorResponse } from "~~/shared/types/ErrorResponse";
+import UserService from "../services/UserService";
+
+const CreateUserValidator = z.object({
+  email: z.email(),
+  password: z.string(),
+  displayName: z.string(),
+});
 
 defineRouteMeta({
   openAPI: {
@@ -33,10 +44,25 @@ defineRouteMeta({
   },
 });
 
-export default defineEventHandler(async (event) => {
-  const body = await readBody(event);
+export default defineEventHandler(
+  async (event): Promise<CreateUserResponse | ErrorResponse> => {
+    const validation = CreateUserValidator.safeParse(readBody(event));
 
-  console.log(body);
+    if (!validation.success)
+      return {
+        success: false,
+        code: ErrorCodes.VALIDATION_ERROR,
+        message: validation.error.message,
+        status: 400,
+      };
 
-  return { success: "true" };
-});
+    const body: CreateUserRequest = validation.data;
+
+    const result = await UserService.registerUser(body);
+    if (!result.success) throw result.error;
+
+    const response: CreateUserResponse = { success: true };
+
+    return response;
+  }
+);

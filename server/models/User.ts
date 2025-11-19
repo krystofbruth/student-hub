@@ -1,10 +1,24 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema(
+export enum UserState {
+  REGISTERED = "REGISTERED",
+  ACTIVE = "ACTIVE",
+  SUSPENDED = "SUSPENDED",
+}
+
+export interface IUser {
+  email: string;
+  passwordHash: string;
+  displayName: string;
+  state: UserState;
+}
+
+const userSchema = new mongoose.Schema<IUser>(
   {
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     passwordHash: {
       type: String,
@@ -13,6 +27,11 @@ const userSchema = new mongoose.Schema(
     displayName: {
       type: String,
       required: true,
+    },
+    state: {
+      type: String,
+      required: true,
+      enum: UserState,
     },
   },
   { timestamps: true }
