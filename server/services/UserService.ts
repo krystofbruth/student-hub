@@ -9,7 +9,7 @@ import { UnknownException } from "../exceptions/UnknownException";
 const SALT_ROUNDS = 10;
 
 /** Registers an initially unverified User. */
-const registerUser = async (
+export const registerUser = async (
   createUser: CreateUserRequest
 ): Promise<Result<IUser>> => {
   let user: IUser;
@@ -30,7 +30,7 @@ const registerUser = async (
   return { success: true, data: user };
 };
 
-const verifyUser = async (userId: string): Promise<Result<void>> => {
+export const verifyUser = async (userId: string): Promise<Result<void>> => {
   try {
     const res = await User.findByIdAndUpdate(userId, {
       state: UserState.ACTIVE,
@@ -43,6 +43,32 @@ const verifyUser = async (userId: string): Promise<Result<void>> => {
   }
 
   return { success: true, data: undefined };
+};
+
+type UserLookup =
+  | {
+      email: string;
+    }
+  | { _id: string };
+
+export const findUser = async (query: UserLookup): Promise<Result<IUser>> => {
+  try {
+    const user = await User.findOne(query);
+    if (!user)
+      return {
+        success: false,
+        error: new NotFoundException(JSON.stringify(query)),
+      };
+
+    return { success: true, data: user };
+  } catch (err) {
+    if (err instanceof mongoose.Error.CastError)
+      return {
+        success: false,
+        error: new NotFoundException(JSON.stringify(query)),
+      };
+    else return { success: false, error: new UnknownException(err) };
+  }
 };
 
 export default { registerUser, verifyUser };
