@@ -17,7 +17,7 @@ const mapExceptionToErrorResponse = (exception: Exception): ErrorResponse => {
   return { status, success: false, code, message };
 };
 
-const mapErrorCodeToHTTPStatus = (code: ErrorCodes): number => {
+export const mapErrorCodeToHTTPStatus = (code: ErrorCodes): number => {
   switch (code) {
     case ErrorCodes.AUTHORIZATION_ERROR:
       return 401;
