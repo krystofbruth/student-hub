@@ -18,7 +18,19 @@ const mapExceptionToErrorResponse = (exception: Exception): ErrorResponse => {
 };
 
 const mapErrorCodeToHTTPStatus = (code: ErrorCodes): number => {
-  // TODO
+  switch (code) {
+    case ErrorCodes.AUTHORIZATION_ERROR:
+      return 401;
+    case ErrorCodes.NOT_FOUND:
+      return 404;
+    case ErrorCodes.CONFLICT:
+      return 409;
+    case ErrorCodes.VALIDATION_ERROR:
+      return 400;
+    case ErrorCodes.INTERNAL_SERVER_ERROR:
+    default:
+      return 500;
+  }
 };
 
 defineNitroErrorHandler((error, event) => {
