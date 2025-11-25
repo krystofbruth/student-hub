@@ -5,8 +5,7 @@ import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 import { NotFoundException } from "../exceptions/NotFoundException";
 import { UnknownException } from "../exceptions/UnknownException";
-
-const SALT_ROUNDS = 10;
+import { generatePasswordHash } from "./PasswordService";
 
 /** Registers an initially unverified User. */
 export const registerUser = async (
@@ -15,7 +14,7 @@ export const registerUser = async (
   let user: IUser;
 
   try {
-    const passwordHash = await bcrypt.hash(createUser.password, SALT_ROUNDS);
+    const passwordHash = generatePasswordHash(createUser.password);
 
     user = await User.create({
       displayName: createUser.displayName,
