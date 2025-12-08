@@ -1,7 +1,6 @@
 import { IUser, User, UserState } from "../models/User";
 import { CreateUserRequest } from "#shared/types/CreateUserRequest";
 import { Result } from "../helpers/Result";
-import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 import { NotFoundException } from "../exceptions/NotFoundException";
 import { UnknownException } from "../exceptions/UnknownException";

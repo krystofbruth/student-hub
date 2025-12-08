@@ -7,6 +7,7 @@ export enum UserState {
 }
 
 export interface IUser {
+  _id: mongoose.Types.ObjectId;
   email: string;
   passwordHash: string;
   displayName: string;

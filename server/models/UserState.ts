@@ -1,0 +1,5 @@
+export enum UserState {
+  REGISTERED = "REGISTERED",
+  ACTIVE = "ACTIVE",
+  SUSPENDED = "SUSPENDED",
+}
