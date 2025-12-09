@@ -1,4 +1,4 @@
-import { IUser } from "../models/User";
+import { IUser, User } from "../models/User";
 import { ISession, Session } from "../models/Session";
 import { AccessTokenPayload } from "../models/AccessTokenPayload";
 import jwt from "jsonwebtoken";
@@ -7,6 +7,7 @@ import { randomBytes, hash, createHash } from "crypto";
 import { Result } from "../helpers/Result";
 import { UnknownException } from "../exceptions/UnknownException";
 import { ImplementationException } from "../exceptions/ImplementationException";
+import { NotFoundException } from "../exceptions/NotFoundException";
 
 // Config
 //
@@ -64,8 +65,34 @@ export const createSession = async (
 
 export const refreshSession = async (
   refreshToken: string
-): Promise<TokenPair> => {
-  throw new ImplementationException();
+): Promise<Result<{ session: ISession } & { accessToken: string }>> => {
+  try {
+    const session = await Session.findOne({ refreshToken });
+    if (!session)
+      return { success: false, error: new NotFoundException(refreshToken) };
+
+    const user = await User.findById(session.userId);
+    if (!user) {
+      await session.deleteOne();
+      return { success: false, error: new NotFoundException(refreshToken) };
+    }
+
+    const newRefreshTokenAttempt = await createRefreshToken();
+    if (!newRefreshTokenAttempt.success) return newRefreshTokenAttempt;
+
+    const newAccessTokenAttempt = await createAccessToken(user);
+    if (!newAccessTokenAttempt.success) return newAccessTokenAttempt;
+
+    session.refreshToken = newRefreshTokenAttempt.data;
+    await session.save();
+
+    return {
+      success: true,
+      data: { session, accessToken: newAccessTokenAttempt.data },
+    };
+  } catch (error) {
+    return { success: false, error: new UnknownException(error) };
+  }
 };
 
 export const deleteSession = async (refreshToken: string) => {};
