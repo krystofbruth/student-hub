@@ -1,14 +1,17 @@
-// TODO: Separate password hashing and checking into its own service!
-// Implement entire flow
 import { LoginRequest } from "~~/shared/types/LoginRequest";
 import { Result } from "../helpers/Result";
-import { ImplementationException } from "../exceptions/ImplementationException";
+import { UnknownException } from "../exceptions/UnknownException";
+import { User } from "../models/User";
+import { AuthenticationException } from "../exceptions/AuthenticationException";
+import { checkPassword } from "./PasswordService";
+import { createSession } from "./AuthorizationService";
+import { ISession } from "../models/Session";
 
 export type LoginResult =
   | {
       result: "success";
       accessToken: string;
-      refreshToken: string;
+      session: ISession;
     }
   | {
       // Will be used in MFA
@@ -18,5 +21,30 @@ export type LoginResult =
 export const login = async (
   loginRequest: LoginRequest
 ): Promise<Result<LoginResult>> => {
-  return { success: false, error: new ImplementationException() };
+  try {
+    const user = await User.findOne({ email: loginRequest.email });
+    if (!user) return { success: false, error: new AuthenticationException() };
+
+    const passwordCheck = await checkPassword(
+      loginRequest.password,
+      user.passwordHash
+    );
+    if (!passwordCheck.success) return passwordCheck;
+    if (!passwordCheck.data)
+      return { success: false, error: new AuthenticationException() };
+
+    const tokenGenerationAttempt = await createSession(user);
+    if (!tokenGenerationAttempt.success) return tokenGenerationAttempt;
+
+    return {
+      success: true,
+      data: {
+        result: "success",
+        accessToken: tokenGenerationAttempt.data.accessToken,
+        session: tokenGenerationAttempt.data.session,
+      },
+    };
+  } catch (error) {
+    return { success: false, error: new UnknownException(error) };
+  }
 };
