@@ -18,5 +18,6 @@ export default defineNuxtConfig({
       },
       production: "prerender",
     },
+    errorHandler: "~/../server/utilities/ErrorHandler.ts",
   },
 });

@@ -14,3 +14,7 @@ export interface ErrorResponse {
   code: ErrorCodes;
   message: string;
 }
+
+export interface ValidationErrorResponse extends ErrorResponse {
+  issues: { [key: string]: string[] | undefined };
+}
