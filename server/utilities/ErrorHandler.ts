@@ -37,7 +37,7 @@ export const mapErrorCodeToHTTPStatus = (code: ErrorCodes): number => {
 export default defineNitroErrorHandler((error, event) => {
   let exception: Exception;
 
-  if (error instanceof Exception) exception = error;
+  if (error.cause instanceof Exception) exception = error.cause;
   else exception = new UnknownException(error);
 
   if (exception instanceof UnknownException) console.error(exception);
