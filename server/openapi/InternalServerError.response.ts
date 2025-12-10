@@ -1,6 +1,6 @@
 import { ErrorCodes, ErrorResponse } from "~~/shared/types/ErrorResponse";
 import { constructOpenAPIJSONResponse } from "./ResponseConstruct";
-import { mapErrorCodeToHTTPStatus } from "../exceptions/ErrorHandler";
+import { mapErrorCodeToHTTPStatus } from "../utilities/ErrorHandler";
 
 const internalServerErrorBody: ErrorResponse = {
   code: ErrorCodes.INTERNAL_SERVER_ERROR,

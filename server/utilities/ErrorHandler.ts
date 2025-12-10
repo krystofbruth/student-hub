@@ -1,6 +1,6 @@
 import { ErrorCodes, ErrorResponse } from "#shared/types/ErrorResponse";
-import { Exception } from "./Exception";
-import { UnknownException } from "./UnknownException";
+import { Exception } from "../exceptions/Exception";
+import { UnknownException } from "../exceptions/UnknownException";
 
 const mapExceptionToErrorResponse = (exception: Exception): ErrorResponse => {
   const status = mapErrorCodeToHTTPStatus(exception.code);
@@ -26,6 +26,7 @@ export const mapErrorCodeToHTTPStatus = (code: ErrorCodes): number => {
     case ErrorCodes.CONFLICT:
       return 409;
     case ErrorCodes.VALIDATION_ERROR:
+    case ErrorCodes.AUTHENTICATION_ERROR:
       return 400;
     case ErrorCodes.INTERNAL_SERVER_ERROR:
     default:

@@ -1,1 +1,1 @@
-export type CreateUserResponse = { success: true };
+export type CreateUserResponse = { success: true; status: 201 };
