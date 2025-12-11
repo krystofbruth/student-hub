@@ -5,6 +5,9 @@ import mongoose from "mongoose";
 import { NotFoundException } from "../exceptions/NotFoundException";
 import { UnknownException } from "../exceptions/UnknownException";
 import { generatePasswordHash } from "./PasswordService";
+import { ImplementationException } from "../exceptions/ImplementationException";
+import { MongoServerError } from "mongodb";
+import { ConflictException } from "../exceptions/ConflictException";
 
 /** Registers an initially unverified User. */
 export const registerUser = async (
@@ -13,15 +16,24 @@ export const registerUser = async (
   let user: IUser;
 
   try {
-    const passwordHash = generatePasswordHash(createUser.password);
+    const passwordHashAttempt = await generatePasswordHash(createUser.password);
+    if (!passwordHashAttempt.success) return passwordHashAttempt;
 
+    if (useRuntimeConfig().emailVerification)
+      throw new ImplementationException(
+        "Email verification currently not implemented."
+      );
+
+    // Beware - this also checks for conflicts, part of the business logic!
     user = await User.create({
       displayName: createUser.displayName,
-      passwordHash,
+      passwordHash: passwordHashAttempt.data,
       email: createUser.email,
-      state: UserState.REGISTERED,
+      state: UserState.ACTIVE,
     });
   } catch (err) {
+    if (err instanceof MongoServerError && err.code === 11000)
+      return { success: false, error: new ConflictException() };
     return { success: false, error: new UnknownException(err) };
   }
 

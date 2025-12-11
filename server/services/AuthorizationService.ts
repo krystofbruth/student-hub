@@ -8,6 +8,7 @@ import { Result } from "../helpers/Result";
 import { UnknownException } from "../exceptions/UnknownException";
 import { ImplementationException } from "../exceptions/ImplementationException";
 import { NotFoundException } from "../exceptions/NotFoundException";
+import { AuthorizationException } from "../exceptions/AuthorizationException";
 
 // Config
 //
@@ -38,6 +39,18 @@ export const createAccessToken = async (
     return { success: true, data: token };
   } catch (err) {
     return { success: false, error: new UnknownException(err) };
+  }
+};
+
+export const verifyAccessToken = async (
+  accessToken: string
+): Promise<Result<AccessTokenPayload>> => {
+  try {
+    const verification = jwt.verify(accessToken, accessTokenSecret);
+    // Versioning? 😥
+    return { success: true, data: verification as AccessTokenPayload };
+  } catch (err) {
+    return { success: false, error: new AuthorizationException(err) };
   }
 };
 

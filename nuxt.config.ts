@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   modules: ["@nuxt/eslint", "@nuxt/test-utils", "@nuxt/ui"],
   runtimeConfig: {
     dbUri: "mongodb://127.0.0.1:27017",
+    emailVerification: false,
   },
   nitro: {
     experimental: {

@@ -38,7 +38,7 @@ export default defineNitroErrorHandler((error, event) => {
   let exception: Exception;
 
   if (error.cause instanceof Exception) exception = error.cause;
-  else exception = new UnknownException(error);
+  else exception = new UnknownException(error.cause);
 
   if (exception instanceof UnknownException) console.error(exception);
 
