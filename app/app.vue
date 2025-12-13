@@ -1,6 +1,9 @@
 <template>
-  <div>
-    <h1>StudentHub</h1>
+  <UApp>
     <NuxtPage />
-  </div>
+  </UApp>
 </template>
+
+<script setup lang="ts">
+import type HeaderVue from "./components/Header.vue";
+</script>

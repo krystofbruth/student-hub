@@ -1,5 +1,8 @@
 <template>
-  <h1>Home</h1>
-  <li><NuxtLink to="/hello">Link</NuxtLink></li>
-  <li><NuxtLink to="/register">Register</NuxtLink></li>
+  <h1>Index</h1>
 </template>
+
+<script setup lang="ts">
+// To be changed
+navigateTo("/login");
+</script>
