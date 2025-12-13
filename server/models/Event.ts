@@ -7,24 +7,33 @@ export enum EventType {
 }
 
 export interface IEvent {
-  _id: string;
+  _id: mongoose.Types.ObjectId;
   sourceId: mongoose.Types.ObjectId;
   type: EventType;
   dueAt: Date;
   uri: string;
+  /** Id of the resource in the target implementation. */
+  targetId: string;
+  userId: mongoose.Types.ObjectId;
+  title: string;
+  description: string;
 }
 
 const eventSchema = new mongoose.Schema<IEvent>(
   {
-    _id: {
+    targetId: {
       type: String,
       required: true,
-      index: true,
     },
     sourceId: {
       type: mongoose.SchemaTypes.ObjectId,
       required: true,
       ref: "Source",
+    },
+    userId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      required: true,
+      ref: "User",
     },
     type: {
       type: String,
@@ -35,6 +44,12 @@ const eventSchema = new mongoose.Schema<IEvent>(
       type: Date,
     },
     uri: {
+      type: String,
+    },
+    title: {
+      type: String,
+    },
+    description: {
       type: String,
     },
   },
