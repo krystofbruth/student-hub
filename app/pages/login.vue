@@ -1,26 +1,27 @@
 <template>
-  <FullPageDialog>
+  <NuxtLayout name="full-page-dialog">
     <template #left>
-      <div class="min-w-0 flex flex-col gap-4">
-        <Logo />
-        <p>
-          StudentHub is a data aggregation platform for conveniently viewing all
-          deadlines & information. Never miss another announcement again!
-        </p>
-      </div>
+      <Logo />
+      <p>
+        StudentHub is a data aggregation platform for conveniently viewing all
+        deadlines & information. Never miss another announcement again!
+      </p>
+      <p class="text-gray-500 text-sm">
+        Don't have an account?
+        <NuxtLink
+          class="font-bold hover:text-default transition ease-in-out duration-200"
+          to="/register"
+          >Register here</NuxtLink
+        >
+      </p>
     </template>
     <template #right>
-      <div class="flex flex-col gap-1.5">
-        <h2 class="text-2xl font-bold">Login</h2>
-        <form @submit.prevent=""></form>
-      </div>
+      <h2 class="text-2xl font-bold">Login</h2>
+      <form @submit.prevent=""></form>
     </template>
-  </FullPageDialog>
-  <UContainer> </UContainer>
+  </NuxtLayout>
 </template>
 
 <script setup lang="ts">
-import FullPageDialog from "~/components/FullPageDialog.vue";
-
-// To be
+// TBD
 </script>
