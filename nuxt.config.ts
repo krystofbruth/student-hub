@@ -22,4 +22,5 @@ export default defineNuxtConfig({
     },
     errorHandler: "~/../server/utilities/ErrorHandler.ts",
   },
+  ssr: false,
 });
