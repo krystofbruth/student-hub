@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
-  modules: ["@nuxt/eslint", "@nuxt/test-utils", "@nuxt/ui"],
+  modules: ["@nuxt/eslint", "@nuxt/test-utils", "@nuxt/ui", "@pinia/nuxt"],
   css: ["~/assets/css/main.css"],
   runtimeConfig: {
     dbUri: "mongodb://127.0.0.1:27017",
