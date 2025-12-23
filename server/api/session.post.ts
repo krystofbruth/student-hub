@@ -2,11 +2,9 @@ import z from "zod";
 import { ErrorResponse } from "~~/shared/types/ErrorResponse";
 import { LoginResponse } from "~~/shared/types/LoginResponse";
 import { ValidateRequestBody } from "../utilities/Validate";
-import { LoginRequest } from "~~/shared/types/LoginRequest";
 import { login } from "../services/AuthenticationService";
 import { ImplementationException } from "../exceptions/ImplementationException";
-
-const LoginRequestSchema = z.object({ email: z.email(), password: z.string() });
+import { LoginRequestSchema, LoginRequest } from "~~/shared/types/LoginRequest";
 
 export default defineEventHandler(
   async (event): Promise<LoginResponse | ErrorResponse> => {

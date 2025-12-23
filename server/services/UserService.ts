@@ -11,12 +11,16 @@ import { ConflictException } from "../exceptions/ConflictException";
 
 /** Registers an initially unverified User. */
 export const registerUser = async (
-  createUser: CreateUserRequest
+  username: string,
+  displayName: string,
+  email: string,
+  password: string,
+  state?: UserState
 ): Promise<Result<IUser>> => {
   let user: IUser;
 
   try {
-    const passwordHashAttempt = await generatePasswordHash(createUser.password);
+    const passwordHashAttempt = await generatePasswordHash(password);
     if (!passwordHashAttempt.success) return passwordHashAttempt;
 
     if (useRuntimeConfig().emailVerification)
@@ -26,9 +30,11 @@ export const registerUser = async (
 
     // Beware - this also checks for conflicts, part of the business logic!
     user = await User.create({
-      displayName: createUser.displayName,
+      displayName,
       passwordHash: passwordHashAttempt.data,
-      email: createUser.email,
+      email: email,
+      username: email,
+      // Will be changed once email verification implemented
       state: UserState.ACTIVE,
     });
   } catch (err) {
@@ -59,7 +65,8 @@ type UserLookup =
   | {
       email: string;
     }
-  | { _id: string };
+  | { _id: string }
+  | { username: string };
 
 export const findUser = async (query: UserLookup): Promise<Result<IUser>> => {
   try {
