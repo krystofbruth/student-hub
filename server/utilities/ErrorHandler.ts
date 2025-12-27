@@ -1,6 +1,11 @@
-import { ErrorCodes, ErrorResponse } from "#shared/types/ErrorResponse";
+import {
+  ErrorCodes,
+  ErrorResponse,
+  ValidationErrorResponse,
+} from "#shared/types/ErrorResponse";
 import { Exception } from "../exceptions/Exception";
 import { UnknownException } from "../exceptions/UnknownException";
+import { ValidationException } from "../exceptions/ValidationException";
 
 const mapExceptionToErrorResponse = (exception: Exception): ErrorResponse => {
   const status = mapErrorCodeToHTTPStatus(exception.code);
@@ -12,6 +17,17 @@ const mapExceptionToErrorResponse = (exception: Exception): ErrorResponse => {
   } else {
     message = exception.message;
     code = exception.code;
+  }
+
+  if (exception instanceof ValidationException) {
+    const validationErrorResponse: ValidationErrorResponse = {
+      status,
+      success: false,
+      code,
+      message,
+      issues: exception.errors,
+    };
+    return validationErrorResponse;
   }
 
   return { status, success: false, code, message };

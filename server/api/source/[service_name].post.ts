@@ -11,7 +11,7 @@ import {
   ValidationErrorResponse,
 } from "~~/shared/types/ErrorResponse";
 
-defineEventHandler(async (event) => {
+export default defineEventHandler(async (event) => {
   const authorization = await Authorize(event);
   if (!authorization.success) return authorization.errorResponse;
 
@@ -35,11 +35,18 @@ defineEventHandler(async (event) => {
   const serviceName: RegisteredServiceNames =
     serviceNameParam as RegisteredServiceNames;
 
+  const headers: { [header: string]: string } = {};
+  for (const key in event.headers.keys()) {
+    if (!event.headers.get(key)) continue;
+    // :C
+    headers[key] = event.headers.get(key) as string;
+  }
+
   let requestDetails: RequestDetails;
   try {
     requestDetails = {
       body: await readBody(event),
-      headers: event.headers,
+      headers,
       query: getQuery(event),
       path: event.path,
     };
@@ -64,4 +71,6 @@ defineEventHandler(async (event) => {
   if (!sourceCreation.success) throw sourceCreation.error;
 
   // TODO - Prepare request & response interfaces and return response
+
+  return { success: true };
 });

@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import { IEvent } from "../models/Event";
 import { useCajthamlIntegration } from "./CajthamlIntegration";
 import { Result } from "../helpers/Result";
-import { ISource } from "../models/Source";
 
 export enum RegisteredServiceNames {
   SSPS_CAJTHAML = "ssps_cajthaml",
@@ -10,9 +9,9 @@ export enum RegisteredServiceNames {
 }
 
 export interface RequestDetails {
-  body: object;
-  headers: object;
-  query: object;
+  body: unknown;
+  headers: { [header: string]: string | undefined };
+  query: { [parameter: string]: string | string[] | undefined };
   path: string;
 }
 
@@ -24,7 +23,8 @@ export interface Integration {
   ): Promise<Result<IEvent[]>>;
   serviceName: RegisteredServiceNames;
 
-  createSource(event: RequestDetails): Promise<ISource>;
+  /** Returns login credentials to be saved in the DB. */
+  createSource(event: RequestDetails): Promise<Result<any>>;
 
   unlinkSource(sourceId: mongoose.Types.ObjectId): Promise<void>;
 }
