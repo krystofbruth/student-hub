@@ -3,6 +3,8 @@ import { IEvent } from "../models/Event";
 import { useCajthamlIntegration } from "./CajthamlIntegration";
 import { Result } from "../helpers/Result";
 
+export type EventWithoutId = Omit<IEvent, "_id">;
+
 export enum RegisteredServiceNames {
   SSPS_CAJTHAML = "ssps_cajthaml",
   // etc.
@@ -20,7 +22,7 @@ export interface Integration {
     credentials: Object,
     sourceId: mongoose.Types.ObjectId,
     userId: mongoose.Types.ObjectId
-  ): Promise<Result<IEvent[]>>;
+  ): Promise<Result<EventWithoutId[]>>;
   serviceName: RegisteredServiceNames;
 
   /** Returns login credentials to be saved in the DB. */
@@ -34,3 +36,8 @@ type useIntegration = () => Promise<Integration>;
 export const IntegrationMap: Record<RegisteredServiceNames, useIntegration> = {
   ssps_cajthaml: useCajthamlIntegration,
 };
+
+/** Add to every request! */
+export const USER_AGENT = `StudentHub/${
+  useRuntimeConfig().appVersion
+} (bruthans.krystof11@gmail.com)`;

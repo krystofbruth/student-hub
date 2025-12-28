@@ -1,14 +1,19 @@
-import mongoose from "mongoose";
 import { Result } from "../helpers/Result";
 import { UnknownException } from "../exceptions/UnknownException";
 import { ISource, Source } from "../models/Source";
 import { Exception } from "../exceptions/Exception";
 import { SynchronizationException } from "../exceptions/SynchronizationException";
-import { Integration, IntegrationMap } from "../integrations/Integration";
-import { Event, IEvent } from "../models/Event";
+import {
+  EventWithoutId,
+  Integration,
+  IntegrationMap,
+} from "../integrations/Integration";
+import { Event } from "../models/Event";
+import { User } from "../models/User";
+import { NotFoundException } from "../exceptions/NotFoundException";
 
 const synchronizeSourceEvent = async (
-  event: IEvent,
+  event: EventWithoutId,
   source: ISource
 ): Promise<Result<void>> => {
   try {
@@ -71,10 +76,17 @@ const synchronizeSourceEvents = async (
   }
 };
 
-export const synchronize = async (
-  userId: mongoose.Types.ObjectId
-): Promise<Result<void>> => {
+const SYNC_INTERVAL_MS = 1000 * 60;
+
+/** Handles synchronization as well as synchronization intervals. */
+export const synchronize = async (userId: string): Promise<Result<void>> => {
   try {
+    // Inefficient - utilize a Redis or similiar short-term caching DB in the future
+    const user = await User.findById(userId);
+    if (!user) throw new NotFoundException(userId.toString());
+    if (Date.now() - user.lastSync.getTime() < SYNC_INTERVAL_MS)
+      return { success: true, data: undefined };
+
     const sources = await Source.find({ userId });
 
     let exceptions: Exception[] = [];
@@ -88,6 +100,9 @@ export const synchronize = async (
         success: false,
         error: new SynchronizationException(exceptions),
       };
+
+    user.lastSync = new Date();
+    await user.save();
 
     return { success: true, data: undefined };
   } catch (error) {

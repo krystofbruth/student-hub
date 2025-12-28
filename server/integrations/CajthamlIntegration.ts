@@ -1,18 +1,21 @@
 import z from "zod";
 import { ImplementationException } from "../exceptions/ImplementationException";
 import { Result } from "../helpers/Result";
-import { IEvent } from "../models/Event";
 import { type SSPSCajthamlLoginDetails } from "../models/integrations/ssps_cajthaml/LoginDetails";
 import { CreateSSPSCajthamlSourceSchema } from "#shared/types/integrations/ssps_cajthaml/CreateSource";
 import { ValidationException } from "../exceptions/ValidationException";
 import {
+  EventWithoutId,
   Integration,
   RegisteredServiceNames,
   RequestDetails,
+  USER_AGENT,
 } from "./Integration";
 import mongoose from "mongoose";
 import { UnknownException } from "../exceptions/UnknownException";
 import { VerifySuccessDTO } from "../models/integrations/ssps_cajthaml/External-VerifySuccessDTO";
+import { AllUserWorkSuccessDTO } from "../models/integrations/ssps_cajthaml/External-AllUserWorkSuccessDTO";
+import { EventType } from "../models/Event";
 
 class CajthamlIntegration implements Integration {
   public serviceName: RegisteredServiceNames;
@@ -21,13 +24,47 @@ class CajthamlIntegration implements Integration {
     this.serviceName = RegisteredServiceNames.SSPS_CAJTHAML;
   }
 
-  fetchEvents(
+  public async fetchEvents(
     credentials: Object,
     sourceId: mongoose.Types.ObjectId,
     userId: mongoose.Types.ObjectId
-  ): Promise<Result<IEvent[]>> {
-    // TODO
-    throw new ImplementationException("SSPS Cajthaml not yet implemented.");
+  ): Promise<Result<EventWithoutId[]>> {
+    const cajthamlCredentials = credentials as SSPSCajthamlLoginDetails;
+
+    try {
+      console.log(cajthamlCredentials);
+
+      const res = await fetch(
+        `https://api.ssps.cajthaml.eu/user/${cajthamlCredentials.verification.user.id}/work`,
+        {
+          method: "GET",
+          headers: {
+            "x-verify-code": cajthamlCredentials.verificationToken,
+            "User-Agent": USER_AGENT,
+          },
+        }
+      );
+      if (!res.ok) throw res;
+
+      const events = (await res.json()).data as AllUserWorkSuccessDTO;
+      return {
+        success: true,
+        data: events.works.map((e) => {
+          return {
+            sourceId,
+            type: EventType.ASSIGNMENT,
+            dueAt: new Date(e.end),
+            uri: `https://ssps.cajthaml.eu/${e.subjectSlug}/work/${e.slug}`,
+            targetId: e.id,
+            userId,
+            title: e.name,
+            description: "TODO: Work description!",
+          };
+        }),
+      };
+    } catch (error) {
+      return { success: false, error: new UnknownException(error) };
+    }
   }
 
   private async performVerification(
@@ -36,7 +73,7 @@ class CajthamlIntegration implements Integration {
     try {
       const res = await fetch(
         `https://api.ssps.cajthaml.eu/verify/${verificationToken}`,
-        { method: "GET" }
+        { method: "GET", headers: { "User-Agent": USER_AGENT } }
       );
       if (!res.ok) {
         if (res.status === 400)
@@ -49,7 +86,7 @@ class CajthamlIntegration implements Integration {
         throw res;
       }
 
-      const body = (await res.json()) as VerifySuccessDTO;
+      const body = (await res.json()).data as VerifySuccessDTO;
       return { success: true, data: body };
     } catch (error) {
       return { success: false, error: new UnknownException(error) };

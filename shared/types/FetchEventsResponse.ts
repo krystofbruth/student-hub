@@ -10,6 +10,7 @@ export interface EventView {
 }
 
 export interface FetchEventsResponse {
-  success: true;
+  success: true | "PARTIAL";
+  code?: "SYNC_FAILURE";
   events: EventView[];
 }

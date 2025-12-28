@@ -1,3 +1,5 @@
+import pkg from "./package.json";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
@@ -7,6 +9,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     dbUri: "mongodb://127.0.0.1:27017",
     emailVerification: false,
+    appVersion: pkg.version,
   },
   nitro: {
     experimental: {

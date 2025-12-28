@@ -8,6 +8,7 @@ import {
 } from "~~/shared/types/FetchEventsResponse";
 import { IEvent } from "../models/Event";
 import { ErrorResponse } from "~~/shared/types/ErrorResponse";
+import util from "util";
 
 const parametersSchema = z.object({
   limit: z.number().max(100).min(1).optional().default(50),
@@ -38,7 +39,7 @@ const mapEventToResponse = (event: IEvent): EventView => {
   };
 };
 
-defineEventHandler(
+export default defineEventHandler(
   async (event): Promise<FetchEventsResponse | ErrorResponse> => {
     const authorization = await Authorize(event);
     if (!authorization.success) return authorization.errorResponse;
@@ -49,15 +50,21 @@ defineEventHandler(
     if (!queryParametersValidation.success)
       return queryParametersValidation.errorResponse;
 
-    const result = await fetchEvents({
-      userId: authorization.data.userId,
+    const result = await fetchEvents(authorization.data.userId, {
       limit: queryParametersValidation.data.limit,
       offset: queryParametersValidation.data.offset,
     });
     if (!result.success) throw result.error;
 
+    if (result.success === "PARTIAL")
+      console.warn(
+        util.inspect(result, { showHidden: false, depth: null, colors: true })
+      );
+
+    const code = result.success === "PARTIAL" ? "SYNC_FAILURE" : undefined;
     const response: FetchEventsResponse = {
-      success: true,
+      success: result.success,
+      code,
       events: result.data.map((e) => mapEventToResponse(e)),
     };
 

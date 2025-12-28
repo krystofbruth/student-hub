@@ -13,6 +13,7 @@ export interface IUser {
   displayName: string;
   state: UserState;
   username: string;
+  lastSync: Date;
 }
 
 const userSchema = new mongoose.Schema<IUser>(
@@ -39,6 +40,10 @@ const userSchema = new mongoose.Schema<IUser>(
       type: String,
       required: true,
       enum: UserState,
+    },
+    lastSync: {
+      type: Date,
+      default: new Date(),
     },
   },
   { timestamps: true }

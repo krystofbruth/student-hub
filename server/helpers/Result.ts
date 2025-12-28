@@ -9,3 +9,7 @@ export type Result<T> =
       success: false;
       error: Exception;
     };
+
+export type ExtendedResult<T> =
+  | Result<T>
+  | { success: "PARTIAL"; data: T; errors: unknown };
