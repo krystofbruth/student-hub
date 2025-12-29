@@ -63,5 +63,6 @@ export default defineNitroErrorHandler((error, event) => {
 
   const response = mapExceptionToErrorResponse(exception);
   setResponseHeader(event, "Content-Type", "application/json");
+  setResponseStatus(event, response.status);
   return send(event, JSON.stringify(response));
 });
