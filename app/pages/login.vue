@@ -22,6 +22,7 @@
         :state="state"
         @submit="handleSubmit"
         class="flex flex-col gap-3 items-stretch"
+        :validateOnInputDelay="300"
       >
         <UFormField label="Username (E-mail)" name="email">
           <UInput
@@ -39,31 +40,87 @@
           />
         </UFormField>
 
-        <UButton type="submit"> Log-in </UButton>
+        <UButton type="submit" v-if="!loadingResponse"> Log-in </UButton>
+        <UButton
+          type="submit"
+          class="grayscale-25 cursor-wait hover:bg-primary"
+          v-else
+        >
+          Logging-in
+        </UButton>
       </UForm>
     </template>
   </NuxtLayout>
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import type { FormSubmitEvent } from "@nuxt/ui";
 import {
   type LoginRequest,
   LoginRequestSchema,
 } from "#shared/types/LoginRequest";
+import { useAuthorizationStore } from "#imports";
+import { useRouter } from "vue-router";
 
+const authorizationStore = useAuthorizationStore();
+const router = useRouter();
 const state = reactive<Partial<LoginRequest>>({
-  email: undefined,
-  password: undefined,
+  email: "",
+  password: "",
+});
+const loadingResponse = ref(false);
+
+// TODO - Handle this better, it takes time before it is initialized!
+onMounted(() => {
+  console.log(authorizationStore.authorized);
+  if (authorizationStore.authorized) router.push("/protected/dashboard");
 });
 
 const toast = useToast();
-const handleSubmit = (submission: FormSubmitEvent<LoginRequest>) => {
-  toast.add({
-    title: "Success",
-    description: "The form has been submitted.",
-    color: "success",
-  });
-  console.log(submission);
+const handleSubmit = async (submission: FormSubmitEvent<LoginRequest>) => {
+  if (loadingResponse.value) return;
+  loadingResponse.value = true;
+
+  try {
+    const loginAttempt = await authorizationStore.login(
+      submission.data.email,
+      submission.data.password
+    );
+
+    if (loginAttempt === true) {
+      toast.add({
+        title: "Log-in successful",
+        description: "Log-in has been successful.",
+        color: "success",
+      });
+      router.push("/protected/dashboard");
+    } else {
+      toast.add({
+        title: "Invalid username or password",
+        description:
+          "Authentication failure: either username or password were invalid.",
+        color: "error",
+      });
+    }
+  } catch (error) {
+    // :C
+    // @ts-ignore
+    if (error && error.status)
+      toast.add({
+        title: "Server error",
+        description:
+          "An unexpected server error has occured, please try again later.",
+        color: "warning",
+      });
+    else
+      toast.add({
+        title: "Network error",
+        description: "Please check your internet connection and try again.",
+        color: "warning",
+      });
+  } finally {
+    loadingResponse.value = false;
+  }
 };
 </script>

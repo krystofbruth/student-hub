@@ -1,12 +1,18 @@
 const LOCAL_STORAGE_REFRESH_TOKEN_KEY = "auth_refresh-token";
 
+/** Warning - it takes a while until it makes the first refresh etc. */
 export const useAuthorizationStore = defineStore("authorization", () => {
   const authorized = ref(false);
   const accessToken = ref("");
   const lastRefresh = ref(new Date());
   const router = useRouter();
 
+  function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
   const refresh = async (): Promise<boolean> => {
+    await sleep(1000);
     lastRefresh.value = new Date();
 
     const refreshToken = localStorage.getItem(LOCAL_STORAGE_REFRESH_TOKEN_KEY);
@@ -17,42 +23,50 @@ export const useAuthorizationStore = defineStore("authorization", () => {
     }
 
     const refreshRequest: RefreshRequest = { refreshToken };
-    const { data, status, error } = await useFetch("/api/session/refresh", {
-      body: refreshRequest,
-      method: "PATCH",
-    });
-    if (error || !data.value?.success) {
+    try {
+      const res = await $fetch("/api/session/refresh", {
+        body: refreshRequest,
+        method: "PATCH",
+      });
+
+      if (!res.success) throw res;
+
+      localStorage.setItem(LOCAL_STORAGE_REFRESH_TOKEN_KEY, res.refreshToken);
+      authorized.value = true;
+      accessToken.value = res.accessToken;
+      return true;
+    } catch (error) {
       localStorage.removeItem(LOCAL_STORAGE_REFRESH_TOKEN_KEY);
       authorized.value = false;
       accessToken.value = "";
       return false;
     }
-
-    localStorage.setItem(
-      LOCAL_STORAGE_REFRESH_TOKEN_KEY,
-      data.value.refreshToken
-    );
-    authorized.value = true;
-    accessToken.value = data.value.accessToken;
-    return true;
   };
 
+  /** Throws if network, internal server error or similiar occurs. */
   const login = async (email: string, password: string): Promise<boolean> => {
     const loginRequest: LoginRequest = { email, password };
-    const { data, error } = await useFetch("/api/session", {
-      method: "POST",
-      body: loginRequest,
-    });
-    if (error || !data.value?.success) return false;
 
-    localStorage.setItem(
-      LOCAL_STORAGE_REFRESH_TOKEN_KEY,
-      data.value.tokens.refreshToken
-    );
-    accessToken.value = data.value.tokens.accessToken;
-    authorized.value = true;
+    try {
+      const res = await $fetch("/api/session", {
+        method: "POST",
+        body: loginRequest,
+      });
+      if (!res.success) throw res;
 
-    return true;
+      localStorage.setItem(
+        LOCAL_STORAGE_REFRESH_TOKEN_KEY,
+        res.tokens.refreshToken
+      );
+      accessToken.value = res.tokens.accessToken;
+      authorized.value = true;
+
+      return true;
+    } catch (error) {
+      //@ts-ignore
+      if (error && error.status === 400) return false;
+      else throw error;
+    }
   };
 
   // Navigates the user to the login page with the parameter `returnTo`

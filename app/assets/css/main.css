@@ -4,3 +4,8 @@
 @theme {
   --font-sans: "Public Sans", sans-serif;
 }
+
+.disabled {
+  cursor: not-allowed;
+  color: gray;
+}
