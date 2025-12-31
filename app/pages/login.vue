@@ -71,11 +71,14 @@ const state = reactive<Partial<LoginRequest>>({
 });
 const loadingResponse = ref(false);
 
-// TODO - Handle this better, it takes time before it is initialized!
-onMounted(() => {
-  console.log(authorizationStore.authorized);
-  if (authorizationStore.authorized) router.push("/protected/dashboard");
-});
+const redirect = () => {
+  const returnToPath = new URLSearchParams(window.location.search).get(
+    "returnTo"
+  );
+  router.push(returnToPath || "/protected/dashboard");
+};
+
+if (await authorizationStore.isAuthorized()) redirect();
 
 const toast = useToast();
 const handleSubmit = async (submission: FormSubmitEvent<LoginRequest>) => {
@@ -94,7 +97,7 @@ const handleSubmit = async (submission: FormSubmitEvent<LoginRequest>) => {
         description: "Log-in has been successful.",
         color: "success",
       });
-      router.push("/protected/dashboard");
+      redirect();
     } else {
       toast.add({
         title: "Invalid username or password",

@@ -12,6 +12,7 @@ export type LoginResult =
       result: "success";
       accessToken: string;
       session: ISession;
+      accessTokenExpiration: Date;
     }
   | {
       // Will be used in MFA
@@ -42,6 +43,8 @@ export const login = async (
         result: "success",
         accessToken: tokenGenerationAttempt.data.accessToken,
         session: tokenGenerationAttempt.data.session,
+        accessTokenExpiration:
+          tokenGenerationAttempt.data.accessTokenExpiration,
       },
     };
   } catch (error) {

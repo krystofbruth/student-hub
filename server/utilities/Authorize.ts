@@ -1,6 +1,6 @@
 import { type H3Event } from "h3";
 import { UtilityResult } from "./UtilityResult";
-import { AccessTokenPayload } from "../models/AccessTokenPayload";
+import { AccessTokenPayload } from "../../shared/types/AccessTokenPayload";
 import { ErrorCodes } from "~~/shared/types/ErrorResponse";
 import { verifyAccessToken } from "../services/AuthorizationService";
 

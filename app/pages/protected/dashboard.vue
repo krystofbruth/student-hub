@@ -13,8 +13,5 @@
 import { useAuthorizationStore } from "~/stores/AuthorizationStore";
 
 const authorizationStore = useAuthorizationStore();
-
-// const data = await useFetch("/api/event", {
-//   headers: { Authorization: authorizationStore.getAuthorization() },
-// });
+const authorization = await authorizationStore.getAuthorization();
 </script>

@@ -1,6 +1,6 @@
 import { IUser, User } from "../models/User";
 import { ISession, Session } from "../models/Session";
-import { AccessTokenPayload } from "../models/AccessTokenPayload";
+import { AccessTokenPayload } from "../../shared/types/AccessTokenPayload";
 import jwt from "jsonwebtoken";
 import { StringValue } from "ms";
 import { randomBytes, hash, createHash } from "crypto";
@@ -23,20 +23,25 @@ if (!process.env.ACCESS_TOKEN_SECRET) {
     throw new Error("No access token secret present!");
   }
 }
-const accessTokenExpiration: StringValue = "1h";
+const ACCESS_TOKEN_EXPIRATION_MS: number = 1000 * 60 * 15;
 
 // Methods
 //
 export const createAccessToken = async (
   user: IUser
-): Promise<Result<string>> => {
+): Promise<Result<{ accessToken: string; expires: Date }>> => {
   try {
-    const payload: AccessTokenPayload = { userId: user._id.toString("hex") };
-    const token = jwt.sign(payload, accessTokenSecret, {
-      expiresIn: accessTokenExpiration,
-    });
+    const expirationDate = new Date(Date.now() + ACCESS_TOKEN_EXPIRATION_MS);
+    const payload: AccessTokenPayload = {
+      userId: user._id.toString("hex"),
+      exp: expirationDate.getTime() / 1000,
+    };
+    const token = jwt.sign(payload, accessTokenSecret, {});
 
-    return { success: true, data: token };
+    return {
+      success: true,
+      data: { accessToken: token, expires: expirationDate },
+    };
   } catch (err) {
     return { success: false, error: new UnknownException(err) };
   }
@@ -57,14 +62,18 @@ export const verifyAccessToken = async (
 export const createSession = async (
   user: IUser,
   details?: object
-): Promise<Result<{ session: ISession } & { accessToken: string }>> => {
+): Promise<
+  Result<
+    { session: ISession } & { accessToken: string; accessTokenExpiration: Date }
+  >
+> => {
   const refreshTokenAttempt = await createRefreshToken();
   if (!refreshTokenAttempt.success) return refreshTokenAttempt;
   const refreshToken = refreshTokenAttempt.data;
 
   const accessTokenAttempt = await createAccessToken(user);
   if (!accessTokenAttempt.success) return accessTokenAttempt;
-  const accessToken = accessTokenAttempt.data;
+  const accessTokenData = accessTokenAttempt.data;
 
   const session = new Session({ userId: user._id, refreshToken, details });
   try {
@@ -73,12 +82,23 @@ export const createSession = async (
     return { success: false, error: new UnknownException(error) };
   }
 
-  return { success: true, data: { accessToken, session } };
+  return {
+    success: true,
+    data: {
+      session,
+      accessToken: accessTokenData.accessToken,
+      accessTokenExpiration: accessTokenData.expires,
+    },
+  };
 };
 
 export const refreshSession = async (
   refreshToken: string
-): Promise<Result<{ session: ISession } & { accessToken: string }>> => {
+): Promise<
+  Result<
+    { session: ISession } & { accessToken: string; accessTokenExpiration: Date }
+  >
+> => {
   try {
     const session = await Session.findOne({ refreshToken });
     if (!session)
@@ -101,7 +121,11 @@ export const refreshSession = async (
 
     return {
       success: true,
-      data: { session, accessToken: newAccessTokenAttempt.data },
+      data: {
+        session,
+        accessToken: newAccessTokenAttempt.data.accessToken,
+        accessTokenExpiration: newAccessTokenAttempt.data.expires,
+      },
     };
   } catch (error) {
     return { success: false, error: new UnknownException(error) };

@@ -4,5 +4,7 @@ export interface LoginResponse {
     accessToken: string;
     refreshToken: string;
   };
+  /** ISO Date */
+  accessTokenExpiration: string;
   status: 201;
 }

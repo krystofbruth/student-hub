@@ -2,9 +2,10 @@ const LOCAL_STORAGE_REFRESH_TOKEN_KEY = "auth_refresh-token";
 
 /** Warning - it takes a while until it makes the first refresh etc. */
 export const useAuthorizationStore = defineStore("authorization", () => {
-  const authorized = ref(false);
+  const authorized = ref(true);
   const accessToken = ref("");
   const lastRefresh = ref(new Date());
+  let accessTokenExpiration: Date | undefined = undefined;
   const router = useRouter();
 
   function sleep(ms: number) {
@@ -59,6 +60,7 @@ export const useAuthorizationStore = defineStore("authorization", () => {
         res.tokens.refreshToken
       );
       accessToken.value = res.tokens.accessToken;
+      accessTokenExpiration = new Date(res.accessTokenExpiration);
       authorized.value = true;
 
       return true;
@@ -70,34 +72,40 @@ export const useAuthorizationStore = defineStore("authorization", () => {
   };
 
   // Navigates the user to the login page with the parameter `returnTo`
-  const navigateToLoginAndReturn = () => {
-    router.replace(`/login?returnTo=${router.currentRoute}`);
+  const navigateToLoginAndReturn = (): undefined => {
+    if (router.currentRoute.value.path === "/login") return;
+    router.replace(`/login?returnTo=${router.currentRoute.value.path}`);
   };
 
   // If unauthorized, navigates to login
-  const getAuthorization = () => {
+  const getAuthorization = async (): Promise<string | undefined> => {
     if (!authorized.value) {
-      navigateToLoginAndReturn();
-      return "";
+      return navigateToLoginAndReturn();
+    }
+
+    if (
+      !accessTokenExpiration ||
+      Date.now() >= accessTokenExpiration.getTime()
+    ) {
+      const refreshAttempt = await refresh();
+      console.log(refreshAttempt);
+
+      if (!refreshAttempt) return navigateToLoginAndReturn();
     }
 
     return `Bearer ${accessToken.value}`;
   };
 
-  refresh().then(() => {
-    if (
-      !authorized.value &&
-      router.currentRoute.value.fullPath.startsWith("/protected")
-    )
-      navigateToLoginAndReturn();
-  });
+  const isAuthorized = async (): Promise<boolean> => {
+    const authorization = await getAuthorization();
+    if (!authorization) return false;
+    return true;
+  };
 
   return {
-    authorized,
-    accessToken,
     login,
-    refresh,
     getAuthorization,
     navigateToLoginAndReturn,
+    isAuthorized,
   };
 });

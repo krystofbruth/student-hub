@@ -31,6 +31,7 @@ export default defineEventHandler(
         refreshToken: loginResult.session.refreshToken,
         accessToken: loginResult.accessToken,
       },
+      accessTokenExpiration: loginResult.accessTokenExpiration.toISOString(),
     };
   }
 );
