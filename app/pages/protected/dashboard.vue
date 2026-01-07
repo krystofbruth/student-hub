@@ -6,12 +6,10 @@
       expedita, velit illo nam ratione earum quam optio, commodi unde pariatur
       sequi natus, deserunt eligendi autem temporibus quidem eius! Ab?
     </p>
+    <AssignmentView />
   </div>
 </template>
 
 <script setup lang="ts">
-import { useAuthorizationStore } from "~/stores/AuthorizationStore";
-
-const authorizationStore = useAuthorizationStore();
-const authorization = await authorizationStore.getAuthorization();
+import AssignmentView from "~/components/modules/AssignmentView.vue";
 </script>

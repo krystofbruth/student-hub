@@ -1,6 +1,7 @@
 export interface EventView {
   _id: string;
   sourceId: string;
+  title: string;
   /** EventType enum. */
   type: string;
   /** ISO Date. */

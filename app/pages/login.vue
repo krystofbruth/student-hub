@@ -20,9 +20,9 @@
       <UForm
         :schema="LoginRequestSchema"
         :state="state"
-        @submit="handleSubmit"
         class="flex flex-col gap-3 items-stretch"
-        :validateOnInputDelay="300"
+        :validate-on-input-delay="300"
+        @submit="handleSubmit"
       >
         <UFormField label="Username (E-mail)" name="email">
           <UInput
@@ -40,11 +40,17 @@
           />
         </UFormField>
 
-        <UButton type="submit" v-if="!loadingResponse"> Log-in </UButton>
         <UButton
+          v-if="!loadingResponse"
+          type="submit"
+          class="hover:cursor-pointer"
+        >
+          Log-in
+        </UButton>
+        <UButton
+          v-else
           type="submit"
           class="grayscale-25 cursor-wait hover:bg-primary"
-          v-else
         >
           Logging-in
         </UButton>
@@ -62,6 +68,7 @@ import {
 } from "#shared/types/LoginRequest";
 import { useAuthorizationStore } from "#imports";
 import { useRouter } from "vue-router";
+import Logo from "~/components/brand/Logo.vue";
 
 const authorizationStore = useAuthorizationStore();
 const router = useRouter();
@@ -107,8 +114,7 @@ const handleSubmit = async (submission: FormSubmitEvent<LoginRequest>) => {
       });
     }
   } catch (error) {
-    // :C
-    // @ts-ignore
+    // @ts-expect-error - Have to read whether the error is a response from the server or other (network problem).
     if (error && error.status)
       toast.add({
         title: "Server error",

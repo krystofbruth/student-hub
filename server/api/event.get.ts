@@ -2,12 +2,12 @@ import z from "zod";
 import { ValidateQueryParameters } from "../utilities/Validate";
 import { fetchEvents } from "../services/EventService";
 import { Authorize } from "../utilities/Authorize";
-import {
+import type {
   FetchEventsResponse,
   EventView,
 } from "~~/shared/types/FetchEventsResponse";
-import { IEvent } from "../models/Event";
-import { ErrorResponse } from "~~/shared/types/ErrorResponse";
+import type { IEvent } from "../models/Event";
+import type { ErrorResponse } from "~~/shared/types/ErrorResponse";
 import util from "util";
 
 const parametersSchema = z.object({
@@ -36,6 +36,7 @@ const mapEventToResponse = (event: IEvent): EventView => {
     type: event.type,
     dueAt: event.dueAt.toISOString(),
     uri: event.uri,
+    title: event.title,
   };
 };
 

@@ -1,20 +1,19 @@
 import z from "zod";
 import { ImplementationException } from "../exceptions/ImplementationException";
-import { Result } from "../helpers/Result";
-import { type SSPSCajthamlLoginDetails } from "../models/integrations/ssps_cajthaml/LoginDetails";
+import type { Result } from "../helpers/Result";
+import type { SSPSCajthamlLoginDetails } from "../models/integrations/ssps_cajthaml/LoginDetails";
 import { CreateSSPSCajthamlSourceSchema } from "#shared/types/integrations/ssps_cajthaml/CreateSource";
 import { ValidationException } from "../exceptions/ValidationException";
-import {
+import type {
   EventWithoutId,
   Integration,
-  RegisteredServiceNames,
   RequestDetails,
-  USER_AGENT,
 } from "./Integration";
-import mongoose from "mongoose";
+import { RegisteredServiceNames, USER_AGENT } from "./Integration";
+import type mongoose from "mongoose";
 import { UnknownException } from "../exceptions/UnknownException";
-import { VerifySuccessDTO } from "../models/integrations/ssps_cajthaml/External-VerifySuccessDTO";
-import { AllUserWorkSuccessDTO } from "../models/integrations/ssps_cajthaml/External-AllUserWorkSuccessDTO";
+import type { VerifySuccessDTO } from "../models/integrations/ssps_cajthaml/External-VerifySuccessDTO";
+import type { AllUserWorkSuccessDTO } from "../models/integrations/ssps_cajthaml/External-AllUserWorkSuccessDTO";
 import { EventType } from "../models/Event";
 
 class CajthamlIntegration implements Integration {
@@ -25,15 +24,13 @@ class CajthamlIntegration implements Integration {
   }
 
   public async fetchEvents(
-    credentials: Object,
+    credentials: object,
     sourceId: mongoose.Types.ObjectId,
     userId: mongoose.Types.ObjectId
   ): Promise<Result<EventWithoutId[]>> {
     const cajthamlCredentials = credentials as SSPSCajthamlLoginDetails;
 
     try {
-      console.log(cajthamlCredentials);
-
       const res = await fetch(
         `https://api.ssps.cajthaml.eu/user/${cajthamlCredentials.verification.user.id}/work`,
         {

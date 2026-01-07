@@ -3,9 +3,16 @@
 
 @theme {
   --font-sans: "Public Sans", sans-serif;
+
+  --color-primary: #18b9c4;
+  --color-secondary: #e0e0e0;
 }
 
 .disabled {
   cursor: not-allowed;
   color: gray;
+}
+
+.router-link-active {
+  color: var(--color-primary);
 }

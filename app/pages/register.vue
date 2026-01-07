@@ -22,5 +22,5 @@
 </template>
 
 <script setup lang="ts">
-import Logo from "~/components/Logo.vue";
+import Logo from "~/components/brand/Logo.vue";
 </script>

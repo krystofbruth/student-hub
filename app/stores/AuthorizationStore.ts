@@ -1,19 +1,21 @@
 const LOCAL_STORAGE_REFRESH_TOKEN_KEY = "auth_refresh-token";
+// 1 minute
+const REFRESH_TIMEOUT_MS = 1000 * 60;
 
 /** Warning - it takes a while until it makes the first refresh etc. */
 export const useAuthorizationStore = defineStore("authorization", () => {
   const authorized = ref(true);
   const accessToken = ref("");
-  const lastRefresh = ref(new Date());
+  let refreshPromise: Promise<boolean> | undefined = undefined;
+  const lastRefresh = ref<Date | undefined>(undefined);
   let accessTokenExpiration: Date | undefined = undefined;
   const router = useRouter();
 
-  function sleep(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
+  // function sleep(ms: number) {
+  //   return new Promise((resolve) => setTimeout(resolve, ms));
+  // }
 
-  const refresh = async (): Promise<boolean> => {
-    await sleep(1000);
+  const refreshInner = async (): Promise<boolean> => {
     lastRefresh.value = new Date();
 
     const refreshToken = localStorage.getItem(LOCAL_STORAGE_REFRESH_TOKEN_KEY);
@@ -37,11 +39,29 @@ export const useAuthorizationStore = defineStore("authorization", () => {
       accessToken.value = res.accessToken;
       return true;
     } catch (error) {
-      localStorage.removeItem(LOCAL_STORAGE_REFRESH_TOKEN_KEY);
-      authorized.value = false;
-      accessToken.value = "";
+      await logout();
+      console.error(error);
       return false;
     }
+  };
+
+  const refresh = async (): Promise<boolean> => {
+    if (
+      lastRefresh.value &&
+      lastRefresh.value.getTime() - Date.now() < REFRESH_TIMEOUT_MS
+    )
+      return true;
+
+    if (typeof refreshPromise !== "undefined") {
+      console.log("Promise already running: sending current refreshpromise.");
+      console.log(refreshPromise);
+      return refreshPromise;
+    }
+
+    refreshPromise = refreshInner();
+    const result = await refreshPromise;
+    refreshPromise = undefined;
+    return result;
   };
 
   /** Throws if network, internal server error or similiar occurs. */
@@ -65,7 +85,7 @@ export const useAuthorizationStore = defineStore("authorization", () => {
 
       return true;
     } catch (error) {
-      //@ts-ignore
+      //@ts-expect-error Need to read whether the error is a response.
       if (error && error.status === 400) return false;
       else throw error;
     }
@@ -88,7 +108,6 @@ export const useAuthorizationStore = defineStore("authorization", () => {
       Date.now() >= accessTokenExpiration.getTime()
     ) {
       const refreshAttempt = await refresh();
-      console.log(refreshAttempt);
 
       if (!refreshAttempt) return navigateToLoginAndReturn();
     }
@@ -102,8 +121,18 @@ export const useAuthorizationStore = defineStore("authorization", () => {
     return true;
   };
 
+  /** Navigates to login as well */
+  const logout = async (): Promise<undefined> => {
+    localStorage.removeItem(LOCAL_STORAGE_REFRESH_TOKEN_KEY);
+    authorized.value = false;
+    accessToken.value = "";
+    router.push("/login");
+    return;
+  };
+
   return {
     login,
+    logout,
     getAuthorization,
     navigateToLoginAndReturn,
     isAuthorized,
