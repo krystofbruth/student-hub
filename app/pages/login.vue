@@ -45,7 +45,7 @@
           type="submit"
           class="hover:cursor-pointer"
         >
-          Log-in
+          {{ MESSAGES[MESSAGE_KEY.LOGIN] }}
         </UButton>
         <UButton
           v-else
@@ -69,6 +69,7 @@ import {
 import { useAuthorizationStore } from "#imports";
 import { useRouter } from "vue-router";
 import Logo from "~/components/brand/Logo.vue";
+import type { MESSAGE_KEY, MESSAGES } from "~/internationalization/Messages";
 
 const authorizationStore = useAuthorizationStore();
 const router = useRouter();

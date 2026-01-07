@@ -53,8 +53,6 @@ export const useAuthorizationStore = defineStore("authorization", () => {
       return true;
 
     if (typeof refreshPromise !== "undefined") {
-      console.log("Promise already running: sending current refreshpromise.");
-      console.log(refreshPromise);
       return refreshPromise;
     }
 
@@ -136,5 +134,7 @@ export const useAuthorizationStore = defineStore("authorization", () => {
     getAuthorization,
     navigateToLoginAndReturn,
     isAuthorized,
+    /** Primarily use `isAuthorized` method! */
+    authorized,
   };
 });
