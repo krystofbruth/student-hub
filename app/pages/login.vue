@@ -16,6 +16,7 @@
       </p>
     </template>
     <template #right>
+      <LanguageSwitch />
       <h2 class="text-2xl font-bold">Login</h2>
       <UForm
         :schema="LoginRequestSchema"
@@ -45,7 +46,7 @@
           type="submit"
           class="hover:cursor-pointer"
         >
-          {{ MESSAGES[MESSAGE_KEY.LOGIN] }}
+          {{ t("login") }}
         </UButton>
         <UButton
           v-else
@@ -69,10 +70,13 @@ import {
 import { useAuthorizationStore } from "#imports";
 import { useRouter } from "vue-router";
 import Logo from "~/components/brand/Logo.vue";
-import type { MESSAGE_KEY, MESSAGES } from "~/internationalization/Messages";
+import LanguageSwitch from "~/components/i18n/LanguageSwitch.vue";
 
 const authorizationStore = useAuthorizationStore();
 const router = useRouter();
+const { t } = useI18n({
+  useScope: "local",
+});
 const state = reactive<Partial<LoginRequest>>({
   email: "",
   password: "",
@@ -134,3 +138,10 @@ const handleSubmit = async (submission: FormSubmitEvent<LoginRequest>) => {
   }
 };
 </script>
+
+<i18n lang="yaml">
+en:
+  login: "Log-in"
+cs:
+  login: "Přihlásit se"
+</i18n>
