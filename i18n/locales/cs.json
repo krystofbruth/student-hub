@@ -1,3 +1,23 @@
 {
-  "changeLanguage": "Změnit jazyk"
+  "components": {
+    "LanguageSwitch": {
+      "changeLanguageButton": "Změnit jazyk"
+    }
+  },
+  "pages": {
+    "register": {
+      "title": "Zaregistrovat se",
+      "registerButton": "Registrovat se",
+      "registerButtonProgress": "Registruji"
+    },
+    "login": {
+      "loginButton": "Přihlásit se",
+      "loginButtonProgress": "Přihlašuji",
+      "emailPlaceholder": "Zadejte uživatelské jméno (e-mail)",
+      "passwordPlaceholder": "Zadejte heslo",
+      "errors": {
+        "email": "Nesprávná e-mailová adresa"
+      }
+    }
+  }
 }

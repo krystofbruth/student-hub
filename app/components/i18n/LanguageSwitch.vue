@@ -1,6 +1,6 @@
 <template>
   <button class="hover:cursor-pointer" @click="handleLocaleSwitch">
-    {{ $t("changeLanguage") }}
+    {{ $t("components.LanguageSwitch.changeLanguageButton") }}
   </button>
 </template>
 

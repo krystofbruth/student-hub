@@ -1,3 +1,23 @@
 {
-  "changeLanguage": "Change language"
+  "components": {
+    "LanguageSwitch": {
+      "changeLanguageButton": "Change language"
+    }
+  },
+  "pages": {
+    "register": {
+      "title": "Register",
+      "registerButton": "Register",
+      "registerButtonProgress": "Registering"
+    },
+    "login": {
+      "loginButton": "Log-in",
+      "loginButtonProgress": "Logging-in",
+      "emailPlaceholder": "Enter username (e-mail)",
+      "passwordPlaceholder": "Enter your password",
+      "errors": {
+        "email": "Invalid e-mail address"
+      }
+    }
+  }
 }

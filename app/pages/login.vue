@@ -2,16 +2,23 @@
   <NuxtLayout name="full-page-dialog">
     <template #left>
       <Logo />
-      <p>
-        StudentHub is a data aggregation platform for conveniently viewing all
-        deadlines & information. Never miss another announcement again!
-      </p>
+      <ShortDescription class="grow basis-0" />
       <p class="text-gray-500 text-sm">
-        Don't have an account?
-        <NuxtLink
-          class="font-bold hover:text-default transition ease-in-out duration-200"
-          to="/register"
-          >Register here</NuxtLink
+        <span v-if="$i18n.locale === 'en'"
+          >Don't have an account?
+          <NuxtLink
+            class="font-bold hover:text-default transition ease-in-out duration-200"
+            to="/register"
+            >Register here</NuxtLink
+          ></span
+        >
+        <span v-else-if="$i18n.locale === 'cs'"
+          >Nemáte účet?
+          <NuxtLink
+            class="font-bold hover:text-default transition ease-in-out duration-200"
+            to="/register"
+            >Registrujte se zde</NuxtLink
+          ></span
         >
       </p>
     </template>
@@ -19,16 +26,17 @@
       <LanguageSwitch />
       <h2 class="text-2xl font-bold">Login</h2>
       <UForm
-        :schema="LoginRequestSchema"
+        ref="login-form"
         :state="state"
         class="flex flex-col gap-3 items-stretch"
-        :validate-on-input-delay="300"
+        :validate-on="['blur']"
+        :validate="handleValidation"
         @submit="handleSubmit"
       >
         <UFormField label="Username (E-mail)" name="email">
           <UInput
             v-model="state.email"
-            placeholder="Enter your username"
+            :placeholder="$t('pages.login.emailPlaceholder')"
             class="w-full"
           />
         </UFormField>
@@ -36,7 +44,7 @@
           <UInput
             v-model="state.password"
             type="password"
-            placeholder="Enter your password"
+            :placeholder="$t('pages.login.passwordPlaceholder')"
             class="w-full"
           />
         </UFormField>
@@ -46,14 +54,14 @@
           type="submit"
           class="hover:cursor-pointer"
         >
-          {{ t("login") }}
+          {{ $t("pages.login.loginButton") }}
         </UButton>
         <UButton
           v-else
           type="submit"
           class="grayscale-25 cursor-wait hover:bg-primary"
         >
-          Logging-in
+          {{ $t("pages.login.loginButton") }}
         </UButton>
       </UForm>
     </template>
@@ -62,7 +70,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import type { FormSubmitEvent } from "@nuxt/ui";
+import type { FormError, FormSubmitEvent } from "@nuxt/ui";
 import {
   type LoginRequest,
   LoginRequestSchema,
@@ -71,17 +79,40 @@ import { useAuthorizationStore } from "#imports";
 import { useRouter } from "vue-router";
 import Logo from "~/components/brand/Logo.vue";
 import LanguageSwitch from "~/components/i18n/LanguageSwitch.vue";
+import ShortDescription from "~/components/brand/ShortDescription.vue";
+import z from "zod";
 
 const authorizationStore = useAuthorizationStore();
 const router = useRouter();
-const { t } = useI18n({
-  useScope: "local",
-});
 const state = reactive<Partial<LoginRequest>>({
   email: "",
   password: "",
 });
 const loadingResponse = ref(false);
+const i18n = useI18n();
+const loginForm = useTemplateRef("login-form");
+
+// If locale changes, the errors need to be refreshed :C
+watch(i18n.locale, () => {
+  loginForm.value?.setErrors(handleValidation());
+});
+
+const handleValidation = (): FormError[] => {
+  const errors: FormError[] = [];
+
+  const data = { email: state.email, password: state.password };
+  const validation = z.safeParse(LoginRequestSchema, data);
+  if (!validation.success) {
+    for (const error of validation.error.issues) {
+      errors.push({
+        name: error.path[0] as string,
+        message: $t(`pages.login.errors.${error.path}`),
+      });
+    }
+  }
+
+  return errors;
+};
 
 const redirect = () => {
   const returnToPath = new URLSearchParams(window.location.search).get(
@@ -138,10 +169,3 @@ const handleSubmit = async (submission: FormSubmitEvent<LoginRequest>) => {
   }
 };
 </script>
-
-<i18n lang="yaml">
-en:
-  login: "Log-in"
-cs:
-  login: "Přihlásit se"
-</i18n>
