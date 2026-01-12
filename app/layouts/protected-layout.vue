@@ -6,7 +6,16 @@
       <Logo />
       <nav>
         <ul class="flex gap-5">
-          <li><NuxtLink to="/protected/dashboard">Dashboard</NuxtLink></li>
+          <li>
+            <NuxtLink to="/protected/dashboard">{{
+              $t("navigation.dashboard")
+            }}</NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="/protected/integrations">{{
+              $t("navigation.integrations")
+            }}</NuxtLink>
+          </li>
           <li>
             <a class="hover:cursor-pointer" @click="handleLogout">Log-out</a>
           </li>

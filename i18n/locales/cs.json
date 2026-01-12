@@ -19,5 +19,9 @@
         "email": "Nesprávná e-mailová adresa"
       }
     }
+  },
+  "navigation": {
+    "dashboard": "Hlavní panel",
+    "integrations": "Propojení"
   }
 }

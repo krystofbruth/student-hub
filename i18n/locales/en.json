@@ -19,5 +19,9 @@
         "email": "Invalid e-mail address"
       }
     }
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "integrations": "Integrations"
   }
 }
