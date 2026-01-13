@@ -19,6 +19,9 @@
           <li>
             <a class="hover:cursor-pointer" @click="handleLogout">Log-out</a>
           </li>
+          <li>
+            <LanguageSwitch />
+          </li>
         </ul>
       </nav>
     </header>
@@ -32,6 +35,7 @@
 <script setup lang="ts">
 import Logo from "~/components/brand/Logo.vue";
 import { useAuthorizationStore } from "#imports";
+import LanguageSwitch from "~/components/i18n/LanguageSwitch.vue";
 const authorizationStore = useAuthorizationStore();
 
 const handleLogout = () => {

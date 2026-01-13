@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Authorized person - hello!</h1>
+    <h1>Dashboard</h1>
     <AssignmentView />
   </div>
 </template>

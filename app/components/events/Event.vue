@@ -1,10 +1,21 @@
 <template>
   <article>
     <p>{{ event.title }}</p>
-    <p>Type: {{ event.type }}</p>
+    <p>
+      {{ $t("components.Event.type") }}
+      {{ $t(`components.Event.eventTypes.${event.type}`) }}
+    </p>
+
     <!-- Assignment code -->
-    <p v-if="event.type === 'ASSIGNMENT'">Due in {{ event.timeLeft }}.</p>
-    <p><a target="_blank" :href="event.uri">More info</a></p>
+    <p v-if="event.type === 'ASSIGNMENT'">
+      {{ $t("components.Event.assignment.dueIn") }} {{ event.timeLeft }}
+    </p>
+
+    <p>
+      <a target="_blank" :href="event.uri">{{
+        $t("components.Event.uriLabel")
+      }}</a>
+    </p>
   </article>
 </template>
 
@@ -18,8 +29,10 @@ interface EventInterface {
   uri: string;
 }
 
+const i18n = useI18n();
+
 /** Shows years maximum. Very approximate, especially with months! */
-const timeLeft = (target: Date): string => {
+const timeLeft = (target: Date, locale: string): string => {
   const deltaSeconds = (target.getTime() - Date.now()) / 1000;
 
   // const seconds = deltaSeconds % 60;
@@ -29,23 +42,28 @@ const timeLeft = (target: Date): string => {
   const months = Math.floor(deltaSeconds / 60 / 60 / 24 / 30) % 12;
   const years = Math.floor(deltaSeconds / 60 / 60 / 24 / 30 / 12);
 
-  if (years > 0) return `${years}yr ${months}mo`;
-  else if (months > 0) return `${months}mo ${days}d`;
-  else if (days > 7) return `${days}d`;
-  else if (days > 0) return `${days}d ${hours}h`;
-  else if (hours > 0) return `${hours}h ${minutes}m`;
-  else return `${minutes}m`;
+  // @ts-expect-error Intl.DurationFormat not part of TS definitions even though baseline.
+  const intl = new Intl.DurationFormat(locale, { style: "short" });
+
+  if (years > 0) return intl.format({ years, months });
+  else if (months > 0) return intl.format({ months, days });
+  else if (days > 7) return intl.fomrat({ days });
+  else if (days > 0) return intl.format({ days, hours });
+  else if (hours > 0) return intl.format({ hours, minutes });
+  else return intl.format({ minutes });
 };
 
 const props = defineProps<{
   event: EventView;
 }>();
 const event = computed((): EventInterface => {
+  const locale = i18n.locale.value;
+
   return {
     title: props.event.title,
     type: props.event.type as EventType,
     uri: props.event.type,
-    timeLeft: timeLeft(new Date(props.event.dueAt)),
+    timeLeft: timeLeft(new Date(props.event.dueAt), locale),
   };
 });
 </script>

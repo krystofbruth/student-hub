@@ -2,6 +2,23 @@
   "components": {
     "LanguageSwitch": {
       "changeLanguageButton": "Změnit jazyk"
+    },
+    "Event": {
+      "type": "Typ",
+      "eventTypes": {
+        "ASSIGNMENT": "Zadaná práce",
+        "ALTERNATION": "Změna organizace",
+        "EXAM": "Zkouška"
+      },
+      "assignment": {
+        "dueIn": "Končí za"
+      },
+      "uriLabel": "Více informací"
+    }
+  },
+  "modules": {
+    "AssignmentView": {
+      "title": "Nadcházející práce"
     }
   },
   "pages": {

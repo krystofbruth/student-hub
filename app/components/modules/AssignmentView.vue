@@ -1,7 +1,7 @@
 <template>
   <article class="AssignmentView">
     <header>
-      <p class="font-bold">Upcoming assignments</p>
+      <p class="font-bold">{{ $t("modules.AssignmentView.title") }}</p>
     </header>
     <div class="events">
       <Event

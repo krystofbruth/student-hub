@@ -2,6 +2,23 @@
   "components": {
     "LanguageSwitch": {
       "changeLanguageButton": "Change language"
+    },
+    "Event": {
+      "type": "Type",
+      "eventTypes": {
+        "ASSIGNMENT": "Assignment",
+        "ALTERNATION": "Alternation",
+        "EXAM": "Exam"
+      },
+      "assignment": {
+        "dueIn": "Due in"
+      },
+      "uriLabel": "More info"
+    }
+  },
+  "modules": {
+    "AssignmentView": {
+      "title": "Upcoming assignments"
     }
   },
   "pages": {
