@@ -1,21 +1,24 @@
 <template>
-  <article>
-    <p>{{ event.title }}</p>
-    <p>
-      {{ $t("components.Event.type") }}
-      {{ $t(`components.Event.eventTypes.${event.type}`) }}
-    </p>
+  <article class="bg-white rounded-md p-3 box-border cursor-pointer">
+    <header class="flex justify-between">
+      <p class="font-bold">{{ event.title }}</p>
+      <p class="text-gray-500">
+        {{ $t(`components.Event.eventTypes.${event.type}`) }}
+      </p>
+    </header>
 
     <!-- Assignment code -->
-    <p v-if="event.type === 'ASSIGNMENT'">
-      {{ $t("components.Event.assignment.dueIn") }} {{ event.timeLeft }}
-    </p>
+    <div>
+      <p v-if="event.type === 'ASSIGNMENT'">
+        {{ $t("components.Event.assignment.dueIn") }} {{ event.timeLeft }}
+      </p>
 
-    <p>
-      <a target="_blank" :href="event.uri">{{
-        $t("components.Event.uriLabel")
-      }}</a>
-    </p>
+      <!-- <p>
+        <a target="_blank" :href="event.uri">{{
+          $t("components.Event.uriLabel")
+        }}</a>
+      </p> -->
+    </div>
   </article>
 </template>
 

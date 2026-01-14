@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex flex-col gap-3">
     <h1>Dashboard</h1>
     <AssignmentView />
   </div>
