@@ -50,7 +50,7 @@ const timeLeft = (target: Date, locale: string): string => {
 
   if (years > 0) return intl.format({ years, months });
   else if (months > 0) return intl.format({ months, days });
-  else if (days > 7) return intl.fomrat({ days });
+  else if (days > 7) return intl.format({ days });
   else if (days > 0) return intl.format({ days, hours });
   else if (hours > 0) return intl.format({ hours, minutes });
   else return intl.format({ minutes });
