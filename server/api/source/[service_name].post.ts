@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 import {
   RegisteredServiceNames,
-  RequestDetails,
+  type RequestDetails,
 } from "~~/server/integrations/Integration";
 import { createSource } from "~~/server/services/SourceService";
 import { Authorize } from "~~/server/utilities/Authorize";
 import {
   ErrorCodes,
-  ErrorResponse,
-  ValidationErrorResponse,
+  type ErrorResponse,
+  type ValidationErrorResponse,
 } from "~~/shared/types/ErrorResponse";
 
 export default defineEventHandler(async (event) => {
@@ -50,6 +50,7 @@ export default defineEventHandler(async (event) => {
       query: getQuery(event),
       path: event.path,
     };
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     const response: ValidationErrorResponse = {
       success: false,

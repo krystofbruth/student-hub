@@ -7,6 +7,7 @@ export type EventWithoutId = Omit<IEvent, "_id">;
 
 export enum RegisteredServiceNames {
   SSPS_CAJTHAML = "ssps_cajthaml",
+  TEAMS = "teams",
   // etc.
 }
 
