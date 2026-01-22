@@ -1,6 +1,36 @@
-const scopes = ["EduAssignments.ReadBasic", "offline_access", "User.Read"];
+import z from "zod";
 
-export const TeamsScopes = scopes.join("%20");
+// Exposed values
+export const scopes = [
+  "EduAssignments.ReadBasic",
+  "offline_access",
+  "User.Read",
+];
 
-// Dev, overrid in prod
+// Dev, override in prod
 export const redirectUri = "http://localhost:3000";
+
+export const client_id = "e6886ff2-5a69-4858-8d0f-eb5f040ea436";
+
+export const tenant = "organizations";
+
+export const grant_type = "authorization_code";
+// Local values
+const formattedScopes = scopes.join(" ");
+
+const response_type = "code";
+
+const response_mode = "query";
+
+export const loginUri = `https://login.microsoftonline.com/${tenant}/oauth2/v2.0/authorize?
+client_id=${client_id}
+&response_type=${response_type}
+&redirect_uri=${redirectUri}
+&response_mode=${response_mode}
+&scope=${formattedScopes}`;
+
+export const CreateTeamsSourceSchema = z.object({
+  authorizationToken: z.string(),
+});
+
+export type CreateTeamsSource = z.infer<typeof CreateTeamsSourceSchema>;
