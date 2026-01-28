@@ -23,7 +23,7 @@
       </p>
     </template>
     <template #right>
-      <h2 class="text-2xl font-bold">Login</h2>
+      <h2 class="text-2xl font-bold">{{ $t("pages.login.title") }}</h2>
       <UForm
         ref="login-form"
         :state="state"
@@ -51,16 +51,20 @@
         <UButton
           v-if="!loadingResponse"
           type="submit"
-          class="hover:cursor-pointer"
+          class="hover:cursor-pointer flex justify-between items-center"
         >
-          {{ $t("pages.login.loginButton") }}
+          <span>{{ $t("pages.login.loginButton") }}</span>
+          <span class="flex items-center"
+            ><UIcon class="size-4" name="lucide:log-in"
+          /></span>
         </UButton>
         <UButton
           v-else
           type="submit"
-          class="grayscale-25 cursor-wait hover:bg-primary"
+          class="grayscale-25 cursor-wait hover:bg-primary flex justify-between items-center"
         >
-          {{ $t("pages.login.loginButton") }}
+          <span>{{ $t("pages.login.loginButton") }}</span>
+          <span><UIcon class="size-full" name="material:log-in" /></span>
         </UButton>
       </UForm>
     </template>
@@ -102,6 +106,7 @@ const handleValidation = (): FormError[] => {
   const validation = z.safeParse(LoginRequestSchema, data);
   if (!validation.success) {
     for (const error of validation.error.issues) {
+      if (error.path[0] === "email" && !state.email) continue;
       errors.push({
         name: error.path[0] as string,
         message: $t(`pages.login.errors.${error.path}`),

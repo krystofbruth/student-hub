@@ -23,11 +23,12 @@
   },
   "pages": {
     "register": {
-      "title": "Zaregistrovat se",
+      "title": "Registrace",
       "registerButton": "Registrovat se",
       "registerButtonProgress": "Registruji"
     },
     "login": {
+      "title": "Přihlášení",
       "loginButton": "Přihlásit se",
       "loginButtonProgress": "Přihlašuji",
       "emailLabel": "E-mailová adresa",

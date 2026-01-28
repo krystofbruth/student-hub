@@ -28,6 +28,7 @@
       "registerButtonProgress": "Registering"
     },
     "login": {
+      "title": "Login",
       "loginButton": "Log-in",
       "loginButtonProgress": "Logging-in",
       "emailLabel": "E-mail address",
