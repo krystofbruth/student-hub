@@ -40,5 +40,33 @@
   "navigation": {
     "dashboard": "Hlavní panel",
     "integrations": "Propojení"
+  },
+  "toasts": {
+    "login": {
+      "success": {
+        "title": "Přihlášení úspěšné",
+        "description": "Právě jste byli přihlášeni."
+      },
+      "invalid-credentials": {
+        "title": "Nesprávné přihlašovací údaje",
+        "description": "Zkontrolujte přihlašovací jméno a heslo."
+      }
+    },
+    "events": {
+      "sync-failure": {
+        "title": "Chyba synchronizace",
+        "description": "Při synchronizaci vašich propojení došlo k chybě, zkontrolujte prosím audit propojení."
+      }
+    },
+    "errors": {
+      "server": {
+        "title": "Chyba na straně serveru",
+        "description": "Nastala chyba na naší straně. Zkuste to, prosím, znovu později."
+      },
+      "network": {
+        "title": "Síťová chyba",
+        "description": "Nastala chyba prohlížeče, zkontrolujte prosím své připojení k internetu a akci opakujte."
+      }
+    }
   }
 }

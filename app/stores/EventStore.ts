@@ -5,6 +5,7 @@ export const useEventStore = defineStore("event", () => {
   const authorizationStore = useAuthorizationStore();
   const events = ref<EventView[]>([]);
   const toast = useToast();
+  const i18n = useI18n();
   let lastSync: Date;
 
   setInterval(async () => {
@@ -33,10 +34,9 @@ export const useEventStore = defineStore("event", () => {
 
       if (res.code === "SYNC_FAILURE")
         toast.add({
-          title: "Synchronization failure",
+          title: i18n.t("toasts.events.sync-failure.title"),
+          description: i18n.t("toasts.events.sync-failure.description"),
           color: "warning",
-          description:
-            "Something went wrong during synchronization from yours sources - check the synchronization failure log.",
         });
     } catch (error) {
       console.error(error);

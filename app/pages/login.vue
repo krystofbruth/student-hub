@@ -116,7 +116,7 @@ const handleValidation = (): FormError[] => {
 
 const redirect = () => {
   const returnToPath = new URLSearchParams(window.location.search).get(
-    "returnTo"
+    "returnTo",
   );
   router.push(returnToPath || "/protected/dashboard");
 };
@@ -131,21 +131,20 @@ const handleSubmit = async (submission: FormSubmitEvent<LoginRequest>) => {
   try {
     const loginAttempt = await authorizationStore.login(
       submission.data.email,
-      submission.data.password
+      submission.data.password,
     );
 
     if (loginAttempt === true) {
       toast.add({
-        title: "Log-in successful",
-        description: "Log-in has been successful.",
+        title: i18n.t("toasts.login.success.title"),
+        description: i18n.t("toasts.login.success.description"),
         color: "success",
       });
       redirect();
     } else {
       toast.add({
-        title: "Invalid username or password",
-        description:
-          "Authentication failure: either username or password were invalid.",
+        title: i18n.t("toasts.login.invalid-credentials.title"),
+        description: i18n.t("toasts.login.invalid-credentials.description"),
         color: "error",
       });
     }
@@ -153,15 +152,14 @@ const handleSubmit = async (submission: FormSubmitEvent<LoginRequest>) => {
     // @ts-expect-error - Have to read whether the error is a response from the server or other (network problem).
     if (error && error.status)
       toast.add({
-        title: "Server error",
-        description:
-          "An unexpected server error has occured, please try again later.",
+        title: i18n.t("toasts.errors.server.title"),
+        description: i18n.t("toasts.generic-errors.server.description"),
         color: "warning",
       });
     else
       toast.add({
-        title: "Network error",
-        description: "Please check your internet connection and try again.",
+        title: i18n.t("toasts.errors.network.title"),
+        description: i18n.t("toasts.generic-errors.network.description"),
         color: "warning",
       });
   } finally {

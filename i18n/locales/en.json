@@ -40,5 +40,31 @@
   "navigation": {
     "dashboard": "Dashboard",
     "integrations": "Integrations"
+  },
+  "toasts": {
+    "login": {
+      "success": {
+        "title": "Log-in success",
+        "description": "You have now been logged-in."
+      },
+      "invalid-credentials": {
+        "title": "Invalid credentials",
+        "description": "Please check your username and password."
+      }
+    },
+    "sync-failure": {
+      "title": "Synchronization error",
+      "description": "An error occured during the synchronization of your connections, please consult your connection audit."
+    },
+    "generic-errors": {
+      "server": {
+        "title": "Server error",
+        "description": "An error occured on our end, please try again later."
+      },
+      "network": {
+        "title": "Network error",
+        "description": "A browser error has occured, please check your internet connection and try again."
+      }
+    }
   }
 }
