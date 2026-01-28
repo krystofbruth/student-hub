@@ -24,6 +24,24 @@ export const useProfileStore = defineStore("profile", () => {
   };
 
   const fetchProfile = async () => {
+    try {
+      const authorization = await authorizationStore.getAuthorization();
+      if (!authorization) return;
+      const res = await $fetch("/api/user/me", {
+        headers: { Authorization: authorization },
+      });
+      if (!res.success) return;
+
+      profile.value = {
+        _id: res.user._id,
+        email: res.user.email,
+        displayName: res.user.displayName,
+        username: res.user.username,
+        lastSync: new Date(res.user.lastSync),
+      };
+    } catch (error) {
+      return;
+    }
     // TODO - when fetched, call setLocale to set the locale.
   };
 

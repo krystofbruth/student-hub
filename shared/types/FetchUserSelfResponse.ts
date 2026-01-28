@@ -7,3 +7,9 @@ export interface UserResponse {
   /** ISO Date */
   lastSync: string;
 }
+
+export interface FetchUserSelfResponse {
+  success: boolean;
+  status: 200;
+  user: UserResponse;
+}

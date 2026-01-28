@@ -15,7 +15,7 @@ export const registerUser = async (
   displayName: string,
   email: string,
   password: string,
-  state?: UserState
+  state?: UserState,
 ): Promise<Result<IUser>> => {
   let user: IUser;
 
@@ -25,7 +25,7 @@ export const registerUser = async (
 
     if (useRuntimeConfig().emailVerification)
       throw new ImplementationException(
-        "Email verification currently not implemented."
+        "Email verification currently not implemented.",
       );
 
     // Beware - this also checks for conflicts, part of the business logic!
