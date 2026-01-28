@@ -3,7 +3,7 @@
     <template #left>
       <Logo />
       <ShortDescription />
-      <p class="text-gray-500 text-sm">
+      <p class="text-muted text-sm">
         <!-- fuuuj -->
         <span v-if="$i18n.locale === 'en'"
           >Already have an account?

@@ -30,7 +30,9 @@
     "login": {
       "loginButton": "Log-in",
       "loginButtonProgress": "Logging-in",
-      "emailPlaceholder": "Enter username (e-mail)",
+      "emailLabel": "E-mail address",
+      "emailPlaceholder": "Enter e-mail",
+      "passwordLabel": "Password",
       "passwordPlaceholder": "Enter your password",
       "errors": {
         "email": "Invalid e-mail address"

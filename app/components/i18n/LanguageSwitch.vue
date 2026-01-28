@@ -1,6 +1,10 @@
 <template>
-  <button class="hover:cursor-pointer" @click="handleLocaleSwitch">
-    {{ $t("components.LanguageSwitch.changeLanguageButton") }}
+  <button
+    class="flex items-center gap-1 text-muted hover:cursor-pointer"
+    @click="handleLocaleSwitch"
+  >
+    <UIcon name="lucide:languages" />
+    {{ locale }}
   </button>
 </template>
 

@@ -30,7 +30,9 @@
     "login": {
       "loginButton": "Přihlásit se",
       "loginButtonProgress": "Přihlašuji",
-      "emailPlaceholder": "Zadejte uživatelské jméno (e-mail)",
+      "emailLabel": "E-mailová adresa",
+      "emailPlaceholder": "Zadejte e-mail",
+      "passwordLabel": "Heslo",
       "passwordPlaceholder": "Zadejte heslo",
       "errors": {
         "email": "Nesprávná e-mailová adresa"

@@ -3,7 +3,7 @@
     <template #left>
       <Logo />
       <ShortDescription class="grow basis-0" />
-      <p class="text-gray-500 text-sm">
+      <p class="text-muted text-sm">
         <span v-if="$i18n.locale === 'en'"
           >Don't have an account?
           <NuxtLink
@@ -23,7 +23,6 @@
       </p>
     </template>
     <template #right>
-      <LanguageSwitch />
       <h2 class="text-2xl font-bold">Login</h2>
       <UForm
         ref="login-form"
@@ -33,14 +32,14 @@
         :validate="handleValidation"
         @submit="handleSubmit"
       >
-        <UFormField label="Username (E-mail)" name="email">
+        <UFormField :label="$t('pages.login.emailLabel')" name="email">
           <UInput
             v-model="state.email"
             :placeholder="$t('pages.login.emailPlaceholder')"
             class="w-full"
           />
         </UFormField>
-        <UFormField label="Password" name="password">
+        <UFormField :label="$t('pages.login.passwordLabel')" name="password">
           <UInput
             v-model="state.password"
             type="password"
@@ -78,7 +77,6 @@ import {
 import { useAuthorizationStore } from "#imports";
 import { useRouter } from "vue-router";
 import Logo from "~/components/brand/Logo.vue";
-import LanguageSwitch from "~/components/i18n/LanguageSwitch.vue";
 import ShortDescription from "~/components/brand/ShortDescription.vue";
 import z from "zod";
 
