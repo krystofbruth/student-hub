@@ -6,13 +6,13 @@
       <p class="font-bold text-lg">{{ $t("modules.AssignmentView.title") }}</p>
     </header>
     <div class="w-full box-border flex flex-col gap-2">
-      <Event v-for="event in assignments" :key="event._id" :event="event" />
+      <EventCard v-for="event in assignments" :key="event._id" :event="event" />
     </div>
   </article>
 </template>
 
 <script setup lang="ts">
-import Event from "../events/Event.vue";
+import EventCard from "../EventCard.vue";
 import { useEventStore } from "#imports";
 const eventStore = useEventStore();
 

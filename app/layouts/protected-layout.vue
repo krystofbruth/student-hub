@@ -1,12 +1,12 @@
 <template>
   <div class="flex flex-col gap-1">
     <header
-      class="w-full flex justify-between items-center gap-3 box-border p-5"
+      class="hidden w-full md:flex justify-between items-center gap-3 box-border p-5"
     >
       <NuxtLink to="/protected/dashboard"><Logo /></NuxtLink>
 
       <nav>
-        <ul class="flex gap-5">
+        <ul class="flex gap-5 items-center">
           <li>
             <NuxtLink to="/protected/dashboard">{{
               $t("navigation.dashboard")
@@ -23,10 +23,14 @@
           <li>
             <LanguageSwitch />
           </li>
+          <li>
+            <NuxtLink to="/protected/settings">
+              <ProfileCard profile-id="me" />
+            </NuxtLink>
+          </li>
         </ul>
       </nav>
     </header>
-    <hr class="text-gray-200" />
     <main class="box-border p-5">
       <slot />
     </main>
