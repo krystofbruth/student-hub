@@ -38,11 +38,16 @@
       "errors": {
         "email": "Nesprávná e-mailová adresa"
       }
+    },
+    "dashboard": {
+      "title": "Hlavní panel"
     }
   },
   "navigation": {
     "dashboard": "Hlavní panel",
-    "integrations": "Propojení"
+    "integrations": "Propojení",
+    "settings": "Nastavení",
+    "log-out": "Odhlásit se"
   },
   "toasts": {
     "login": {

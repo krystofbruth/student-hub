@@ -38,11 +38,16 @@
       "errors": {
         "email": "Invalid e-mail address"
       }
+    },
+    "dashboard": {
+      "title": "Dashboard"
     }
   },
   "navigation": {
     "dashboard": "Dashboard",
-    "integrations": "Integrations"
+    "integrations": "Integrations",
+    "settings": "Settings",
+    "log-out": "Log-out"
   },
   "toasts": {
     "login": {
