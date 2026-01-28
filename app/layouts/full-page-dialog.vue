@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col items-center justify-center w-full min-h-screen box-border px-4 py-0 relative"
+    class="flex flex-col items-center justify-center w-full min-h-screen box-border p-4 relative"
   >
     <div class="grow"></div>
     <div

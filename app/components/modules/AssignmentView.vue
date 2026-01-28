@@ -5,7 +5,7 @@
     <header>
       <p class="font-bold text-lg">{{ $t("modules.AssignmentView.title") }}</p>
     </header>
-    <div class="w-full box-border">
+    <div class="w-full box-border flex flex-col gap-2">
       <Event v-for="event in assignments" :key="event._id" :event="event" />
     </div>
   </article>

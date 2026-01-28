@@ -1,9 +1,10 @@
 <template>
-  <div class="p-4 box-border">
+  <div class="p-4 box-border flex justify-center">
     <img
       v-if="darkMode"
       src="/logo-dark.svg"
       alt="Logo of the StudentHub app (dark variant)"
+      class="w-70"
     />
     <img
       v-else

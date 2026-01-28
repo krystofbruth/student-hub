@@ -3,7 +3,8 @@
     <header
       class="w-full flex justify-between items-center gap-3 box-border p-5"
     >
-      <Logo />
+      <NuxtLink to="/protected/dashboard"><Logo /></NuxtLink>
+
       <nav>
         <ul class="flex gap-5">
           <li>

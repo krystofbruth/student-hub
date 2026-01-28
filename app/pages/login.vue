@@ -64,7 +64,9 @@
           class="grayscale-25 cursor-wait hover:bg-primary flex justify-between items-center"
         >
           <span>{{ $t("pages.login.loginButton") }}</span>
-          <span><UIcon class="size-full" name="material:log-in" /></span>
+          <span class="flex items-center"
+            ><UIcon class="size-4 animate-spin" name="lucide:loader-circle"
+          /></span>
         </UButton>
       </UForm>
     </template>

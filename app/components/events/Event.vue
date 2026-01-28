@@ -1,5 +1,8 @@
 <template>
-  <article class="bg-elevated rounded-md p-3 box-border cursor-pointer">
+  <article
+    class="bg-elevated rounded-md p-3 box-border cursor-pointer"
+    @click="handleOpenEventDetail"
+  >
     <header class="flex justify-between">
       <p class="font-bold">{{ event.title }}</p>
       <p class="text-gray-500">
@@ -34,6 +37,11 @@ interface EventInterface {
 
 const i18n = useI18n();
 
+const handleOpenEventDetail = () => {
+  // TODO: Dialog with details
+  window.open(event.value.uri, "_blank")?.focus();
+};
+
 /** Shows years maximum. Very approximate, especially with months! */
 const timeLeft = (target: Date, locale: string): string => {
   const deltaSeconds = (target.getTime() - Date.now()) / 1000;
@@ -65,7 +73,7 @@ const event = computed((): EventInterface => {
   return {
     title: props.event.title,
     type: props.event.type as EventType,
-    uri: props.event.type,
+    uri: props.event.uri,
     timeLeft: timeLeft(new Date(props.event.dueAt), locale),
   };
 });
