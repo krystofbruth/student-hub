@@ -2,7 +2,7 @@
   <NuxtLayout name="full-page-dialog">
     <template #left>
       <Logo />
-      <ShortDescription class="grow basis-0" />
+      <ShortDescription class="grow basis-0 hidden md:block" />
       <p class="text-muted text-sm">
         <span v-if="$i18n.locale === 'en'"
           >Don't have an account?
