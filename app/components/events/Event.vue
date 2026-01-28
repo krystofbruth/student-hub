@@ -1,5 +1,5 @@
 <template>
-  <article class="bg-white rounded-md p-3 box-border cursor-pointer">
+  <article class="bg-elevated rounded-md p-3 box-border cursor-pointer">
     <header class="flex justify-between">
       <p class="font-bold">{{ event.title }}</p>
       <p class="text-gray-500">
