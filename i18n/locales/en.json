@@ -52,11 +52,27 @@
         "description": "Please check your username and password."
       }
     },
-    "sync-failure": {
-      "title": "Synchronization error",
-      "description": "An error occured during the synchronization of your connections, please consult your connection audit."
+    "events": {
+      "sync-failure": {
+        "title": "Synchronization error",
+        "description": "An error occured during the synchronization of your connections, please consult your connection audit."
+      }
     },
-    "generic-errors": {
+    "auth": {
+      "log-out-success": {
+        "title": "Log-out success",
+        "description": "You have been successfully logged-out."
+      },
+      "session-expired": {
+        "title": "Session expired",
+        "description": "Your session has expired. Please, log back in."
+      },
+      "log-in-required": {
+        "title": "Log-in required",
+        "description": "To access this page, you must first log-in."
+      }
+    },
+    "errors": {
       "server": {
         "title": "Server error",
         "description": "An error occured on our end, please try again later."
@@ -64,6 +80,10 @@
       "network": {
         "title": "Network error",
         "description": "A browser error has occured, please check your internet connection and try again."
+      },
+      "unknown": {
+        "title": "Unknown error occured",
+        "description": "An unknown error has occured, please contact support."
       }
     }
   }

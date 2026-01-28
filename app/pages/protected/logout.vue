@@ -3,6 +3,6 @@ import { useAuthorizationStore } from "#imports";
 const authorizationStore = useAuthorizationStore();
 
 onMounted(() => {
-  authorizationStore.logout();
+  authorizationStore.logoutUser();
 });
 </script>

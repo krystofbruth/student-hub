@@ -39,6 +39,6 @@ import LanguageSwitch from "~/components/i18n/LanguageSwitch.vue";
 const authorizationStore = useAuthorizationStore();
 
 const handleLogout = () => {
-  authorizationStore.logout();
+  authorizationStore.logoutUser();
 };
 </script>

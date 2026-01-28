@@ -6,6 +6,8 @@ const REFRESH_TIMEOUT_MS = 1000 * 60;
 export const useAuthorizationStore = defineStore("authorization", () => {
   const authorized = ref(true);
   const accessToken = ref("");
+  const toast = useToast();
+  const i18n = useI18n();
   let refreshPromise: Promise<boolean> | undefined = undefined;
   const lastRefresh = ref<Date | undefined>(undefined);
   let accessTokenExpiration: Date | undefined = undefined;
@@ -20,6 +22,11 @@ export const useAuthorizationStore = defineStore("authorization", () => {
 
     const refreshToken = localStorage.getItem(LOCAL_STORAGE_REFRESH_TOKEN_KEY);
     if (!refreshToken) {
+      toast.add({
+        title: i18n.t("toasts.auth.log-in-required.title"),
+        description: i18n.t("toasts.auth.log-in-required.description"),
+        color: "error",
+      });
       authorized.value = false;
       accessToken.value = "";
       return false;
@@ -39,6 +46,34 @@ export const useAuthorizationStore = defineStore("authorization", () => {
       accessToken.value = res.accessToken;
       return true;
     } catch (error) {
+      // :< must be a more elegant way to handle this
+      if (error && typeof (error as any).status === "number") {
+        const status = parseInt((error as any).status);
+        switch (status) {
+          case 404:
+            toast.add({
+              title: i18n.t("toasts.auth.session-expired.title"),
+              description: i18n.t("toasts.auth.session-expired.description"),
+              color: "warning",
+            });
+            break;
+          case 500:
+          case 503:
+          default:
+            toast.add({
+              title: i18n.t("toasts.errors.server.title"),
+              description: i18n.t("toasts.errors.server.description"),
+              color: "warning",
+            });
+        }
+      } else {
+        toast.add({
+          title: i18n.t("toasts.errors.network.title"),
+          description: i18n.t("toasts.errors.network.description"),
+          color: "error",
+        });
+      }
+
       await logout();
       console.error(error);
       return false;
@@ -75,7 +110,7 @@ export const useAuthorizationStore = defineStore("authorization", () => {
 
       localStorage.setItem(
         LOCAL_STORAGE_REFRESH_TOKEN_KEY,
-        res.tokens.refreshToken
+        res.tokens.refreshToken,
       );
       accessToken.value = res.tokens.accessToken;
       accessTokenExpiration = new Date(res.accessTokenExpiration);
@@ -128,9 +163,19 @@ export const useAuthorizationStore = defineStore("authorization", () => {
     return;
   };
 
+  const logoutUser = async (): Promise<undefined> => {
+    toast.add({
+      title: i18n.t("toasts.auth.log-out-success.title"),
+      description: i18n.t("toasts.auth.log-out-success.description"),
+      color: "success",
+    });
+    await logout();
+    return;
+  };
+
   return {
     login,
-    logout,
+    logoutUser,
     getAuthorization,
     navigateToLoginAndReturn,
     isAuthorized,

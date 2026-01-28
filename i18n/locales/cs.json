@@ -58,6 +58,20 @@
         "description": "Při synchronizaci vašich propojení došlo k chybě, zkontrolujte prosím audit propojení."
       }
     },
+    "auth": {
+      "log-out-success": {
+        "title": "Odhlášení úspěšné",
+        "description": "Byli jste úspěšně odhlášeni."
+      },
+      "session-expired": {
+        "title": "Vypršení relace",
+        "description": "Vaše relace vypršela. Přihlašte se, prosím, znovu."
+      },
+      "log-in-required": {
+        "title": "Vyžadováno přihlášení",
+        "description": "Pro zpřístupnění této stránky je potřeba se nejdříve přihlásit."
+      }
+    },
     "errors": {
       "server": {
         "title": "Chyba na straně serveru",
@@ -66,6 +80,10 @@
       "network": {
         "title": "Síťová chyba",
         "description": "Nastala chyba prohlížeče, zkontrolujte prosím své připojení k internetu a akci opakujte."
+      },
+      "unknown": {
+        "title": "Nastala neočekávaná chyba",
+        "description": "Nastala neočekávaná chyba. Prosíme, kontaktujte podporu."
       }
     }
   }
