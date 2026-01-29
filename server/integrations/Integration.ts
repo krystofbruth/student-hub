@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { IEvent } from "../models/Event";
 import { useCajthamlIntegration } from "./CajthamlIntegration";
 import { Result } from "../helpers/Result";
+import { useTeamsIntegration } from "./TeamsIntegration";
 
 export type EventWithoutId = Omit<IEvent, "_id">;
 
@@ -22,7 +23,7 @@ export interface Integration {
   fetchEvents(
     credentials: Object,
     sourceId: mongoose.Types.ObjectId,
-    userId: mongoose.Types.ObjectId
+    userId: mongoose.Types.ObjectId,
   ): Promise<Result<EventWithoutId[]>>;
   serviceName: RegisteredServiceNames;
 
@@ -36,6 +37,7 @@ type useIntegration = () => Promise<Integration>;
 
 export const IntegrationMap: Record<RegisteredServiceNames, useIntegration> = {
   ssps_cajthaml: useCajthamlIntegration,
+  teams: useTeamsIntegration,
 };
 
 /** Add to every request! */

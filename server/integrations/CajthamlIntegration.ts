@@ -26,7 +26,7 @@ class CajthamlIntegration implements Integration {
   public async fetchEvents(
     credentials: object,
     sourceId: mongoose.Types.ObjectId,
-    userId: mongoose.Types.ObjectId
+    userId: mongoose.Types.ObjectId,
   ): Promise<Result<EventWithoutId[]>> {
     const cajthamlCredentials = credentials as SSPSCajthamlLoginDetails;
 
@@ -39,7 +39,7 @@ class CajthamlIntegration implements Integration {
             "x-verify-code": cajthamlCredentials.verificationToken,
             "User-Agent": USER_AGENT,
           },
-        }
+        },
       );
       if (!res.ok) throw res;
 
@@ -55,7 +55,7 @@ class CajthamlIntegration implements Integration {
             targetId: e.id,
             userId,
             title: e.name,
-            description: "TODO: Work description!",
+            description: "",
           };
         }),
       };
@@ -65,12 +65,12 @@ class CajthamlIntegration implements Integration {
   }
 
   private async performVerification(
-    verificationToken: string
+    verificationToken: string,
   ): Promise<Result<VerifySuccessDTO>> {
     try {
       const res = await fetch(
         `https://api.ssps.cajthaml.eu/verify/${verificationToken}`,
-        { method: "GET", headers: { "User-Agent": USER_AGENT } }
+        { method: "GET", headers: { "User-Agent": USER_AGENT } },
       );
       if (!res.ok) {
         if (res.status === 400)
@@ -91,17 +91,17 @@ class CajthamlIntegration implements Integration {
   }
 
   public async createSource(
-    details: RequestDetails
+    details: RequestDetails,
   ): Promise<Result<SSPSCajthamlLoginDetails>> {
     const validation = z.safeParse(
       CreateSSPSCajthamlSourceSchema,
-      details.body
+      details.body,
     );
     if (!validation.success)
       return {
         success: false,
         error: new ValidationException(
-          z.flattenError(validation.error).fieldErrors
+          z.flattenError(validation.error).fieldErrors,
         ),
       };
 

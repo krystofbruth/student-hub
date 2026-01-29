@@ -8,7 +8,7 @@ export const fetchEvents = async (
   parameters: {
     offset?: number;
     limit?: number;
-  } = {}
+  } = {},
 ): Promise<ExtendedResult<IEvent[]>> => {
   const filter = { userId };
   const offset = parameters.offset ?? 0;
@@ -17,7 +17,10 @@ export const fetchEvents = async (
   const sync = await synchronize(userId);
 
   try {
-    const response = await Event.find(filter).skip(offset).limit(limit);
+    const response = await Event.find(filter)
+      .sort({ dueAt: 1 })
+      .skip(offset)
+      .limit(limit);
     if (!sync.success)
       return { success: "PARTIAL", data: response, errors: sync.error };
     else return { success: true, data: response };

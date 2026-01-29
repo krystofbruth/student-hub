@@ -8,13 +8,12 @@ export const scopes = [
 ];
 
 // Dev, override in prod
-export const redirectUri = "http://localhost:3000";
+export const redirectUri =
+  "http://localhost:3000/protected/register-integration/teams";
 
 export const client_id = "e6886ff2-5a69-4858-8d0f-eb5f040ea436";
 
 export const tenant = "organizations";
-
-export const grant_type = "authorization_code";
 
 export const formattedScopes = scopes.join(" ");
 

@@ -59,7 +59,7 @@ export default defineEventHandler(
 
     if (result.success === "PARTIAL")
       console.warn(
-        util.inspect(result, { showHidden: false, depth: null, colors: true })
+        util.inspect(result, { showHidden: false, depth: null, colors: true }),
       );
 
     const code = result.success === "PARTIAL" ? "SYNC_FAILURE" : undefined;
@@ -70,5 +70,5 @@ export default defineEventHandler(
     };
 
     return response;
-  }
+  },
 );
