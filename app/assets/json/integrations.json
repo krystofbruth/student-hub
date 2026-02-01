@@ -1,0 +1,35 @@
+{
+  "sample_integration": {
+    "title": {
+      "en": "English title",
+      "cs": "Český titulek"
+    },
+    "description": {
+      "en": "English description.",
+      "cs": "Český popis integrace."
+    },
+    "logoUri": "/integrations-meta/sample/icon.png"
+  },
+  "teams": {
+    "title": {
+      "en": "Microsoft Teams",
+      "cs": "Microsoft Teams"
+    },
+    "description": {
+      "en": "Connect your education assignments from Teams.",
+      "cs": "Připojte svá zadání ze systému Teams."
+    },
+    "logoUri": "/integrations-meta/teams/logo.png"
+  },
+  "ssps_cajthaml": {
+    "title": {
+      "en": "SSPŠ Cajthaml",
+      "cs": "SSPŠ Cajthaml"
+    },
+    "description": {
+      "en": "Connect your homework from SSPŠ Cajthaml.",
+      "cs": "Propojte své zadané práce z portálu SSPŠ Cajthaml."
+    },
+    "logoUri": "/integrations-meta/ssps_cajthaml/icon-main.png"
+  }
+}

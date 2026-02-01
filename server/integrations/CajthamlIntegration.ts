@@ -8,19 +8,20 @@ import type {
   EventWithoutId,
   Integration,
   RequestDetails,
-} from "./Integration";
-import { RegisteredServiceNames, USER_AGENT } from "./Integration";
+} from "../models/Integration";
+import { RegisteredIntegrationNames, USER_AGENT } from "../models/Integration";
 import type mongoose from "mongoose";
 import { UnknownException } from "../exceptions/UnknownException";
 import type { VerifySuccessDTO } from "../models/integrations/ssps_cajthaml/External-VerifySuccessDTO";
 import type { AllUserWorkSuccessDTO } from "../models/integrations/ssps_cajthaml/External-AllUserWorkSuccessDTO";
 import { EventType } from "../models/Event";
+import { ISource } from "../models/Source";
 
 class CajthamlIntegration implements Integration {
-  public serviceName: RegisteredServiceNames;
+  public serviceName: RegisteredIntegrationNames;
 
   constructor() {
-    this.serviceName = RegisteredServiceNames.SSPS_CAJTHAML;
+    this.serviceName = RegisteredIntegrationNames.SSPS_CAJTHAML;
   }
 
   public async fetchEvents(
@@ -115,8 +116,9 @@ class CajthamlIntegration implements Integration {
     };
   }
 
-  unlinkSource(sourceId: mongoose.Types.ObjectId): Promise<void> {
-    throw new ImplementationException("SSPS Cajthaml not yet implemented.");
+  public async unlinkSource(source: ISource): Promise<void> {
+    // Only forgetting the Auth token enough for now.
+    return undefined;
   }
 }
 

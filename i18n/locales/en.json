@@ -14,6 +14,26 @@
         "dueIn": "Due in"
       },
       "uriLabel": "More info"
+    },
+    "Audit": {
+      "labels": {
+        "events_synced": "events synchronized",
+        "errors_occured": "errors during synchronization"
+      }
+    },
+    "Origin": {
+      "actions": {
+        "connect": "Connect"
+      }
+    },
+    "Source": {
+      "provider": "Provider",
+      "universalProvider": "Universal",
+      "created": "Connection created",
+      "actions": {
+        "moreInfo": "More info",
+        "delete": "Disconnect"
+      }
     }
   },
   "modules": {
@@ -41,6 +61,25 @@
     },
     "dashboard": {
       "title": "Dashboard"
+    },
+    "integrations": {
+      "title": "Integrations",
+      "my-sources": "My integrations",
+      "available-integrations": "All available integrations",
+      "available-schools": "Connect by school",
+      "schools-description": "Schools that created integration collections to connect all systems.",
+      "school-search": {
+        "query-placeholder": "Enter school/institution or city name",
+        "no-items-found": "No results found."
+      }
+    },
+    "settings": {
+      "profile-title": "Profile"
+    }
+  },
+  "dialogs": {
+    "originCreation": {
+      "title": "Connect a new origin"
     }
   },
   "navigation": {

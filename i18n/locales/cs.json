@@ -14,6 +14,26 @@
         "dueIn": "Končí za"
       },
       "uriLabel": "Více informací"
+    },
+    "Audit": {
+      "labels": {
+        "events_synced": "událostí synchronizovaných",
+        "errors_occured": "synchronizačních chyb"
+      }
+    },
+    "Origin": {
+      "actions": {
+        "connect": "Připojit"
+      }
+    },
+    "Source": {
+      "provider": "Poskytovatel",
+      "universalProvider": "Univerzální",
+      "created": "Spojení vytvořeno",
+      "actions": {
+        "moreInfo": "Více informací",
+        "delete": "Odpojit"
+      }
     }
   },
   "modules": {
@@ -41,6 +61,25 @@
     },
     "dashboard": {
       "title": "Hlavní panel"
+    },
+    "integrations": {
+      "title": "Propojení",
+      "my-sources": "Moje propojení",
+      "available-integrations": "Všechna dostupná propojení",
+      "available-schools": "Připojit integrace pomocí školy",
+      "schools-description": "Školy v partnerství se StudentHub, které pro vás připravily přehledné balíky všech potřebných propojení.",
+      "school-search": {
+        "query-placeholder": "Zadejte název školy/instituce nebo město",
+        "no-items-found": "Nenalezeny žádné výsledky."
+      }
+    },
+    "settings": {
+      "profile-title": "Profil"
+    }
+  },
+  "dialogs": {
+    "originCreation": {
+      "title": "Připojit nový zdroj"
     }
   },
   "navigation": {

@@ -1,6 +1,6 @@
 <template>
   <article
-    class="bg-accented absolute top-[-0.75rem] right-[-0.75rem] -z-10 rounded-md shadow-xl p-4 min-w-56 w-[calc(100%+4rem)]"
+    class="bg-accented absolute -top-3 -right-3 -z-10 rounded-md shadow-xl p-4 min-w-56 w-[calc(100%+4rem)] pointer-events-none"
     ref="menuRoot"
   >
     <nav>
@@ -41,8 +41,7 @@ const authorizationStore = useAuthorizationStore();
 const route = useRoute();
 const menuRootElement = useTemplateRef("menuRoot");
 const props = defineProps<{ closeMenu: () => void }>();
-
-let boundingClientRect: DOMRect | undefined;
+useMouseDetection(menuRootElement, () => undefined, props.closeMenu);
 
 const handleLogout = () => {
   authorizationStore.logoutUser();
@@ -51,32 +50,10 @@ const handleLogout = () => {
 watch(route, () => {
   props.closeMenu();
 });
-
-const handleMouseUp = (e: MouseEvent) => {
-  if (!boundingClientRect)
-    throw new Error("Failed to get boundingClientRect for desktop menu.");
-
-  const elementStartPositionX = boundingClientRect.x;
-  const elementStartPositionY = boundingClientRect.y;
-  const elementEndPositionX = elementStartPositionX + boundingClientRect.width;
-  const elementEndPositionY = elementStartPositionY + boundingClientRect.height;
-  if (
-    !(
-      e.clientX < elementEndPositionX &&
-      e.clientX > elementStartPositionX &&
-      e.clientY < elementEndPositionY &&
-      e.clientY > elementStartPositionY
-    )
-  )
-    props.closeMenu();
-};
-
-onMounted(() => {
-  boundingClientRect = menuRootElement.value?.getBoundingClientRect();
-  document.addEventListener("mouseup", handleMouseUp);
-});
-
-onUnmounted(() => {
-  document.removeEventListener("mouseup", handleMouseUp);
-});
 </script>
+
+<style lang="css" scoped>
+nav > ul > li {
+  pointer-events: all;
+}
+</style>

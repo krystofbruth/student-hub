@@ -7,14 +7,14 @@ import {
   EventWithoutId,
   Integration,
   IntegrationMap,
-} from "../integrations/Integration";
+} from "../models/Integration";
 import { Event } from "../models/Event";
 import { User } from "../models/User";
 import { NotFoundException } from "../exceptions/NotFoundException";
 
 const synchronizeSourceEvent = async (
   event: EventWithoutId,
-  source: ISource
+  source: ISource,
 ): Promise<Result<void>> => {
   try {
     const currentEvent = await Event.findOne({
@@ -40,7 +40,7 @@ const synchronizeSourceEvent = async (
 };
 
 const synchronizeSourceEvents = async (
-  source: ISource
+  source: ISource,
 ): Promise<Result<void>> => {
   try {
     const integration: Integration = await IntegrationMap[source.serviceName]();
@@ -48,7 +48,7 @@ const synchronizeSourceEvents = async (
     const eventsResult = await integration.fetchEvents(
       source.credentials,
       source._id,
-      source.userId
+      source.userId,
     );
     if (!eventsResult.success) return eventsResult;
 
@@ -63,8 +63,8 @@ const synchronizeSourceEvents = async (
     const deletedEvents = (await Event.find({ sourceId: source._id })).filter(
       (dbEvent) =>
         !events.find(
-          (fetchedEvent) => fetchedEvent.targetId === dbEvent.targetId
-        )
+          (fetchedEvent) => fetchedEvent.targetId === dbEvent.targetId,
+        ),
     );
     for (const deletedEvent of deletedEvents) {
       await deletedEvent.deleteOne();

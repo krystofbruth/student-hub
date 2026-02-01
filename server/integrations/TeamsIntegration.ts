@@ -3,9 +3,9 @@ import type { Result } from "../helpers/Result";
 import {
   type EventWithoutId,
   type Integration,
-  RegisteredServiceNames,
+  RegisteredIntegrationNames,
   type RequestDetails,
-} from "./Integration";
+} from "../models/Integration";
 import {
   scopes,
   redirectUri,
@@ -34,8 +34,8 @@ if (!process.env.TEAMS_CLIENT_SECRET) {
 }
 
 export class TeamsIntegration implements Integration {
-  public readonly serviceName: RegisteredServiceNames =
-    RegisteredServiceNames.TEAMS;
+  public readonly serviceName: RegisteredIntegrationNames =
+    RegisteredIntegrationNames.TEAMS;
 
   public async fetchEvents(
     credentials: object,
@@ -211,8 +211,9 @@ export class TeamsIntegration implements Integration {
     }
   }
 
-  unlinkSource(sourceId: Types.ObjectId): Promise<void> {
-    throw new Error("Method not implemented.");
+  public async unlinkSource(source: ISource): Promise<undefined> {
+    // Only forgetting Teams credentials is enough for now.
+    return undefined;
   }
 }
 

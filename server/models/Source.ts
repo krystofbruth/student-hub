@@ -1,11 +1,14 @@
 import mongoose from "mongoose";
-import { RegisteredServiceNames } from "../integrations/Integration";
+import { RegisteredIntegrationNames } from "./Integration";
+import { IOrigin } from "./Origin";
 
 export interface ISource {
   _id: mongoose.Types.ObjectId;
   userId: mongoose.Types.ObjectId;
-  serviceName: RegisteredServiceNames;
+  serviceName: RegisteredIntegrationNames;
   credentials: object;
+  createdAt: Date;
+  originId: mongoose.Types.ObjectId | IOrigin;
 }
 
 const sourceSchema = new mongoose.Schema<ISource>(
@@ -18,13 +21,18 @@ const sourceSchema = new mongoose.Schema<ISource>(
     serviceName: {
       type: String,
       required: true,
-      enum: RegisteredServiceNames,
+      enum: RegisteredIntegrationNames,
     },
     credentials: {
       type: Object,
     },
+    originId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      required: true,
+      ref: "Origin",
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const Source = mongoose.model("Source", sourceSchema);

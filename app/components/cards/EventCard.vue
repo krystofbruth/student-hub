@@ -1,8 +1,5 @@
 <template>
-  <article
-    class="bg-elevated rounded-md p-3 box-border cursor-pointer"
-    @click="handleOpenEventDetail"
-  >
+  <Card class="cursor-pointer">
     <header class="flex justify-between">
       <p class="font-bold">{{ event.title }}</p>
       <p class="text-gray-500">
@@ -22,11 +19,12 @@
         }}</a>
       </p> -->
     </div>
-  </article>
+  </Card>
 </template>
 
 <script setup lang="ts">
 import type { EventType } from "~~/server/models/Event";
+import Card from "./Card.vue";
 
 interface EventInterface {
   timeLeft: string;
@@ -54,7 +52,7 @@ const timeLeft = (target: Date, locale: string): string => {
   const years = Math.floor(deltaSeconds / 60 / 60 / 24 / 30 / 12);
 
   // @ts-expect-error Intl.DurationFormat not part of TS definitions even though baseline.
-  const intl = new Intl.DurationFormat(locale, { style: "short" });
+  const intl = new Intl.DurationFormat(locale, { style: "long" });
 
   if (years > 0) return intl.format({ years, months });
   else if (months > 0) return intl.format({ months, days });

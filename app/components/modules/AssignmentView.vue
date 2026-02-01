@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import EventCard from "../EventCard.vue";
+import EventCard from "../cards/EventCard.vue";
 import { useEventStore } from "#imports";
 const eventStore = useEventStore();
 

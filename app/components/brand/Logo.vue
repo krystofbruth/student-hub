@@ -1,15 +1,15 @@
 <template>
-  <div class="p-4 box-border flex justify-center">
+  <div class="p-4 box-border flex justify-center h-full w-auto">
     <img
       v-if="darkMode"
       src="/logo-dark.svg"
       alt="Logo of the StudentHub app (dark variant)"
-      class="w-70"
     />
     <img
       v-else
       src="/logo-light.svg"
       alt="Logo of the StudentHub app (light variant)"
+      class="h-full w-full bg-contain max-w-full"
     />
   </div>
 </template>

@@ -1,0 +1,69 @@
+import mongoose from "mongoose";
+import { RegisteredIntegrationNames } from "./Integration";
+import { IProvider } from "./Provider";
+
+export enum OriginType {
+  universal = "universal",
+  institutional = "institutional",
+}
+
+export interface IOrigin {
+  _id: mongoose.Types.ObjectId;
+  integrationName: RegisteredIntegrationNames;
+  type: OriginType;
+  /** Only present if `type` is set to `institutional`. */
+  providerId?: mongoose.Types.ObjectId | IProvider;
+  name: {
+    en: string;
+    cs: string;
+  };
+  description: {
+    en: string;
+    cs: string;
+  };
+  logoUri: string;
+}
+
+const originSchema = new mongoose.Schema<IOrigin>({
+  integrationName: {
+    type: String,
+    required: true,
+    enum: RegisteredIntegrationNames,
+  },
+  type: {
+    type: String,
+    required: true,
+    enum: OriginType,
+  },
+  providerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Provider",
+    required: false, // optional (this is actually the default)
+  },
+  name: {
+    cs: {
+      type: String,
+      required: true,
+    },
+    en: {
+      type: String,
+      required: true,
+    },
+  },
+  description: {
+    cs: {
+      type: String,
+      required: true,
+    },
+    en: {
+      type: String,
+      required: true,
+    },
+  },
+  logoUri: {
+    type: String,
+    required: true,
+  },
+});
+
+export const Origin = mongoose.model("Origin", originSchema);

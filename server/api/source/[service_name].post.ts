@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import {
-  RegisteredServiceNames,
+  RegisteredIntegrationNames,
   type RequestDetails,
-} from "~~/server/integrations/Integration";
+} from "~~/server/models/Integration";
 import { createSource } from "~~/server/services/SourceService";
 import { Authorize } from "~~/server/utilities/Authorize";
 import {
@@ -18,8 +18,8 @@ export default defineEventHandler(async (event) => {
   const serviceNameParam = getRouterParam(event, "service_name");
   if (
     !serviceNameParam ||
-    !Object.values(RegisteredServiceNames).includes(
-      serviceNameParam as RegisteredServiceNames
+    !Object.values(RegisteredIntegrationNames).includes(
+      serviceNameParam as RegisteredIntegrationNames,
     )
   ) {
     const response: ErrorResponse = {
@@ -32,8 +32,8 @@ export default defineEventHandler(async (event) => {
   }
 
   // Woof
-  const serviceName: RegisteredServiceNames =
-    serviceNameParam as RegisteredServiceNames;
+  const serviceName: RegisteredIntegrationNames =
+    serviceNameParam as RegisteredIntegrationNames;
 
   const headers: { [header: string]: string } = {};
   for (const key in event.headers.keys()) {
@@ -66,7 +66,7 @@ export default defineEventHandler(async (event) => {
   const sourceCreation = await createSource(
     serviceName,
     userId,
-    requestDetails
+    requestDetails,
   );
 
   if (!sourceCreation.success) throw sourceCreation.error;

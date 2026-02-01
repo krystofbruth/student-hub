@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
-import { IEvent } from "../models/Event";
-import { useCajthamlIntegration } from "./CajthamlIntegration";
+import { IEvent } from "./Event";
+import { useCajthamlIntegration } from "../integrations/CajthamlIntegration";
 import { Result } from "../helpers/Result";
-import { useTeamsIntegration } from "./TeamsIntegration";
+import { useTeamsIntegration } from "../integrations/TeamsIntegration";
+import { ISource } from "./Source";
 
 export type EventWithoutId = Omit<IEvent, "_id">;
 
-export enum RegisteredServiceNames {
+export enum RegisteredIntegrationNames {
   SSPS_CAJTHAML = "ssps_cajthaml",
   TEAMS = "teams",
   // etc.
@@ -25,17 +26,21 @@ export interface Integration {
     sourceId: mongoose.Types.ObjectId,
     userId: mongoose.Types.ObjectId,
   ): Promise<Result<EventWithoutId[]>>;
-  serviceName: RegisteredServiceNames;
+  serviceName: RegisteredIntegrationNames;
 
   /** Returns login credentials to be saved in the DB. */
   createSource(event: RequestDetails): Promise<Result<any>>;
 
-  unlinkSource(sourceId: mongoose.Types.ObjectId): Promise<void>;
+  /** Does necessary handling of graceful log-out before the source is deleted by the system. */
+  unlinkSource(source: ISource): Promise<void>;
 }
 
 type useIntegration = () => Promise<Integration>;
 
-export const IntegrationMap: Record<RegisteredServiceNames, useIntegration> = {
+export const IntegrationMap: Record<
+  RegisteredIntegrationNames,
+  useIntegration
+> = {
   ssps_cajthaml: useCajthamlIntegration,
   teams: useTeamsIntegration,
 };
