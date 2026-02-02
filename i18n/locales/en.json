@@ -86,9 +86,9 @@
   "integrations": {
     "ssps_cajthaml": {
       "sourceCreation": {
-        "instructionsWebsite": "Go to the verification page within the app:",
+        "instructionsWebsite": "Go to the verification page within the app.",
         "verificationWebsiteButton": "Verification page",
-        "instructionsVerificationTokenInput": "Copy and enter your unique verification token:",
+        "instructionsVerificationTokenInput": "Copy and enter your unique verification token.",
         "verificationTokenInputPlaceholder": "Enter verification token",
         "submitButton": "Connect"
       }

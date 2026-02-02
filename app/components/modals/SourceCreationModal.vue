@@ -38,6 +38,7 @@
             >.
           </p>
         </div>
+        <hr class="w-full h-0.5 bg-accented text-transparent rounded-md" />
         <div class="w-full">
           <p class="font-bold">
             {{ $t("modals.sourceCreation.instructionsTitle") }}

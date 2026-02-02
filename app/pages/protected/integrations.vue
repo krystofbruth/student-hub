@@ -9,7 +9,9 @@
         {{ $t("pages.integrations.my-sources") }}
       </h2>
       <section class="flex flex-col md:flex-row gap-5">
-        <section class="grow order-1 grid grid-cols-1 lg:grid-cols-2 gap-3">
+        <section
+          class="grow order-1 grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-3"
+        >
           <SourceCard
             v-for="source in mySources"
             :key="source._id"

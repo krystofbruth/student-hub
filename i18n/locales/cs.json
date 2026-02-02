@@ -86,9 +86,9 @@
   "integrations": {
     "ssps_cajthaml": {
       "sourceCreation": {
-        "instructionsWebsite": "Přejděte na stránku verifikace:",
+        "instructionsWebsite": "Přejděte na stránku verifikace.",
         "verificationWebsiteButton": "Stránka verifikace",
-        "instructionsVerificationTokenInput": "Zkopírujte a zadejte váš unikátní verifikační kód:",
+        "instructionsVerificationTokenInput": "Zkopírujte a zadejte váš unikátní verifikační kód.",
         "verificationTokenInputPlaceholder": "Zadejte verifikační kód",
         "submitButton": "Propojit"
       }
