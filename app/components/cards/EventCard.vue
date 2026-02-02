@@ -1,5 +1,5 @@
 <template>
-  <Card class="cursor-pointer">
+  <Card class="cursor-pointer" @click="handleOpenEventDetail">
     <header class="flex justify-between">
       <p class="font-bold">{{ event.title }}</p>
       <p class="text-gray-500">

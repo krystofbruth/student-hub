@@ -3,9 +3,9 @@ import type { Result } from "../helpers/Result";
 import {
   type EventWithoutId,
   type Integration,
-  RegisteredIntegrationNames,
   type RequestDetails,
 } from "../models/Integration";
+import { RegisteredIntegrationNames } from "~~/shared/types/RegisteredIntegrationNames";
 import {
   scopes,
   redirectUri,

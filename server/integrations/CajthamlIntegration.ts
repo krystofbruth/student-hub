@@ -9,7 +9,8 @@ import type {
   Integration,
   RequestDetails,
 } from "../models/Integration";
-import { RegisteredIntegrationNames, USER_AGENT } from "../models/Integration";
+import { USER_AGENT } from "../models/Integration";
+import { RegisteredIntegrationNames } from "~~/shared/types/RegisteredIntegrationNames";
 import type mongoose from "mongoose";
 import { UnknownException } from "../exceptions/UnknownException";
 import type { VerifySuccessDTO } from "../models/integrations/ssps_cajthaml/External-VerifySuccessDTO";

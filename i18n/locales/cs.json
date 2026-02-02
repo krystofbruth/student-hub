@@ -77,9 +77,21 @@
       "profile-title": "Profil"
     }
   },
-  "dialogs": {
-    "originCreation": {
-      "title": "Připojit nový zdroj"
+  "modals": {
+    "sourceCreation": {
+      "title": "Připojit nový zdroj",
+      "instructionsTitle": "Instrukce k připojení:"
+    }
+  },
+  "integrations": {
+    "ssps_cajthaml": {
+      "sourceCreation": {
+        "instructionsWebsite": "Přejděte na stránku verifikace:",
+        "verificationWebsiteButton": "Stránka verifikace",
+        "instructionsVerificationTokenInput": "Zkopírujte a zadejte váš unikátní verifikační kód:",
+        "verificationTokenInputPlaceholder": "Zadejte verifikační kód",
+        "submitButton": "Propojit"
+      }
     }
   },
   "navigation": {
@@ -103,6 +115,12 @@
       "sync-failure": {
         "title": "Chyba synchronizace",
         "description": "Při synchronizaci vašich propojení došlo k chybě, zkontrolujte prosím audit propojení."
+      }
+    },
+    "sources": {
+      "creationSuccess": {
+        "title": "Zdroj vytvořen úspěšně",
+        "description": "Váš zdroj byl "
       }
     },
     "auth": {

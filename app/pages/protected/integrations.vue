@@ -9,7 +9,7 @@
         {{ $t("pages.integrations.my-sources") }}
       </h2>
       <section class="flex flex-col md:flex-row gap-5">
-        <section class="grow order-1 grid grid-cols-1 md:grid-cols-2 gap-3">
+        <section class="grow order-1 grid grid-cols-1 lg:grid-cols-2 gap-3">
           <SourceCard
             v-for="source in mySources"
             :key="source._id"
@@ -48,16 +48,16 @@
         <h2 class="text-xl font-bold">
           {{ $t("pages.integrations.available-integrations") }}
         </h2>
-        <section class="w-full grid grid-cols-1 md:grid-cols-2 gap-3">
+        <section class="w-full grid grid-cols-1 lg:grid-cols-2 gap-3">
           <OriginCard
             v-for="origin in origins"
             :key="origin._id"
             :origin="origin"
+            @connected="fetchMySources"
           />
         </section>
       </article>
     </section>
-    <OriginCreationDialog></OriginCreationDialog>
   </div>
 </template>
 
@@ -67,7 +67,6 @@ import SchoolCard from "~/components/cards/SchoolCard.vue";
 import SourceCard from "~/components/cards/SourceCard.vue";
 import type { SourceView } from "~~/shared/types/ListSourcesResponse";
 import OriginCard from "~/components/cards/OriginCard.vue";
-import OriginCreationDialog from "~/components/dialogs/OriginCreationDialog.vue";
 
 const mySources = ref<SourceView[]>([]);
 const toast = useToast();

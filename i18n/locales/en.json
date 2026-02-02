@@ -77,9 +77,21 @@
       "profile-title": "Profile"
     }
   },
-  "dialogs": {
-    "originCreation": {
-      "title": "Connect a new origin"
+  "modals": {
+    "sourceCreation": {
+      "title": "Connect a new origin",
+      "instructionsTitle": "Instructions for connecting:"
+    }
+  },
+  "integrations": {
+    "ssps_cajthaml": {
+      "sourceCreation": {
+        "instructionsWebsite": "Go to the verification page within the app:",
+        "verificationWebsiteButton": "Verification page",
+        "instructionsVerificationTokenInput": "Copy and enter your unique verification token:",
+        "verificationTokenInputPlaceholder": "Enter verification token",
+        "submitButton": "Connect"
+      }
     }
   },
   "navigation": {
@@ -103,6 +115,12 @@
       "sync-failure": {
         "title": "Synchronization error",
         "description": "An error occured during the synchronization of your connections, please consult your connection audit."
+      }
+    },
+    "sources": {
+      "creationSuccess": {
+        "title": "Source connection success",
+        "description": "Your source has been successfully connected."
       }
     },
     "auth": {

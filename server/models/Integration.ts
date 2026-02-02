@@ -4,14 +4,9 @@ import { useCajthamlIntegration } from "../integrations/CajthamlIntegration";
 import { Result } from "../helpers/Result";
 import { useTeamsIntegration } from "../integrations/TeamsIntegration";
 import { ISource } from "./Source";
+import { RegisteredIntegrationNames } from "#shared/types/RegisteredIntegrationNames";
 
 export type EventWithoutId = Omit<IEvent, "_id">;
-
-export enum RegisteredIntegrationNames {
-  SSPS_CAJTHAML = "ssps_cajthaml",
-  TEAMS = "teams",
-  // etc.
-}
 
 export interface RequestDetails {
   body: unknown;

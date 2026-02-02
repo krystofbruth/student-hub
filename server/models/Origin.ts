@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { RegisteredIntegrationNames } from "./Integration";
+import { RegisteredIntegrationNames } from "~~/shared/types/RegisteredIntegrationNames";
 import { IProvider } from "./Provider";
 
 export enum OriginType {

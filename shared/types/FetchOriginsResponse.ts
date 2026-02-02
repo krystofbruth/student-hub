@@ -1,4 +1,4 @@
-import { RegisteredIntegrationNames } from "../../server/models/Integration";
+import { RegisteredIntegrationNames } from "./RegisteredIntegrationNames";
 import type { ProviderView } from "./FetchProvidersResponse";
 
 export interface OriginView {

@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
-import {
-  RegisteredIntegrationNames,
-  type RequestDetails,
-} from "~~/server/models/Integration";
+import { type RequestDetails } from "~~/server/models/Integration";
+import { RegisteredIntegrationNames } from "~~/shared/types/RegisteredIntegrationNames";
 import { createSource } from "~~/server/services/SourceService";
 import { Authorize } from "~~/server/utilities/Authorize";
 import {

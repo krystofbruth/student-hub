@@ -1,12 +1,12 @@
 <template>
   <Card>
-    <div class="flex flex-col items-center gap-2">
+    <div class="flex flex-col items-center gap-4 p-2 box-border h-full">
       <img
-        class="w-20 h-20"
+        class="w-18 h-18"
         :src="props.origin.logoUri"
         :alt="`${props.origin.name[locale]} logo`"
       />
-      <div class="w-full flex flex-col gap-1">
+      <div class="w-full flex flex-col gap-4 grow">
         <p class="font-bold text-xl">{{ props.origin.name[locale] }}</p>
         <p v-if="!hideDesc">{{ props.origin.description[locale] }}</p>
         <section>
@@ -19,12 +19,7 @@
         <slot></slot>
       </div>
       <footer v-if="!hideActions" class="w-full">
-        <UButton
-          class="bg-info hover:bg-info-500 transition-all cursor-pointer"
-          @click="emits('connect')"
-          ><UIcon name="lucide:link" />
-          {{ $t("components.Origin.actions.connect") }}</UButton
-        >
+        <SourceCreationModal :origin="origin" @connected="emits('connected')" />
       </footer>
     </div>
   </Card>
@@ -32,10 +27,11 @@
 
 <script setup lang="ts">
 import Card from "./Card.vue";
+import SourceCreationModal from "../modals/SourceCreationModal.vue";
 
 const i18n = useI18n();
 const locale = i18n.locale;
-const emits = defineEmits(["connect"]);
+const emits = defineEmits(["connect", "connected"]);
 
 const props = defineProps<{
   origin: OriginView;

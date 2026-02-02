@@ -4,21 +4,19 @@
     :hide-desc="true"
     :hide-actions="true"
   >
-    <div class="flex flex-col gap-4">
-      <section>
+    <div class="flex flex-col gap-4 h-full">
+      <section class="grow">
         <p class="text-muted font-bold text-sm">
           {{ $t("components.Source.created") }}
         </p>
         <p>{{ createdAt }}</p>
       </section>
-      <footer class="flex gap-2">
-        <UButton class="cursor-not-allowed bg-gray-400 hover:bg-gray-400"
+      <footer class="flex gap-2 flex-wrap">
+        <UButton color="neutral" class="cursor-not-allowed"
           ><UIcon name="lucide:info" />
           {{ $t("components.Source.actions.moreInfo") }}</UButton
         >
-        <UButton
-          class="bg-error hover:bg-error-500 cursor-pointer"
-          @click="emits('unlink')"
+        <UButton class="cursor-pointer" color="error" @click="emits('unlink')"
           ><UIcon name="lucide:unlink" />
           {{ $t("components.Source.actions.delete") }}</UButton
         >
