@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { SupportedLanguages } from "#shared/types/SupportedLanguages";
 
 export enum UserState {
   REGISTERED = "REGISTERED",
@@ -14,6 +15,7 @@ export interface IUser {
   state: UserState;
   username: string;
   lastSync: Date;
+  language: SupportedLanguages;
 }
 
 const userSchema = new mongoose.Schema<IUser>(
@@ -45,8 +47,14 @@ const userSchema = new mongoose.Schema<IUser>(
       type: Date,
       default: new Date(),
     },
+    language: {
+      type: String,
+      required: true,
+      enum: SupportedLanguages,
+      default: SupportedLanguages.cs,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const User = mongoose.model("User", userSchema);

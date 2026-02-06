@@ -123,6 +123,12 @@
         "description": "Váš zdroj byl "
       }
     },
+    "profile": {
+      "updateSuccess": {
+        "title": "Aktualizace úspěšná",
+        "description": "Aktualizace profilu proběhla úspěšně."
+      }
+    },
     "auth": {
       "log-out-success": {
         "title": "Odhlášení úspěšné",

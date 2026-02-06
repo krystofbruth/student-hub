@@ -123,6 +123,12 @@
         "description": "Your source has been successfully connected."
       }
     },
+    "profile": {
+      "updateSuccess": {
+        "title": "Update success",
+        "description": "Profile update processed successfully."
+      }
+    },
     "auth": {
       "log-out-success": {
         "title": "Log-out success",

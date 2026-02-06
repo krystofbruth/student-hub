@@ -88,4 +88,30 @@ export const findUser = async (query: UserLookup): Promise<Result<IUser>> => {
   }
 };
 
+export const updateUser = async (
+  userId: mongoose.Types.ObjectId,
+  query: Partial<Omit<IUser, "_id">>,
+): Promise<Result<IUser>> => {
+  try {
+    const res = await User.updateOne({ _id: userId }, query);
+    if (res.matchedCount === 0)
+      return {
+        success: false,
+        error: new NotFoundException(userId.toString()),
+      };
+
+    const updatedUser = await User.findById(userId);
+    if (!updatedUser)
+      return {
+        success: false,
+        error: new UnknownException(
+          `User ${userId.toString()} that has just been updated was suddenly deleted.`,
+        ),
+      };
+    return { success: true, data: updatedUser };
+  } catch (err) {
+    return { success: false, error: new UnknownException(err) };
+  }
+};
+
 export default { registerUser, verifyUser };

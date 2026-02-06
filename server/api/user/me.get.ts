@@ -7,13 +7,14 @@ import {
 } from "~~/shared/types/FetchUserSelfResponse";
 import { findUser } from "~~/server/services/UserService";
 
-const mapUserToUserResponse = (user: IUser): UserResponse => {
+export const mapUserToUserResponse = (user: IUser): UserResponse => {
   return {
     _id: user._id.toString(),
     email: user.email,
     displayName: user.displayName,
     username: user.username,
     lastSync: user.lastSync.toISOString(),
+    language: user.language,
   };
 };
 

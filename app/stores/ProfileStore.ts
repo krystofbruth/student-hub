@@ -1,5 +1,8 @@
 import { defineStore } from "pinia";
 import { watch } from "vue";
+import type { SupportedLanguages } from "~~/shared/types/SupportedLanguages";
+import type { UpdateUserSelfRequest } from "#shared/types/UpdateUserSelfRequest";
+import { useFetchHandlerStore } from "~/handlers/FetchHandler";
 
 export interface Profile {
   _id: string;
@@ -7,13 +10,26 @@ export interface Profile {
   displayName: string;
   username: string;
   lastSync: Date;
+  language: SupportedLanguages;
 }
 
+const mapUserResponseToProfile = (u: UserResponse): Profile => {
+  return {
+    _id: u._id,
+    email: u.email,
+    displayName: u.displayName,
+    username: u.username,
+    lastSync: new Date(u.lastSync),
+    language: u.language,
+  };
+};
+
 export const useProfileStore = defineStore("profile", () => {
-  //   const profileStore = useProfileStore();
+  const i18n = useI18n();
   const authorizationStore = useAuthorizationStore();
   const { authorized } = storeToRefs(authorizationStore);
   const profile = ref<Profile | undefined>(undefined);
+  const fetchHandler = useFetchHandlerStore();
 
   const profileCheck = async () => {
     if (await authorizationStore.isAuthorized()) {
@@ -32,21 +48,26 @@ export const useProfileStore = defineStore("profile", () => {
       });
       if (!res.success) return;
 
-      profile.value = {
-        _id: res.user._id,
-        email: res.user.email,
-        displayName: res.user.displayName,
-        username: res.user.username,
-        lastSync: new Date(res.user.lastSync),
-      };
+      profile.value = mapUserResponseToProfile(res.user);
     } catch (error) {
       return;
     }
-    // TODO - when fetched, call setLocale to set the locale.
+
+    i18n.setLocale(profile.value.language);
+  };
+
+  const updateProfile = async (
+    update: UpdateUserSelfRequest,
+  ): Promise<boolean> => {
+    const res = await fetchHandler.handleRequest<
+      UpdateUserSelfRequest,
+      UpdateUserSelfResponse
+    >("/api/user/me", "PATCH", true, update);
+    return res.success;
   };
 
   profileCheck();
   watch(authorized, profileCheck);
 
-  return { profile };
+  return { profile, updateProfile };
 });
