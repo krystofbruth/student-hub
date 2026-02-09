@@ -34,6 +34,9 @@
         "moreInfo": "Více informací",
         "delete": "Odpojit"
       }
+    },
+    "Provider": {
+      "couldNotFetchProvider": "Nepodařilo se získat poskytovatele :/."
     }
   },
   "modules": {
@@ -81,6 +84,9 @@
     "sourceCreation": {
       "title": "Připojit nový zdroj",
       "instructionsTitle": "Instrukce k připojení:"
+    },
+    "institutionSelection": {
+      "title": "Select institution"
     }
   },
   "integrations": {

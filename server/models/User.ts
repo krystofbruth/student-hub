@@ -7,6 +7,16 @@ export enum UserState {
   SUSPENDED = "SUSPENDED",
 }
 
+export enum CurrentEducation {
+  primary = "primary",
+  secondary = "secondary",
+}
+
+export interface IPersonalDetails {
+  institution?: mongoose.Types.ObjectId;
+  currentEducation?: CurrentEducation;
+}
+
 export interface IUser {
   _id: mongoose.Types.ObjectId;
   email: string;
@@ -16,7 +26,20 @@ export interface IUser {
   username: string;
   lastSync: Date;
   language: SupportedLanguages;
+  personalDetails: IPersonalDetails;
 }
+
+const personalDetailsSchema = new mongoose.Schema<IPersonalDetails>({
+  institution: {
+    type: mongoose.SchemaTypes.ObjectId,
+    required: false,
+  },
+  currentEducation: {
+    type: String,
+    required: false,
+    enum: CurrentEducation,
+  },
+});
 
 const userSchema = new mongoose.Schema<IUser>(
   {
@@ -52,6 +75,10 @@ const userSchema = new mongoose.Schema<IUser>(
       required: true,
       enum: SupportedLanguages,
       default: SupportedLanguages.cs,
+    },
+    personalDetails: {
+      type: personalDetailsSchema,
+      default: {},
     },
   },
   { timestamps: true },

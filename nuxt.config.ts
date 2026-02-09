@@ -13,7 +13,7 @@ export default defineNuxtConfig({
   ],
   css: ["~/assets/css/main.css"],
   runtimeConfig: {
-    dbUri: "mongodb://127.0.0.1:27017",
+    dbUri: process.env.DB_URI || "mongodb://127.0.0.1:27017",
     emailVerification: false,
     appVersion: pkg.version,
   },

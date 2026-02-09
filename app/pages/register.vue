@@ -25,6 +25,7 @@
     </template>
     <template #right>
       <h2 class="text-2xl font-bold">{{ $t("pages.register.title") }}</h2>
+      <UForm> </UForm>
     </template>
   </NuxtLayout>
 </template>

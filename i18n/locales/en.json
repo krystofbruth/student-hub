@@ -34,6 +34,9 @@
         "moreInfo": "More info",
         "delete": "Disconnect"
       }
+    },
+    "Provider": {
+      "couldNotFetchProvider": "Couldn't fetch provider."
     }
   },
   "modules": {
@@ -81,6 +84,9 @@
     "sourceCreation": {
       "title": "Connect a new origin",
       "instructionsTitle": "Instructions for connecting:"
+    },
+    "institutionSelection": {
+      "title": "Select institution"
     }
   },
   "integrations": {

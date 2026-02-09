@@ -43,7 +43,10 @@
           {{ $t("pages.integrations.school-search.no-items-found") }}
         </p> -->
         <section class="flex flex-col gap-2">
-          <SchoolCard v-for="partnerInstitution in partnerInstitutions" />
+          <ProviderCard
+            v-for="partnerInstitution in partnerInstitutions"
+            :provider-id="partnerInstitution._id"
+          />
         </section>
       </article>
       <article class="flex flex-col gap-2.5 grow basis-0">
@@ -65,7 +68,7 @@
 
 <script setup lang="ts">
 import AuditComponent from "~/components/AuditComponent.vue";
-import SchoolCard from "~/components/cards/SchoolCard.vue";
+import ProviderCard from "~/components/cards/ProviderCard.vue";
 import SourceCard from "~/components/cards/SourceCard.vue";
 import type { SourceView } from "~~/shared/types/ListSourcesResponse";
 import OriginCard from "~/components/cards/OriginCard.vue";
@@ -76,6 +79,7 @@ const authStore = useAuthorizationStore();
 const partnerInstitutions = ref<ProviderView[]>([]);
 const partnerInstitutionsSearch = ref("");
 const origins = ref<OriginView[]>([]);
+const providerStore = useProviderStore();
 
 const fetchMySources = async () => {
   try {
@@ -105,7 +109,7 @@ const fetchMySources = async () => {
   }
 };
 
-const fetchPartnerSchools = async () => {
+const fetchPartnerProviders = async () => {
   try {
     const res = await $fetch(
       `/api/provider?partnership=true&query=${partnerInstitutionsSearch.value}`,
@@ -114,6 +118,7 @@ const fetchPartnerSchools = async () => {
     if (!res.success) throw res;
 
     partnerInstitutions.value = res.data;
+    providerStore.setProviders(partnerInstitutions.value);
   } catch (error) {
     if (error instanceof Response) {
       toast.add({
@@ -160,7 +165,7 @@ const handleSourceUnlink = async () => {
 
 onMounted(() => {
   fetchMySources();
-  fetchPartnerSchools();
+  fetchPartnerProviders();
   fetchOrigins();
 });
 </script>
