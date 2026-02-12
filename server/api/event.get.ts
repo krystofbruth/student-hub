@@ -55,6 +55,7 @@ export default defineEventHandler(
       limit: queryParametersValidation.data.limit,
       offset: queryParametersValidation.data.offset,
     });
+
     if (!result.success) throw result.error;
 
     if (result.success === "PARTIAL")

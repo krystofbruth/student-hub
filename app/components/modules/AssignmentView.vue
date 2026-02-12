@@ -6,23 +6,40 @@
       <p class="font-bold text-lg">{{ $t("modules.AssignmentView.title") }}</p>
     </header>
     <div class="w-full box-border flex flex-col gap-2">
-      <EventCard v-for="event in assignments" :key="event._id" :event="event" />
+      <EventCard
+        v-for="event in eventStore.events.ASSIGNMENT.values"
+        :key="event._id"
+        :event="event"
+      />
     </div>
   </article>
 </template>
 
 <script setup lang="ts">
 import EventCard from "../cards/EventCard.vue";
-import { useEventStore } from "#imports";
+import { EventType, useEventStore } from "#imports";
 const eventStore = useEventStore();
+const apiExceptionHandler = useApiExceptionErrorHandler();
+let interval: number | undefined;
 
-const assignments = computed(() => {
-  const events = eventStore.events;
+const SYNC_FREQUENCY_MS = 60 * 1000;
 
-  return events.filter((e) => e.type === "ASSIGNMENT");
-});
+const syncAssignments = async () => {
+  const res = await eventStore.syncEvents(EventType.ASSIGNMENT);
+
+  if (!res.success) apiExceptionHandler.handleException(res.error);
+};
 
 onMounted(async () => {
-  eventStore.syncEvents();
+  await syncAssignments();
+
+  interval = setInterval(
+    () => syncAssignments(),
+    SYNC_FREQUENCY_MS,
+  ) as unknown as number;
+});
+
+onUnmounted(() => {
+  clearInterval(interval);
 });
 </script>

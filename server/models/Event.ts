@@ -1,10 +1,5 @@
 import mongoose from "mongoose";
-
-export enum EventType {
-  ASSIGNMENT = "ASSIGNMENT",
-  ALTERNATION = "ALTERNATION",
-  EXAM = "EXAM",
-}
+import { EventType } from "~~/shared/types/FetchEventsResponse";
 
 export interface IEvent {
   _id: mongoose.Types.ObjectId;

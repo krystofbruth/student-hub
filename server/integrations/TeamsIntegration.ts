@@ -22,7 +22,7 @@ import { TeamsAuthorizationSuccessResponse } from "../models/integrations/teams/
 import { ISource, Source } from "../models/Source";
 import { TeamsLoginDetails } from "../models/integrations/teams/LoginDetails";
 import { EducationAssignment } from "../models/integrations/teams/External-educationAssignment";
-import { EventType, IEvent } from "../models/Event";
+import { EventType } from "#imports";
 
 let integrationActive = true;
 

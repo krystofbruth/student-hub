@@ -80,21 +80,24 @@ import {
   type LoginRequest,
   LoginRequestSchema,
 } from "#shared/types/LoginRequest";
-import { useAuthorizationStore } from "#imports";
-import { useRouter } from "vue-router";
 import Logo from "~/components/brand/Logo.vue";
 import ShortDescription from "~/components/brand/ShortDescription.vue";
 import z from "zod";
+import { request } from "../utils/api";
+import { ApiException, AuthReason } from "~/types/Exceptions";
+import { useApiExceptionErrorHandler } from "~/composables/ApiExceptionErrorHandler";
+import { getRedirectFromLoginPath } from "~/utils/loginRedirectPath";
 
-const authorizationStore = useAuthorizationStore();
-const router = useRouter();
 const state = reactive<Partial<LoginRequest>>({
   email: "",
   password: "",
 });
 const loadingResponse = ref(false);
 const i18n = useI18n();
+const router = useRouter();
 const loginForm = useTemplateRef("login-form");
+const toast = useToast();
+const apiExceptionHandler = useApiExceptionErrorHandler();
 
 // If locale changes, the errors need to be refreshed :C
 watch(i18n.locale, () => {
@@ -119,56 +122,70 @@ const handleValidation = (): FormError[] => {
   return errors;
 };
 
-const redirect = () => {
-  const returnToPath = new URLSearchParams(window.location.search).get(
-    "returnTo",
-  );
-  router.push(returnToPath || "/protected/dashboard");
-};
+onMounted(async () => {
+  if ((await isAuthorized()).success)
+    return router.push(getRedirectFromLoginPath());
 
-if (await authorizationStore.isAuthorized()) redirect();
+  const reason = new URLSearchParams(window.location.search).get("reason") as
+    | AuthReason
+    | undefined;
+  switch (reason) {
+    case AuthReason.AUTH_INVALID:
+      toast.add({
+        title: i18n.t("toasts.auth.session-expired.title"),
+        description: i18n.t("toasts.auth.session-expired.description"),
+        color: "warning",
+      });
+      break;
+    case AuthReason.AUTH_MISSING:
+      toast.add({
+        title: i18n.t("toasts.auth.log-in-required.title"),
+        description: i18n.t("toasts.auth.log-in-required.description"),
+        color: "error",
+      });
+      break;
+    case AuthReason.AUTH_INTERCEPTED:
+      toast.add({
+        title: i18n.t("toasts.auth.auth-intercepted.title"),
+        description: i18n.t("toasts.auth.auth-intercepted.description"),
+        color: "error",
+      });
+      break;
+    default:
+      break;
+  }
+});
 
-const toast = useToast();
 const handleSubmit = async (submission: FormSubmitEvent<LoginRequest>) => {
   if (loadingResponse.value) return;
+
   loadingResponse.value = true;
+  const res = await request<LoginRequest, LoginResponse>("/api/session", {
+    method: "POST",
+    body: submission.data,
+  });
+  loadingResponse.value = false;
 
-  try {
-    const loginAttempt = await authorizationStore.login(
-      submission.data.email,
-      submission.data.password,
-    );
-
-    if (loginAttempt === true) {
-      toast.add({
-        title: i18n.t("toasts.login.success.title"),
-        description: i18n.t("toasts.login.success.description"),
-        color: "success",
-      });
-      redirect();
-    } else {
+  if (!res.success) {
+    if (
+      res.error instanceof ApiException &&
+      res.error.details.response &&
+      res.error.details.response.status === 400
+    )
       toast.add({
         title: i18n.t("toasts.login.invalid-credentials.title"),
         description: i18n.t("toasts.login.invalid-credentials.description"),
         color: "error",
       });
-    }
-  } catch (error) {
-    // @ts-expect-error - Have to read whether the error is a response from the server or other (network problem).
-    if (error && error.status)
-      toast.add({
-        title: i18n.t("toasts.errors.server.title"),
-        description: i18n.t("toasts.generic-errors.server.description"),
-        color: "warning",
-      });
-    else
-      toast.add({
-        title: i18n.t("toasts.errors.network.title"),
-        description: i18n.t("toasts.generic-errors.network.description"),
-        color: "warning",
-      });
-  } finally {
-    loadingResponse.value = false;
+    else apiExceptionHandler.handleException(res.error);
+    return;
   }
+
+  saveCredentials(
+    res.data.tokens.accessToken,
+    new Date(res.data.accessTokenExpiration),
+    res.data.tokens.refreshToken,
+  );
+  router.push(getRedirectFromLoginPath());
 };
 </script>

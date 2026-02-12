@@ -18,6 +18,10 @@ const props = defineProps<{
   profileId: "me" | string;
 }>();
 
+onMounted(() => {
+  profileStore.fetchProfile();
+});
+
 const profile = computed(() => {
   if (props.profileId === "me") return profileStore.profile;
   else return { displayName: "Anonymous Cat", _id: "dummy_id" };

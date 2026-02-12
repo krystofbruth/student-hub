@@ -37,6 +37,14 @@
     },
     "Provider": {
       "couldNotFetchProvider": "Couldn't fetch provider."
+    },
+    "PasswordChecker": {
+      "ruleTitles": {
+        "minimalCharacterCount": "At least 8 characters",
+        "uppercaseCharacter": "At least 1 uppercase letter",
+        "lowercaseCharacter": "At least 1 lowercase letter",
+        "specialCharacter": "At least 1 special symbol (number, punctuation)"
+      }
     }
   },
   "modules": {
@@ -48,7 +56,13 @@
     "register": {
       "title": "Register",
       "registerButton": "Register",
-      "registerButtonProgress": "Registering"
+      "registerButtonProgress": "Registering",
+      "displayNameLabel": "Display name",
+      "displayNamePlaceholder": "Enter your full name",
+      "emailLabel": "E-mail address",
+      "emailPlaceholder": "Enter a valid e-mail address",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Enter a password"
     },
     "login": {
       "title": "Login",
@@ -147,6 +161,10 @@
       "log-in-required": {
         "title": "Log-in required",
         "description": "To access this page, you must first log-in."
+      },
+      "auth-intercepted": {
+        "title": "Authorization intercepted",
+        "description": "There's a possibility your account has been compromised. Please, contact our support team as soon as possible."
       }
     },
     "errors": {

@@ -6,19 +6,15 @@
     <nav>
       <ul class="flex flex-col gap-5 items-start pt-14">
         <li>
-          <NuxtLink to="/protected/dashboard">{{
-            $t("navigation.dashboard")
-          }}</NuxtLink>
+          <NuxtLink to="/dashboard">{{ $t("navigation.dashboard") }}</NuxtLink>
         </li>
         <li>
-          <NuxtLink to="/protected/integrations">{{
+          <NuxtLink to="/integrations">{{
             $t("navigation.integrations")
           }}</NuxtLink>
         </li>
         <li>
-          <NuxtLink to="/protected/settings">{{
-            $t("navigation.settings")
-          }}</NuxtLink>
+          <NuxtLink to="/settings">{{ $t("navigation.settings") }}</NuxtLink>
         </li>
         <li>
           <a class="hover:cursor-pointer" @mouseup="handleLogout">{{
@@ -34,17 +30,18 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthorizationStore } from "#imports";
 import LanguageSwitch from "~/components/i18n/LanguageSwitch.vue";
-const authorizationStore = useAuthorizationStore();
 
 const route = useRoute();
 const menuRootElement = useTemplateRef("menuRoot");
 const props = defineProps<{ closeMenu: () => void }>();
 useMouseDetection(menuRootElement, () => undefined, props.closeMenu);
 
+// TODO: Move into a separate component!
 const handleLogout = () => {
-  authorizationStore.logoutUser();
+  removeCredentials();
+  // Clears all memory & state
+  window.location.href = "/login";
 };
 
 watch(route, () => {

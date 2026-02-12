@@ -27,14 +27,12 @@ const handleLocaleSwitch = async () => {
   }
 
   if (profile.profile) {
-    console.log(locale.value);
-
     // Guh?
     const res = await profile.updateProfile({
       language: locale.value as SupportedLanguages,
     });
 
-    if (!res) {
+    if (!res.success) {
       setLocale(previousLocale);
       return;
     }

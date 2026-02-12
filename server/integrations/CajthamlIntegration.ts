@@ -15,7 +15,7 @@ import type mongoose from "mongoose";
 import { UnknownException } from "../exceptions/UnknownException";
 import type { VerifySuccessDTO } from "../models/integrations/ssps_cajthaml/External-VerifySuccessDTO";
 import type { AllUserWorkSuccessDTO } from "../models/integrations/ssps_cajthaml/External-AllUserWorkSuccessDTO";
-import { EventType } from "../models/Event";
+import { EventType } from "#imports";
 import { ISource } from "../models/Source";
 
 class CajthamlIntegration implements Integration {

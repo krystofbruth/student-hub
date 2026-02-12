@@ -2,7 +2,9 @@ import { defineStore } from "pinia";
 import { watch } from "vue";
 import type { SupportedLanguages } from "~~/shared/types/SupportedLanguages";
 import type { UpdateUserSelfRequest } from "#shared/types/UpdateUserSelfRequest";
-import { useFetchHandlerStore } from "~/handlers/FetchHandler";
+import { request } from "../utils/api";
+import type { Result } from "~/types/Result";
+import { ApiException } from "~/types/Exceptions";
 
 export interface Profile {
   _id: string;
@@ -26,48 +28,45 @@ const mapUserResponseToProfile = (u: UserResponse): Profile => {
 
 export const useProfileStore = defineStore("profile", () => {
   const i18n = useI18n();
-  const authorizationStore = useAuthorizationStore();
-  const { authorized } = storeToRefs(authorizationStore);
   const profile = ref<Profile | undefined>(undefined);
-  const fetchHandler = useFetchHandlerStore();
 
-  const profileCheck = async () => {
-    if (await authorizationStore.isAuthorized()) {
-      await fetchProfile();
-    } else {
+  const fetchProfile = async (): Promise<Result<undefined>> => {
+    const res = await request<undefined, FetchUserSelfResponse>(
+      "/api/user/me",
+      { method: "GET", authRequired: true, body: undefined },
+    );
+    if (
+      !res.success &&
+      res.error instanceof ApiException &&
+      res.error.reason === "authorization"
+    ) {
       profile.value = undefined;
-    }
-  };
+      return res;
+    } else if (!res.success) return res;
 
-  const fetchProfile = async () => {
-    try {
-      const authorization = await authorizationStore.getAuthorization();
-      if (!authorization) return;
-      const res = await $fetch("/api/user/me", {
-        headers: { Authorization: authorization },
-      });
-      if (!res.success) return;
-
-      profile.value = mapUserResponseToProfile(res.user);
-    } catch (error) {
-      return;
-    }
-
-    i18n.setLocale(profile.value.language);
+    setUser(res.data.user);
+    return { success: true, data: undefined };
   };
 
   const updateProfile = async (
     update: UpdateUserSelfRequest,
-  ): Promise<boolean> => {
-    const res = await fetchHandler.handleRequest<
-      UpdateUserSelfRequest,
-      UpdateUserSelfResponse
-    >("/api/user/me", "PATCH", true, update);
-    return res.success;
+  ): Promise<Result<undefined>> => {
+    const res = await request<UpdateUserSelfRequest, UpdateUserSelfResponse>(
+      "/api/user/me",
+      { method: "PATCH", authRequired: true, body: update },
+    );
+    if (!res.success) return res;
+
+    setUser(res.data.user);
+    return { success: true, data: undefined };
   };
 
-  profileCheck();
-  watch(authorized, profileCheck);
+  const setUser = (userResponse: UserResponse) => {
+    profile.value = mapUserResponseToProfile(userResponse);
+    i18n.setLocale(profile.value.language);
+  };
 
-  return { profile, updateProfile };
+  fetchProfile();
+
+  return { profile, updateProfile, fetchProfile };
 });

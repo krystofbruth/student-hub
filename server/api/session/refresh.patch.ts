@@ -24,6 +24,8 @@ export default defineEventHandler(
       success: true,
       accessToken: refreshAttempt.data.accessToken,
       refreshToken: refreshAttempt.data.session.refreshToken,
+      accessTokenExpiration:
+        refreshAttempt.data.accessTokenExpiration.toISOString(),
     };
-  }
+  },
 );

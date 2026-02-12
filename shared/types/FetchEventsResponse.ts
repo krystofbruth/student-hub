@@ -1,3 +1,9 @@
+export enum EventType {
+  ASSIGNMENT = "ASSIGNMENT",
+  ALTERNATION = "ALTERNATION",
+  EXAM = "EXAM",
+}
+
 export interface EventView {
   _id: string;
   sourceId: string;

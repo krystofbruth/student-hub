@@ -23,8 +23,9 @@
 </template>
 
 <script setup lang="ts">
-import type { EventType } from "~~/server/models/Event";
+import { EventType } from "#imports";
 import Card from "./Card.vue";
+import type { Event } from "#imports";
 
 interface EventInterface {
   timeLeft: string;
@@ -51,7 +52,6 @@ const timeLeft = (target: Date, locale: string): string => {
   const months = Math.floor(deltaSeconds / 60 / 60 / 24 / 30) % 12;
   const years = Math.floor(deltaSeconds / 60 / 60 / 24 / 30 / 12);
 
-  // @ts-expect-error Intl.DurationFormat not part of TS definitions even though baseline.
   const intl = new Intl.DurationFormat(locale, { style: "long" });
 
   if (years > 0) return intl.format({ years, months });
@@ -63,7 +63,7 @@ const timeLeft = (target: Date, locale: string): string => {
 };
 
 const props = defineProps<{
-  event: EventView;
+  event: Event;
 }>();
 const event = computed((): EventInterface => {
   const locale = i18n.locale.value;

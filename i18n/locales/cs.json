@@ -37,6 +37,14 @@
     },
     "Provider": {
       "couldNotFetchProvider": "Nepodařilo se získat poskytovatele :/."
+    },
+    "PasswordChecker": {
+      "ruleTitles": {
+        "minimalCharacterCount": "Minimálně 8 znaků",
+        "uppercaseCharacter": "Alespoň 1 velké písmeno",
+        "lowercaseCharacter": "Alespoň 1 malé písmeno",
+        "specialCharacter": "Alespoň jeden speciální znak (číslo, interpunkce)"
+      }
     }
   },
   "modules": {
@@ -48,7 +56,13 @@
     "register": {
       "title": "Registrace",
       "registerButton": "Registrovat se",
-      "registerButtonProgress": "Registruji"
+      "registerButtonProgress": "Registruji",
+      "displayNameLabel": "Zobrazované jméno",
+      "displayNamePlaceholder": "Zadejte jméno a příjmení",
+      "emailLabel": "E-mailová adresa",
+      "emailPlaceholder": "Zadejte platnou e-mailovou adresu",
+      "passwordLabel": "Heslo",
+      "passwordPlaceholder": "Zadejte heslo"
     },
     "login": {
       "title": "Přihlášení",
@@ -147,6 +161,10 @@
       "log-in-required": {
         "title": "Vyžadováno přihlášení",
         "description": "Pro zpřístupnění této stránky je potřeba se nejdříve přihlásit."
+      },
+      "auth-intercepted": {
+        "title": "Autorizace narušena",
+        "description": "Je možné, že byl váš účet napaden. Neprodleně prosím kontaktujte podporu."
       }
     },
     "errors": {
