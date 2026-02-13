@@ -62,7 +62,35 @@
       "emailLabel": "E-mailová adresa",
       "emailPlaceholder": "Zadejte platnou e-mailovou adresu",
       "passwordLabel": "Heslo",
-      "passwordPlaceholder": "Zadejte heslo"
+      "passwordPlaceholder": "Zadejte heslo",
+      "confirmPasswordLabel": "Zopakujte heslo",
+      "confirmPasswordPlaceholder": "Zadejte stejné heslo",
+      "errors": {
+        "email": "Nesprávný formát e-mailu",
+        "displayName": "Alespoň 3 znaky",
+        "password": "Zvolte silné heslo vyhovující kritériím",
+        "confirmPassword": "Hesla se neshodují"
+      },
+      "errorResponses": {
+        "conflict": {
+          "title": "E-mail registrovaný",
+          "description": "Tento e-mail již někdo využívá."
+        }
+      }
+    },
+    "user-registration-result": {
+      "success": {
+        "description": "Váš účet byl vytvořen, nyní se prosím přihlašte.",
+        "loginButton": "Přihlásit se"
+      },
+      "email-verification": {
+        "description": "Zaslali jsme Vám ověřovací e-mail. Prosíme, zkontrolujte svojí schránku a klikněte na odkaz.",
+        "resendTimeout": "Nepřišla vám zpráva? Zaslat další e-mail budete moci tlačítkem níže.",
+        "wait": "Vyčkejte",
+        "sendAgain": "Zaslat znovu",
+        "alreadyVerified": "Již ověření provedli?",
+        "loginButton": "Přihlásit se"
+      }
     },
     "login": {
       "title": "Přihlášení",

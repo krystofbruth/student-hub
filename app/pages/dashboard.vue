@@ -12,6 +12,5 @@ import AssignmentView from "~/components/modules/AssignmentView.vue";
 
 definePageMeta({
   middleware: "auth",
-  layout: "protected-layout",
 });
 </script>

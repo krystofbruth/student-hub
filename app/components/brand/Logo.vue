@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 box-border flex justify-center h-full w-auto">
+  <div class="p-4 box-border flex justify-center">
     <img
       v-if="darkMode"
       src="/logo-dark.svg"

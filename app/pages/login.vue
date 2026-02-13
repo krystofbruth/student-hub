@@ -1,74 +1,79 @@
 <template>
   <NuxtLayout name="full-page-dialog">
     <template #left>
-      <Logo />
-      <ShortDescription class="grow basis-0 hidden md:block" />
-      <p class="text-muted text-sm">
-        <span v-if="$i18n.locale === 'en'"
-          >Don't have an account?
-          <NuxtLink
-            class="font-bold hover:text-default transition ease-in-out duration-200"
-            to="/register"
-            >Register here</NuxtLink
-          ></span
-        >
-        <span v-else-if="$i18n.locale === 'cs'"
-          >Nemáte účet?
-          <NuxtLink
-            class="font-bold hover:text-default transition ease-in-out duration-200"
-            to="/register"
-            >Registrujte se zde</NuxtLink
-          ></span
-        >
-      </p>
+      <div class="max-w-xl h-fit flex flex-col gap-4">
+        <Logo class="max-h-20" />
+        <ShortDescription class="grow basis-0 hidden md:block" />
+        <p class="text-muted text-sm">
+          <span v-if="$i18n.locale === 'en'"
+            >Don't have an account?
+            <NuxtLink
+              class="font-bold hover:text-default transition ease-in-out duration-200"
+              to="/register"
+              >Register here</NuxtLink
+            ></span
+          >
+          <span v-else-if="$i18n.locale === 'cs'"
+            >Nemáte účet?
+            <NuxtLink
+              class="font-bold hover:text-default transition ease-in-out duration-200"
+              to="/register"
+              >Registrujte se zde</NuxtLink
+            ></span
+          >
+        </p>
+      </div>
     </template>
     <template #right>
-      <h2 class="text-2xl font-bold">{{ $t("pages.login.title") }}</h2>
-      <UForm
-        ref="login-form"
-        :state="state"
-        class="flex flex-col gap-3 items-stretch"
-        :validate-on="['blur']"
-        :validate="handleValidation"
-        @submit="handleSubmit"
-      >
-        <UFormField :label="$t('pages.login.emailLabel')" name="email">
-          <UInput
-            v-model="state.email"
-            :placeholder="$t('pages.login.emailPlaceholder')"
-            class="w-full"
-          />
-        </UFormField>
-        <UFormField :label="$t('pages.login.passwordLabel')" name="password">
-          <UInput
-            v-model="state.password"
-            type="password"
-            :placeholder="$t('pages.login.passwordPlaceholder')"
-            class="w-full"
-          />
-        </UFormField>
+      <div class="max-w-xl flex flex-col gap-4 justify-center">
+        <h2 class="text-2xl font-bold">{{ $t("pages.login.title") }}</h2>
+        <UForm
+          ref="login-form"
+          :state="state"
+          class="flex flex-col gap-3 items-stretch"
+          :validate-on="['blur']"
+          :validate="handleValidation"
+          @submit="handleSubmit"
+          :disabled="loadingResponse"
+        >
+          <UFormField :label="$t('pages.login.emailLabel')" name="email">
+            <UInput
+              v-model="state.email"
+              :placeholder="$t('pages.login.emailPlaceholder')"
+              class="w-full"
+            />
+          </UFormField>
+          <UFormField :label="$t('pages.login.passwordLabel')" name="password">
+            <UInput
+              v-model="state.password"
+              type="password"
+              :placeholder="$t('pages.login.passwordPlaceholder')"
+              class="w-full"
+            />
+          </UFormField>
 
-        <UButton
-          v-if="!loadingResponse"
-          type="submit"
-          class="hover:cursor-pointer flex justify-between items-center"
-        >
-          <span>{{ $t("pages.login.loginButton") }}</span>
-          <span class="flex items-center"
-            ><UIcon class="size-4" name="lucide:log-in"
-          /></span>
-        </UButton>
-        <UButton
-          v-else
-          type="submit"
-          class="grayscale-25 cursor-wait hover:bg-primary flex justify-between items-center"
-        >
-          <span>{{ $t("pages.login.loginButton") }}</span>
-          <span class="flex items-center"
-            ><UIcon class="size-4 animate-spin" name="lucide:loader-circle"
-          /></span>
-        </UButton>
-      </UForm>
+          <UButton
+            v-if="!loadingResponse"
+            type="submit"
+            class="hover:cursor-pointer flex justify-between items-center"
+          >
+            <span>{{ $t("pages.login.loginButton") }}</span>
+            <span class="flex items-center"
+              ><UIcon class="size-4" name="lucide:log-in"
+            /></span>
+          </UButton>
+          <UButton
+            v-else
+            type="submit"
+            class="grayscale-25 cursor-wait hover:bg-primary flex justify-between items-center"
+          >
+            <span>{{ $t("pages.login.loginButton") }}</span>
+            <span class="flex items-center"
+              ><UIcon class="size-4 animate-spin" name="lucide:loader-circle"
+            /></span>
+          </UButton>
+        </UForm>
+      </div>
     </template>
   </NuxtLayout>
 </template>

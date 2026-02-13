@@ -4,17 +4,20 @@
   >
     <div class="grow"></div>
     <div
-      class="bg-accented grow-0 flex flex-col md:flex-row radius rounded-md p-6 md:p-8 box-border w-full md:w-2xl gap-4 relative"
+      class="bg-accented grow-0 flex flex-col md:flex-row radius rounded-md p-6 md:p-8 box-border w-full md:w-fit h-fit gap-4 relative"
     >
-      <div class="shrink-0 grow basis-0">
+      <div class="shrink-0 grow basis-0" v-if="$slots.left">
         <div class="min-w-0 flex flex-col gap-5 h-full">
           <slot name="left" />
         </div>
         <!-- Much more visible, but many risks: bumping into content, consistency... -->
         <!-- <language-switch class="absolute right-8 top-8" /> -->
       </div>
-      <div class="basis-0.5 grow-0 bg-gray-400 hidden md:block"></div>
-      <div class="shrink-0 grow basis-0">
+      <div
+        v-if="$slots.right && $slots.left"
+        class="basis-0.5 grow-0 bg-gray-400 hidden md:block"
+      ></div>
+      <div class="shrink-0 grow basis-0" v-if="$slots.right">
         <div class="min-w-0 flex flex-col gap-5">
           <slot name="right" />
         </div>

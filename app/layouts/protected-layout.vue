@@ -3,7 +3,9 @@
     <header
       class="hidden w-full md:flex justify-between items-center gap-3 box-border p-5 relative h-28"
     >
-      <NuxtLink to="/dashboard" class="h-full"><Logo /></NuxtLink>
+      <NuxtLink to="/dashboard" class="h-full"
+        ><Logo class="h-full"
+      /></NuxtLink>
 
       <ProfileCard
         class="z-10 hover:cursor-pointer relative"

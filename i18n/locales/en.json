@@ -62,7 +62,35 @@
       "emailLabel": "E-mail address",
       "emailPlaceholder": "Enter a valid e-mail address",
       "passwordLabel": "Password",
-      "passwordPlaceholder": "Enter a password"
+      "passwordPlaceholder": "Enter a password",
+      "confirmPasswordLabel": "Repeat password",
+      "confirmPasswordPlaceholder": "Enter the same password again",
+      "errors": {
+        "email": "Incorrect e-mail format",
+        "displayName": "At least 3 characters",
+        "password": "Choose a strong password according to the criteria",
+        "confirmPassword": "Passwords don't match"
+      },
+      "errorResponses": {
+        "conflict": {
+          "title": "E-mail already registered",
+          "description": "There's an account already using this e-mail address."
+        }
+      }
+    },
+    "user-registration-result": {
+      "success": {
+        "description": "Your account has been created. Please, log-in.",
+        "loginButton": "Log-in"
+      },
+      "email-verification": {
+        "description": "We sent you a verification e-mail. Please click on the link in the sent e-mail.",
+        "resendTimeout": "Message didn't arrive? We can re-send you another one if you click the button below.",
+        "wait": "Wait",
+        "sendAgain": "Send again",
+        "alreadyVerified": "Already verified?",
+        "loginButton": "Log-in"
+      }
     },
     "login": {
       "title": "Login",

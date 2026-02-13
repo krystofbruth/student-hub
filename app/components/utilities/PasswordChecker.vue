@@ -43,4 +43,8 @@ const rules: Rule[] = [
     }),
   },
 ];
+
+onUpdated(() => {
+  valid.value = rules.every((r) => r.valid.value);
+});
 </script>
