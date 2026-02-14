@@ -14,7 +14,7 @@
             class="grow order-1 grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-3"
           >
             <SourceCard
-              v-for="source in mySources"
+              v-for="source in sourceStore.sources"
               :key="source._id"
               :source="source"
               @unlink="handleSourceUnlink"
@@ -59,7 +59,7 @@
               v-for="origin in origins"
               :key="origin._id"
               :origin="origin"
-              @connected="fetchMySources"
+              @connected="syncData"
             />
           </section>
         </article>
@@ -72,36 +72,17 @@
 import AuditComponent from "~/components/AuditComponent.vue";
 import ProviderCard from "~/components/cards/ProviderCard.vue";
 import SourceCard from "~/components/cards/SourceCard.vue";
-import type {
-  ListSourcesResponse,
-  SourceView,
-} from "~~/shared/types/ListSourcesResponse";
+import type { SourceView } from "~~/shared/types/ListSourcesResponse";
 import OriginCard from "~/components/cards/OriginCard.vue";
 
 definePageMeta({ middleware: "auth" });
 
-const mySources = ref<SourceView[]>([]);
 const toast = useToast();
 const partnerInstitutions = ref<ProviderView[]>([]);
 const partnerInstitutionsSearch = ref("");
 const origins = ref<OriginView[]>([]);
-const providerStore = useProviderStore();
 const apiExceptionHandler = useApiExceptionErrorHandler();
-
-const fetchMySources = async () => {
-  const res = await request<undefined, ListSourcesResponse>("/api/source", {
-    method: "GET",
-    body: undefined,
-    authRequired: true,
-  });
-
-  if (!res.success) {
-    apiExceptionHandler.handleException(res.error);
-    return;
-  }
-
-  mySources.value = res.data.data;
-};
+const sourceStore = useSourceStore();
 
 const fetchPartnerProviders = async () => {
   const res = await request<undefined, FetchProvidersResponse>(
@@ -134,9 +115,15 @@ const handleSourceUnlink = async () => {
   // TODO
 };
 
-onMounted(() => {
-  fetchMySources();
+const syncData = async () => {
+  const res = await sourceStore.fetchSources();
+  if (!res.success) apiExceptionHandler.handleException(res.error);
+
   fetchPartnerProviders();
   fetchOrigins();
+};
+
+onMounted(async () => {
+  syncData();
 });
 </script>
