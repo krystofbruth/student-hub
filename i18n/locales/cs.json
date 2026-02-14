@@ -80,12 +80,12 @@
     },
     "user-registration-result": {
       "success": {
-        "description": "Váš účet byl vytvořen, nyní se prosím přihlašte.",
-        "loginButton": "Přihlásit se"
+        "description": "Váš účet byl úspěšně vytvořen.",
+        "loginButton": "Pokračovat na přihlášení"
       },
       "email-verification": {
         "description": "Zaslali jsme Vám ověřovací e-mail. Prosíme, zkontrolujte svojí schránku a klikněte na odkaz.",
-        "resendTimeout": "Nepřišla vám zpráva? Zaslat další e-mail budete moci tlačítkem níže.",
+        "resendTimeout": "E-mail nedorazil? Vyžádat zaslání nového e-mailu můžete tlačítkem níže.",
         "wait": "Vyčkejte",
         "sendAgain": "Zaslat znovu",
         "alreadyVerified": "Již ověření provedli?",

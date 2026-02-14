@@ -80,12 +80,12 @@
     },
     "user-registration-result": {
       "success": {
-        "description": "Your account has been created. Please, log-in.",
-        "loginButton": "Log-in"
+        "description": "Your account has been created successfully.",
+        "loginButton": "Proceed to log-in"
       },
       "email-verification": {
-        "description": "We sent you a verification e-mail. Please click on the link in the sent e-mail.",
-        "resendTimeout": "Message didn't arrive? We can re-send you another one if you click the button below.",
+        "description": "We sent you an e-mail with a verification link. Please, open your inbox and verify.",
+        "resendTimeout": "Message didn't arrive? Your can request a re-send by clicking the button below.",
         "wait": "Wait",
         "sendAgain": "Send again",
         "alreadyVerified": "Already verified?",
