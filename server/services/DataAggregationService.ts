@@ -95,15 +95,18 @@ const synchronizeSourceEvents = async (
   }
 };
 
-const SYNC_INTERVAL_MS = 1000 * 60;
+const SYNC_INTERVAL_MS = 1000 * 600000;
 
 /** Handles synchronization as well as synchronization intervals. */
-export const synchronize = async (userId: string): Promise<Result<void>> => {
+export const synchronize = async (
+  userId: string,
+  force?: boolean,
+): Promise<Result<void>> => {
   try {
     // Inefficient - utilize a Redis or similiar short-term caching DB in the future
     const user = await User.findById(userId);
     if (!user) throw new NotFoundException(userId.toString());
-    if (Date.now() - user.lastSync.getTime() < SYNC_INTERVAL_MS)
+    if (Date.now() - user.lastSync.getTime() < SYNC_INTERVAL_MS && !force)
       return { success: true, data: undefined };
 
     const sources = await Source.find({ userId }).populate("originId");

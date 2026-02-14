@@ -144,7 +144,11 @@
         "verificationWebsiteButton": "Stránka verifikace",
         "instructionsVerificationTokenInput": "Zkopírujte a zadejte váš unikátní verifikační kód.",
         "verificationTokenInputPlaceholder": "Zadejte verifikační kód",
-        "submitButton": "Propojit"
+        "submitButton": "Propojit",
+        "invalidVerificationTokenToast": {
+          "title": "Nesprávný token",
+          "description": "Verifikace selhala z důvodu neplatného verifikačního tokenu."
+        }
       }
     }
   },

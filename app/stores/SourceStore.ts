@@ -1,4 +1,5 @@
 import type { Result } from "~/types/Result";
+import type { CreateSourceResponse } from "~~/shared/types/CreateSourceResponse";
 
 export const useSourceStore = defineStore("source", () => {
   // TODO: Use a transformated object with types such as `Date`
@@ -28,5 +29,19 @@ export const useSourceStore = defineStore("source", () => {
     return await fetchSources();
   };
 
-  return { sources, fetchSources, deleteSource };
+  const createSource = async (
+    originId: string,
+    credentials: any,
+  ): Promise<Result<undefined>> => {
+    const res = await request<CreateSourceRequest, CreateSourceResponse>(
+      "/api/source",
+      { method: "POST", body: { originId, credentials }, authRequired: true },
+    );
+
+    if (!res.success) return res;
+
+    return fetchSources();
+  };
+
+  return { sources, fetchSources, deleteSource, createSource };
 });

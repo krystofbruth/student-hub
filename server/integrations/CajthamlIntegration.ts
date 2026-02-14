@@ -75,7 +75,7 @@ class CajthamlIntegration implements Integration {
           return {
             success: false,
             error: new ValidationException({
-              verificationToken: ["Invalid verification token."],
+              verificationToken: ["invalid-verification-token"],
             }),
           };
         throw res;

@@ -68,7 +68,11 @@ const toast = useToast();
 
 const handleModalClose = () => {
   open.value = false;
-  toast.add({ title: "Success TBD" });
+  toast.add({
+    title: $t("toasts.sources.creationSuccess.title"),
+    description: $t("toasts.sources.creationSuccess.description"),
+    color: "success",
+  });
 };
 
 const mapIntegrationNameToSourceCreationComponent = (

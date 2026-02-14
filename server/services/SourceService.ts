@@ -45,6 +45,7 @@ export const createSource = async (
       originId: origin._id,
     });
     await source.save();
+    await synchronize(userId.toString(), true);
     return { success: true, data: source };
   } catch (error) {
     return { success: false, error: new UnknownException(error) };
@@ -81,7 +82,7 @@ export const deleteSource = async (
       await IntegrationMap[source.originId.integrationName]();
     await integration.unlinkSource(source);
     await source.deleteOne();
-    await synchronize(source.userId.toString());
+    await synchronize(source.userId.toString(), true);
     return { success: true, data: undefined };
   } catch (error) {
     return { success: false, error: new UnknownException(error) };

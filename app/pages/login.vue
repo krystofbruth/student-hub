@@ -25,7 +25,7 @@
       </div>
     </template>
     <template #right>
-      <div class="max-w-xl flex flex-col gap-4 justify-center">
+      <div class="md:max-w-xl flex flex-col gap-4 justify-center">
         <h2 class="text-2xl font-bold">{{ $t("pages.login.title") }}</h2>
         <UForm
           ref="login-form"

@@ -144,7 +144,11 @@
         "verificationWebsiteButton": "Verification page",
         "instructionsVerificationTokenInput": "Copy and enter your unique verification token.",
         "verificationTokenInputPlaceholder": "Enter verification token",
-        "submitButton": "Connect"
+        "submitButton": "Connect",
+        "invalidVerificationTokenToast": {
+          "title": "Invalid token",
+          "description": "Verification failed due to the verification token being invalid."
+        }
       }
     }
   },
