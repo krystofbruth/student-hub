@@ -150,6 +150,10 @@
           "description": "Verification failed due to the verification token being invalid."
         }
       }
+    },
+    "teams": {
+      "instructions": "Click on the button below and sign-in with your Microsoft account.",
+      "connectButton": "Sign-in with Microsoft"
     }
   },
   "navigation": {
@@ -221,6 +225,10 @@
       "unknown": {
         "title": "Unknown error occured",
         "description": "An unknown error has occured, please contact support."
+      },
+      "source-registration": {
+        "title": "Source creation error",
+        "description": "An error occured during the connection of a new source. Please, try again."
       }
     }
   }

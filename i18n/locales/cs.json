@@ -150,6 +150,10 @@
           "description": "Verifikace selhala z důvodu neplatného verifikačního tokenu."
         }
       }
+    },
+    "teams": {
+      "instructions": "Klikněte na tlačítko níže a přihlašte se svým školním Microsoft účtem.",
+      "connectButton": "Přihlásit se účtem Microsoft"
     }
   },
   "navigation": {
@@ -221,6 +225,10 @@
       "unknown": {
         "title": "Nastala neočekávaná chyba",
         "description": "Nastala neočekávaná chyba. Prosíme, kontaktujte podporu."
+      },
+      "source-registration": {
+        "title": "Chyba propojení",
+        "description": "Nastala chyba při propojování. Opakujte prosím operaci."
       }
     }
   }

@@ -136,7 +136,7 @@ export const request = async <
     }
 
     if (!res.ok) {
-      if (res.status === 401) {
+      if (res.status === 401 && options.authRequired === true) {
         removeCredentials();
         console.error("SESSION INTERCEPTION!");
         return {

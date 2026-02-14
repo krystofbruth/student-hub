@@ -8,17 +8,20 @@
           $t("integrations.ssps_cajthaml.sourceCreation.instructionsWebsite")
         }}
       </p>
-      <UButton color="info" class="cursor-pointer w-fit"
-        ><UIcon name="lucide:arrow-up-right" /><a
-          href="https://ssps.cajthaml.eu/user/verify"
-          target="_blank"
-          >{{
+
+      <a
+        href="https://ssps.cajthaml.eu/user/verify"
+        target="_blank"
+        class="w-fit"
+      >
+        <UButton color="info" class="cursor-pointer w-fit"
+          ><UIcon name="lucide:arrow-up-right" />{{
             $t(
               "integrations.ssps_cajthaml.sourceCreation.verificationWebsiteButton",
             )
-          }}</a
-        ></UButton
-      >
+          }}
+        </UButton>
+      </a>
     </section>
 
     <UForm
