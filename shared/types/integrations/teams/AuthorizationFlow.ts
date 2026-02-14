@@ -24,8 +24,10 @@ const response_mode = "query";
 
 export const loginUri = `https://login.microsoftonline.com/${tenant}/oauth2/v2.0/authorize?client_id=${client_id}&response_type=${response_type}&redirect_uri=${redirectUri}&response_mode=${response_mode}&scope=${formattedScopes}`;
 
-export const CreateTeamsSourceSchema = z.object({
+export const CreateTeamsSourceCredentialsSchema = z.object({
   authorizationToken: z.string(),
 });
 
-export type CreateTeamsSource = z.infer<typeof CreateTeamsSourceSchema>;
+export type CreateTeamsSourceCredentials = z.infer<
+  typeof CreateTeamsSourceCredentialsSchema
+>;

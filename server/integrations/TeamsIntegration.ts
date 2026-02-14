@@ -1,17 +1,13 @@
 import type { Types } from "mongoose";
 import type { Result } from "../helpers/Result";
-import {
-  type EventWithoutId,
-  type Integration,
-  type RequestDetails,
-} from "../models/Integration";
+import { type EventWithoutId, type Integration } from "../models/Integration";
 import { RegisteredIntegrationNames } from "~~/shared/types/RegisteredIntegrationNames";
 import {
   scopes,
   redirectUri,
   tenant,
   client_id,
-  CreateTeamsSourceSchema,
+  CreateTeamsSourceCredentialsSchema,
   formattedScopes,
 } from "#shared/types/integrations/teams/AuthorizationFlow";
 import z, { success } from "zod";
@@ -141,10 +137,11 @@ export class TeamsIntegration implements Integration {
     };
   }
 
-  async createSource(
-    event: RequestDetails,
-  ): Promise<Result<TeamsLoginDetails>> {
-    const validation = z.safeParse(CreateTeamsSourceSchema, event.body);
+  async createSource(credentials: unknown): Promise<Result<TeamsLoginDetails>> {
+    const validation = z.safeParse(
+      CreateTeamsSourceCredentialsSchema,
+      credentials,
+    );
     if (!validation.success)
       return {
         success: false,

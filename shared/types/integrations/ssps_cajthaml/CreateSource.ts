@@ -1,9 +1,9 @@
 import z from "zod";
 
-export const CreateSSPSCajthamlSourceSchema = z.object({
+export const CreateSSPSCajthamlSourceCredentialsSchema = z.object({
   verificationToken: z.string(),
 });
 
-export type CreateSSPSCajthamlSource = z.infer<
-  typeof CreateSSPSCajthamlSourceSchema
+export type CreateSSPSCajthamlSourceCredentials = z.infer<
+  typeof CreateSSPSCajthamlSourceCredentialsSchema
 >;

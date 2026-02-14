@@ -2,13 +2,9 @@ import z from "zod";
 import { ImplementationException } from "../exceptions/ImplementationException";
 import type { Result } from "../helpers/Result";
 import type { SSPSCajthamlLoginDetails } from "../models/integrations/ssps_cajthaml/LoginDetails";
-import { CreateSSPSCajthamlSourceSchema } from "#shared/types/integrations/ssps_cajthaml/CreateSource";
+import { CreateSSPSCajthamlSourceCredentialsSchema } from "#shared/types/integrations/ssps_cajthaml/CreateSource";
 import { ValidationException } from "../exceptions/ValidationException";
-import type {
-  EventWithoutId,
-  Integration,
-  RequestDetails,
-} from "../models/Integration";
+import type { EventWithoutId, Integration } from "../models/Integration";
 import { USER_AGENT } from "../models/Integration";
 import { RegisteredIntegrationNames } from "~~/shared/types/RegisteredIntegrationNames";
 import type mongoose from "mongoose";
@@ -93,11 +89,11 @@ class CajthamlIntegration implements Integration {
   }
 
   public async createSource(
-    details: RequestDetails,
+    credentials: unknown,
   ): Promise<Result<SSPSCajthamlLoginDetails>> {
     const validation = z.safeParse(
-      CreateSSPSCajthamlSourceSchema,
-      details.body,
+      CreateSSPSCajthamlSourceCredentialsSchema,
+      credentials,
     );
     if (!validation.success)
       return {

@@ -8,13 +8,6 @@ import { RegisteredIntegrationNames } from "#shared/types/RegisteredIntegrationN
 
 export type EventWithoutId = Omit<IEvent, "_id">;
 
-export interface RequestDetails {
-  body: unknown;
-  headers: { [header: string]: string | undefined };
-  query: { [parameter: string]: string | string[] | undefined };
-  path: string;
-}
-
 export interface Integration {
   fetchEvents(
     credentials: Object,
@@ -24,7 +17,7 @@ export interface Integration {
   serviceName: RegisteredIntegrationNames;
 
   /** Returns login credentials to be saved in the DB. */
-  createSource(event: RequestDetails): Promise<Result<any>>;
+  createSource(credentials: any): Promise<Result<any>>;
 
   /** Does necessary handling of graceful log-out before the source is deleted by the system. */
   unlinkSource(source: ISource): Promise<void>;

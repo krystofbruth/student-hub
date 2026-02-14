@@ -18,11 +18,6 @@ const sourceSchema = new mongoose.Schema<ISource>(
       required: true,
       ref: "User",
     },
-    serviceName: {
-      type: String,
-      required: true,
-      enum: RegisteredIntegrationNames,
-    },
     credentials: {
       type: Object,
     },
