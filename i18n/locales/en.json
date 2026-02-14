@@ -127,6 +127,12 @@
       "title": "Connect a new origin",
       "instructionsTitle": "Instructions for connecting:"
     },
+    "sourceDeletion": {
+      "title": "Delete source",
+      "areYouSure": "Are you sure you want to delete source",
+      "deleteButton": "Delete source",
+      "cancelButton": "Cancel"
+    },
     "institutionSelection": {
       "title": "Select institution"
     }
@@ -169,6 +175,10 @@
       "creationSuccess": {
         "title": "Source connection success",
         "description": "Your source has been successfully connected."
+      },
+      "deletionSuccess": {
+        "title": "Source deleted",
+        "description": "Your source has been successfully deleted."
       }
     },
     "profile": {

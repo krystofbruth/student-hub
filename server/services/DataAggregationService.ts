@@ -11,6 +11,9 @@ import {
 import { Event } from "../models/Event";
 import { User } from "../models/User";
 import { NotFoundException } from "../exceptions/NotFoundException";
+import { getOrigin } from "./OriginService";
+import { IOrigin } from "../models/Origin";
+import mongoose from "mongoose";
 
 const synchronizeSourceEvent = async (
   event: EventWithoutId,
@@ -43,7 +46,23 @@ const synchronizeSourceEvents = async (
   source: ISource,
 ): Promise<Result<void>> => {
   try {
-    const integration: Integration = await IntegrationMap[source.serviceName]();
+    let origin: IOrigin;
+    if (source.originId instanceof mongoose.Types.ObjectId) {
+      const originLookup = await getOrigin(source.originId);
+      // This shouldn't happen!
+      if (!originLookup.success)
+        return {
+          success: false,
+          error: new UnknownException(originLookup.error),
+        };
+
+      origin = originLookup.data;
+    } else {
+      origin = source.originId;
+    }
+
+    const integration: Integration =
+      await IntegrationMap[origin.integrationName]();
 
     const eventsResult = await integration.fetchEvents(
       source.credentials,
@@ -87,13 +106,20 @@ export const synchronize = async (userId: string): Promise<Result<void>> => {
     if (Date.now() - user.lastSync.getTime() < SYNC_INTERVAL_MS)
       return { success: true, data: undefined };
 
-    const sources = await Source.find({ userId });
+    const sources = await Source.find({ userId }).populate("originId");
+    const sourceIds = sources.map((s) => s._id);
 
     let exceptions: Exception[] = [];
     for (const source of sources) {
       const result = await synchronizeSourceEvents(source);
       if (!result.success) exceptions.push(result.error);
     }
+
+    // Delete events which don't have a source anymore.
+    await Event.deleteMany({
+      userId: user._id,
+      sourceId: { $nin: sourceIds },
+    });
 
     if (exceptions.length > 0)
       return {

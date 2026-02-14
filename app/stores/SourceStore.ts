@@ -17,8 +17,16 @@ export const useSourceStore = defineStore("source", () => {
     return { success: true, data: undefined };
   };
 
-  //   const deleteSource = async (): Promise<Result<undefined>> => {
-  //   };
+  const deleteSource = async (sourceId: string): Promise<Result<undefined>> => {
+    const res = await request<undefined, undefined>(`/api/source/${sourceId}`, {
+      method: "DELETE",
+      body: undefined,
+      authRequired: true,
+    });
+    if (!res.success) return res;
 
-  return { sources, fetchSources };
+    return await fetchSources();
+  };
+
+  return { sources, fetchSources, deleteSource };
 });

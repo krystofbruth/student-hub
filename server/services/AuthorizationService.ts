@@ -16,7 +16,7 @@ let accessTokenSecret: string;
 if (!process.env.ACCESS_TOKEN_SECRET) {
   if (process.env.NODE_ENV === "development") {
     console.warn(
-      "No access token secret present - this will not work in prod!"
+      "No access token secret present - this will not work in prod!",
     );
     accessTokenSecret = "test123";
   } else {
@@ -28,7 +28,7 @@ const ACCESS_TOKEN_EXPIRATION_MS: number = 1000 * 60 * 15;
 // Methods
 //
 export const createAccessToken = async (
-  user: IUser
+  user: IUser,
 ): Promise<Result<{ accessToken: string; expires: Date }>> => {
   try {
     const expirationDate = new Date(Date.now() + ACCESS_TOKEN_EXPIRATION_MS);
@@ -48,7 +48,7 @@ export const createAccessToken = async (
 };
 
 export const verifyAccessToken = async (
-  accessToken: string
+  accessToken: string,
 ): Promise<Result<AccessTokenPayload>> => {
   try {
     const verification = jwt.verify(accessToken, accessTokenSecret);
@@ -61,7 +61,7 @@ export const verifyAccessToken = async (
 
 export const createSession = async (
   user: IUser,
-  details?: object
+  details?: object,
 ): Promise<
   Result<
     { session: ISession } & { accessToken: string; accessTokenExpiration: Date }
@@ -93,7 +93,7 @@ export const createSession = async (
 };
 
 export const refreshSession = async (
-  refreshToken: string
+  refreshToken: string,
 ): Promise<
   Result<
     { session: ISession } & { accessToken: string; accessTokenExpiration: Date }

@@ -5,6 +5,7 @@ import { Result } from "../helpers/Result";
 import { UnknownException } from "../exceptions/UnknownException";
 import { NotFoundException } from "../exceptions/NotFoundException";
 import { getOrigin } from "./OriginService";
+import { synchronize } from "./DataAggregationService";
 
 export const listSources = async (
   userId: mongoose.Types.ObjectId,
@@ -55,7 +56,7 @@ export const deleteSource = async (
   userId?: mongoose.Types.ObjectId,
 ): Promise<Result<undefined>> => {
   try {
-    const source = await Source.findById(sourceId);
+    const source = await Source.findById(sourceId).populate("originId");
     if (!source)
       return {
         success: false,
@@ -68,9 +69,19 @@ export const deleteSource = async (
         error: new NotFoundException(sourceId.toString()),
       };
 
-    const integration: Integration = await IntegrationMap[source.serviceName]();
+    if (source.originId instanceof mongoose.Types.ObjectId)
+      return {
+        success: false,
+        error: new UnknownException(
+          `Origin with id ${source.originId} doesn't exist, but tied to source ${source._id}`,
+        ),
+      };
+
+    const integration: Integration =
+      await IntegrationMap[source.originId.integrationName]();
     await integration.unlinkSource(source);
     await source.deleteOne();
+    await synchronize(source.userId.toString());
     return { success: true, data: undefined };
   } catch (error) {
     return { success: false, error: new UnknownException(error) };

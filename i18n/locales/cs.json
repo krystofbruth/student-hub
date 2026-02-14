@@ -127,6 +127,12 @@
       "title": "Připojit nový zdroj",
       "instructionsTitle": "Instrukce k připojení:"
     },
+    "sourceDeletion": {
+      "title": "Smazat zdroj",
+      "areYouSure": "Opravdu si přejete smazat zdroj",
+      "deleteButton": "Smazat zdroj",
+      "cancelButton": "Zrušit"
+    },
     "institutionSelection": {
       "title": "Select institution"
     }
@@ -167,8 +173,12 @@
     },
     "sources": {
       "creationSuccess": {
-        "title": "Zdroj vytvořen úspěšně",
-        "description": "Váš zdroj byl "
+        "title": "Zdroj vytvořen",
+        "description": "Váš zdroj byl úspěšně vytvořen."
+      },
+      "deletionSuccess": {
+        "title": "Zdroj smazán",
+        "description": "Váš zdroj byl úspěšně smazán."
       }
     },
     "profile": {

@@ -16,20 +16,24 @@
           ><UIcon name="lucide:info" />
           {{ $t("components.Source.actions.moreInfo") }}</UButton
         >
-        <UButton class="cursor-pointer" color="error" @click="emits('unlink')"
-          ><UIcon name="lucide:unlink" />
-          {{ $t("components.Source.actions.delete") }}</UButton
-        >
+        <SourceDeletionModal
+          :source-title="props.source.origin.name"
+          :callback="handleSourceDeletion"
+        />
       </footer>
     </div>
   </OriginCard>
 </template>
 
 <script setup lang="ts">
+import SourceDeletionModal from "../modals/SourceDeletionModal.vue";
 import OriginCard from "./OriginCard.vue";
 
 const i18n = useI18n();
+const toast = useToast();
+const sourceStore = useSourceStore();
 const props = defineProps<{ source: SourceView }>();
+const apiExceptionHandler = useApiExceptionErrorHandler();
 const emits = defineEmits(["unlink"]);
 
 const createdAt = computed(() => {
@@ -37,4 +41,17 @@ const createdAt = computed(() => {
   const creationDate = new Date(props.source.createdAt);
   return creationDate.toLocaleDateString(locale.value);
 });
+
+const handleSourceDeletion = async (confirmed: boolean) => {
+  if (!confirmed) return;
+
+  const res = await sourceStore.deleteSource(props.source._id);
+  if (!res.success) apiExceptionHandler.handleException(res.error);
+  else
+    toast.add({
+      color: "success",
+      title: $t("toasts.sources.deletionSuccess.title"),
+      description: $t("toasts.sources.deletionSuccess.description"),
+    });
+};
 </script>

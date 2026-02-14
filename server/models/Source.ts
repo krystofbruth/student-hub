@@ -5,7 +5,6 @@ import { IOrigin } from "./Origin";
 export interface ISource {
   _id: mongoose.Types.ObjectId;
   userId: mongoose.Types.ObjectId;
-  serviceName: RegisteredIntegrationNames;
   credentials: object;
   createdAt: Date;
   originId: mongoose.Types.ObjectId | IOrigin;
