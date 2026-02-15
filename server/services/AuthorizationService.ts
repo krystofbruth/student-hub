@@ -20,6 +20,8 @@ if (!process.env.SHUB_ACCESS_TOKEN_SECRET) {
   } else {
     throw new Error("No access token secret present!");
   }
+} else {
+  accessTokenSecret = process.env.SHUB_ACCESS_TOKEN_SECRET;
 }
 const ACCESS_TOKEN_EXPIRATION_MS: number = 1000 * 60 * 15;
 
