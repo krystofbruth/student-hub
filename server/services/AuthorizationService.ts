@@ -2,18 +2,16 @@ import { IUser, User } from "../models/User";
 import { ISession, Session } from "../models/Session";
 import { AccessTokenPayload } from "../../shared/types/AccessTokenPayload";
 import jwt from "jsonwebtoken";
-import { StringValue } from "ms";
-import { randomBytes, hash, createHash } from "crypto";
+import { randomBytes, createHash } from "crypto";
 import { Result } from "../helpers/Result";
 import { UnknownException } from "../exceptions/UnknownException";
-import { ImplementationException } from "../exceptions/ImplementationException";
 import { NotFoundException } from "../exceptions/NotFoundException";
 import { AuthorizationException } from "../exceptions/AuthorizationException";
 
 // Config
 //
 let accessTokenSecret: string;
-if (!process.env.ACCESS_TOKEN_SECRET) {
+if (!process.env.SHUB_ACCESS_TOKEN_SECRET) {
   if (process.env.NODE_ENV === "development") {
     console.warn(
       "No access token secret present - this will not work in prod!",
