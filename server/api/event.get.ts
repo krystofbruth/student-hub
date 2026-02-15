@@ -37,6 +37,7 @@ const mapEventToResponse = (event: IEvent): EventView => {
     dueAt: event.dueAt.toISOString(),
     uri: event.uri,
     title: event.title,
+    description: event.description,
   };
 };
 

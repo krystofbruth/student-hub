@@ -5,6 +5,7 @@ import { Result } from "../helpers/Result";
 import { useTeamsIntegration } from "../integrations/TeamsIntegration";
 import { ISource } from "./Source";
 import { RegisteredIntegrationNames } from "#shared/types/RegisteredIntegrationNames";
+import { useBakalariIntegration } from "../integrations/BakalariIntegration";
 
 export type EventWithoutId = Omit<IEvent, "_id">;
 
@@ -31,6 +32,7 @@ export const IntegrationMap: Record<
 > = {
   ssps_cajthaml: useCajthamlIntegration,
   teams: useTeamsIntegration,
+  bakalari: useBakalariIntegration,
 };
 
 /** Add to every request! */

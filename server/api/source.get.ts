@@ -15,7 +15,7 @@ const mapSourceToSourceView = (source: ISource): SourceView => {
   return {
     _id: source._id.toString(),
     userId: source.userId.toString(),
-    serviceName: source.serviceName,
+    serviceName: source.originId.integrationName,
     createdAt: source.createdAt.toISOString(),
     origin: mapOriginToOriginView(source.originId),
   };

@@ -14,6 +14,7 @@ export interface OriginView {
     cs: string;
   };
   logoUri: string;
+  logoUriDark?: string;
 }
 
 export interface FetchOriginsResponse {

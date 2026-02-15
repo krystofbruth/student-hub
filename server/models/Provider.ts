@@ -11,6 +11,7 @@ export interface IProvider {
   institution: InstitutionType;
   city: string;
   logoUri: string;
+  logoUriDark?: string;
   partnership: boolean;
 }
 
@@ -32,6 +33,10 @@ const providerSchema = new mongoose.Schema<IProvider>(
     logoUri: {
       type: String,
       required: true,
+    },
+    logoUriDark: {
+      type: String,
+      required: false,
     },
     partnership: {
       type: Boolean,

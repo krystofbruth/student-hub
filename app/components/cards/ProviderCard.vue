@@ -6,21 +6,24 @@
         class="flex flex-col md:flex-row gap-6 items-center w-full"
       >
         <img
-          src="/schools-meta/ssps/logo.svg"
-          alt="Logo SSPS"
+          :src="
+            darkModeStore.darkMode && provider.logoUriDark
+              ? provider.logoUriDark
+              : provider.logoUri
+          "
+          :alt="`${provider.name} logo`"
           class="h-full box-border max-h-20"
         />
         <p class="font-bold grow">
           {{ provider.name }}
         </p>
-        <UIcon
-          name="lucide:arrow-right"
-          class="size-7 text-muted basis-18 hidden md:block"
-        />
-        <UIcon
-          name="lucide:arrow-up-right"
-          class="text-muted absolute top-0 right-0 size-7 md:hidden"
-        />
+        <p class="hidden md:block">
+          <UIcon name="lucide:arrow-right" class="size-7 text-muted basis-18" />
+        </p>
+
+        <p class="md:hidden absolute top-0 right-0">
+          <UIcon name="lucide:arrow-up-right" class="text-muted size-7" />
+        </p>
       </div>
       <p v-else class="text-error font-bold">
         {{ $t("components.Provider.couldNotFetchProvider") }}
@@ -37,6 +40,7 @@ const props = defineProps<{
   providerId: string;
 }>();
 const providerStore = useProviderStore();
+const darkModeStore = useDarkModeStore();
 
 const provider = ref<ProviderView | undefined>();
 

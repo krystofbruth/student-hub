@@ -1,3 +1,5 @@
+import type { SupportedLanguages } from "./SupportedLanguages";
+
 export enum EventType {
   ASSIGNMENT = "ASSIGNMENT",
   ALTERNATION = "ALTERNATION",
@@ -7,13 +9,14 @@ export enum EventType {
 export interface EventView {
   _id: string;
   sourceId: string;
-  title: string;
+  title: Record<SupportedLanguages, string>;
   /** EventType enum. */
   type: string;
   /** ISO Date. */
   dueAt: string;
   /** URI. */
   uri: string;
+  description?: Record<SupportedLanguages, string>;
 }
 
 export interface FetchEventsResponse {

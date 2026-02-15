@@ -4,7 +4,6 @@
       "changeLanguageButton": "Change language"
     },
     "Event": {
-      "type": "Type",
       "eventTypes": {
         "ASSIGNMENT": "Assignment",
         "ALTERNATION": "Alternation",
@@ -33,7 +32,8 @@
       "actions": {
         "moreInfo": "More info",
         "delete": "Disconnect"
-      }
+      },
+      "loadFailure": "Couldn't load the Source"
     },
     "Provider": {
       "couldNotFetchProvider": "Couldn't fetch provider."
@@ -50,6 +50,13 @@
   "modules": {
     "AssignmentView": {
       "title": "Upcoming assignments"
+    },
+    "AlternationView": {
+      "title": "Upcoming organizational alternations"
+    },
+    "EventView": {
+      "title": "Upcoming events",
+      "refresh": "Refresh"
     }
   },
   "pages": {
@@ -135,6 +142,17 @@
     },
     "institutionSelection": {
       "title": "Select institution"
+    },
+    "eventDetail": {
+      "title": "Event details",
+      "source": "Fetched from source",
+      "eventTitle": "Event title",
+      "dueDate": "Due date",
+      "eventType": "Event type",
+      "description": "Event description",
+      "date": "Date of the event",
+      "link": "Link to the system",
+      "actions": "Actions"
     }
   },
   "integrations": {
@@ -154,6 +172,10 @@
     "teams": {
       "instructions": "Click on the button below and sign-in with your Microsoft account.",
       "connectButton": "Sign-in with Microsoft"
+    },
+    "bakalari": {
+      "instructions": "Confirm connection by clicking on the button below.",
+      "connectButton": "Connect"
     }
   },
   "navigation": {
@@ -177,6 +199,10 @@
       "sync-failure": {
         "title": "Synchronization error",
         "description": "An error occured during the synchronization of your connections, please consult your connection audit."
+      },
+      "sync-success": {
+        "title": "Synchronization success",
+        "description": "Synchronization has been performed successfully."
       }
     },
     "sources": {

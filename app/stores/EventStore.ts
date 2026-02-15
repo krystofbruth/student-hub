@@ -8,7 +8,8 @@ import {
 export interface Event {
   _id: string;
   sourceId: string;
-  title: string;
+  title: Record<SupportedLanguages, string>;
+  description?: Record<SupportedLanguages, string>;
   type: EventType;
   dueAt: Date;
   uri: string;
@@ -22,37 +23,39 @@ const mapEventViewToEvent = (view: EventView): Event => {
     type: view.type as EventType,
     dueAt: new Date(view.dueAt),
     uri: view.uri,
+    description: view.description,
   };
 };
 
+// 30secs minimum delay if called by multiple components for example
+const MINIMUM_DELAY_MS = 1000 * 30;
+
 export const useEventStore = defineStore("event", () => {
-  const events: Record<EventType, { values: Ref<Event[]>; setAt?: Date }> = {
-    [EventType.ASSIGNMENT]: { values: ref([]) },
-    [EventType.ALTERNATION]: { values: ref([]) },
-    [EventType.EXAM]: { values: ref([]) },
+  const events: Ref<Event[]> = ref([]);
+  let setAt: Date | undefined;
+  let requestPromise: Promise<Result<any>> | undefined;
+
+  const setEvents = (values: EventView[]) => {
+    setAt = new Date();
+    events.value = values.map((e) => mapEventViewToEvent(e));
   };
 
-  const setEvents = (type: EventType, values: EventView[]) => {
-    const setAt = new Date();
-    events[type].values.value = values.map((e) => mapEventViewToEvent(e));
-    events[type].setAt = setAt;
-  };
+  const syncEvents = async (): Promise<Result<undefined>> => {
+    if (requestPromise) return requestPromise;
 
-  const syncEvents = async (type: EventType): Promise<Result<undefined>> => {
-    // TODO: Filter by type
-    const res = await request<undefined, FetchEventsResponse>("/api/event", {
+    requestPromise = request<undefined, FetchEventsResponse>("/api/event", {
       method: "GET",
       body: undefined,
       authRequired: true,
     });
+
+    const res = await requestPromise;
+    requestPromise = undefined;
     if (!res.success) return res;
 
-    setEvents(
-      type,
-      res.data.events.filter((e) => e.type === type),
-    );
+    setEvents(res.data.events);
     return { success: true, data: undefined };
   };
 
-  return { events, syncEvents };
+  return { events, syncEvents, setAt };
 });

@@ -10,8 +10,8 @@ export interface IEvent {
   /** Id of the resource in the target implementation. */
   targetId: string;
   userId: mongoose.Types.ObjectId;
-  title: string;
-  description: string;
+  title: Record<SupportedLanguages, string>;
+  description?: Record<SupportedLanguages, string>;
 }
 
 const eventSchema = new mongoose.Schema<IEvent>(
@@ -42,10 +42,15 @@ const eventSchema = new mongoose.Schema<IEvent>(
       type: String,
     },
     title: {
-      type: String,
+      type: {
+        en: { type: String, required: true },
+        cs: { type: String, required: true },
+      },
+      required: true,
     },
     description: {
-      type: String,
+      type: Object,
+      required: false,
     },
   },
   { timestamps: true },

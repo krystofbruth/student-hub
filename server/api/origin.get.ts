@@ -39,6 +39,7 @@ export const mapOriginToOriginView = (origin: IOrigin): OriginView => {
     name: origin.name,
     description: origin.description,
     logoUri: origin.logoUri,
+    logoUriDark: origin.logoUriDark,
   };
 };
 

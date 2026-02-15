@@ -7,6 +7,22 @@ import { NotFoundException } from "../exceptions/NotFoundException";
 import { getOrigin } from "./OriginService";
 import { synchronize } from "./DataAggregationService";
 
+export const getSource = async (
+  sourceId: mongoose.Types.ObjectId,
+): Promise<Result<ISource>> => {
+  try {
+    const source = await Source.findById(sourceId);
+    if (!source)
+      return {
+        success: false,
+        error: new NotFoundException(sourceId.toString()),
+      };
+    return { success: true, data: source };
+  } catch (error) {
+    return { success: false, error: new UnknownException(error) };
+  }
+};
+
 export const listSources = async (
   userId: mongoose.Types.ObjectId,
 ): Promise<Result<ISource[]>> => {

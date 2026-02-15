@@ -122,6 +122,7 @@ export class TeamsIntegration implements Integration {
     userId: Types.ObjectId,
   ): EventWithoutId {
     let description: string = "";
+
     if (eduAssignment.instructions)
       description = eduAssignment.instructions.content;
 
@@ -132,8 +133,8 @@ export class TeamsIntegration implements Integration {
       uri: eduAssignment.webUrl,
       targetId: eduAssignment.id,
       userId,
-      title: eduAssignment.displayName,
-      description,
+      title: { en: eduAssignment.displayName, cs: eduAssignment.displayName },
+      description: { en: description, cs: description },
     };
   }
 

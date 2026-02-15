@@ -10,12 +10,20 @@
         <div class="grid grid-cols-2 gap-4 h-20 justify-center">
           <img
             v-if="origin.provider"
-            :src="origin.provider.logoUri"
+            :src="
+              darkModeStore.darkMode && origin.provider.logoUriDark
+                ? origin.provider.logoUriDark
+                : origin.provider.logoUri
+            "
             :alt="`${origin.provider.name} logo`"
             class="h-full w-auto max-h-20"
           />
           <img
-            :src="origin.logoUri"
+            :src="
+              darkModeStore.darkMode && origin.logoUriDark
+                ? origin.logoUriDark
+                : origin.logoUri
+            "
             :alt="`${origin.name[locale]} logo`"
             class="h-full w-auto max-h-20"
           />
@@ -59,12 +67,14 @@ import { RegisteredIntegrationNames } from "~~/shared/types/RegisteredIntegratio
 import CreateSSPSCajthamlSource from "../integrations/ssps_cajthaml/CreateSSPSCajthamlSource.vue";
 import type { Component } from "vue";
 import CreateTeamsSource from "../integrations/teams/CreateTeamsSource.vue";
+import CreateBakalariSource from "../integrations/bakalari/CreateBakalariSource.vue";
 
 const i18n = useI18n();
 const locale = i18n.locale;
 const open = ref(false);
 const emits = defineEmits(["connected"]);
 const toast = useToast();
+const darkModeStore = useDarkModeStore();
 
 const handleModalClose = () => {
   open.value = false;
@@ -75,17 +85,16 @@ const handleModalClose = () => {
   });
 };
 
+const modalMap: Record<RegisteredIntegrationNames, Component> = {
+  [RegisteredIntegrationNames.SSPS_CAJTHAML]: CreateSSPSCajthamlSource,
+  [RegisteredIntegrationNames.TEAMS]: CreateTeamsSource,
+  [RegisteredIntegrationNames.BAKALARI]: CreateBakalariSource,
+};
+
 const mapIntegrationNameToSourceCreationComponent = (
   integrationName: RegisteredIntegrationNames,
 ): Component => {
-  switch (integrationName) {
-    case RegisteredIntegrationNames.SSPS_CAJTHAML:
-      return CreateSSPSCajthamlSource;
-    case RegisteredIntegrationNames.TEAMS:
-      return CreateTeamsSource;
-    default:
-      throw new Error(`Integration mapping missing for ${integrationName}`);
-  }
+  return modalMap[integrationName];
 };
 
 const props = defineProps<{

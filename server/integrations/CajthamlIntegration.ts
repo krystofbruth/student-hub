@@ -1,5 +1,4 @@
 import z from "zod";
-import { ImplementationException } from "../exceptions/ImplementationException";
 import type { Result } from "../helpers/Result";
 import type { SSPSCajthamlLoginDetails } from "../models/integrations/ssps_cajthaml/LoginDetails";
 import { CreateSSPSCajthamlSourceCredentialsSchema } from "#shared/types/integrations/ssps_cajthaml/CreateSource";
@@ -52,8 +51,8 @@ class CajthamlIntegration implements Integration {
             uri: `https://ssps.cajthaml.eu/${e.subjectSlug}/work/${e.slug}`,
             targetId: e.id,
             userId,
-            title: e.name,
-            description: "",
+            title: { en: e.name, cs: e.name },
+            description: undefined,
           };
         }),
       };

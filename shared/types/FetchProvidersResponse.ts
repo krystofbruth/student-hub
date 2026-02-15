@@ -3,6 +3,7 @@ export interface ProviderView {
   name: string;
   city: string;
   logoUri: string;
+  logoUriDark?: string;
 }
 
 export interface FetchProvidersResponse {

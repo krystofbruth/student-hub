@@ -23,6 +23,7 @@ export const mapIProviderToProviderView = (
     name: provider.name,
     city: provider.city,
     logoUri: provider.logoUri,
+    logoUriDark: provider.logoUriDark,
   };
 };
 
