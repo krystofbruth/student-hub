@@ -45,4 +45,9 @@ export default defineNuxtConfig({
       useCookie: false,
     },
   },
+  app: {
+    head: {
+      title: "StudentHub",
+    },
+  },
 });

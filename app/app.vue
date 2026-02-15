@@ -17,4 +17,14 @@ const nuxtUiLocales: Record<
   cs: cs,
   en: en,
 };
+
+useSeoMeta({
+  ogTitle: "StudentHub",
+  description:
+    "StudentHub je aplikace pro snadnou agregaci veškerých organizačních dat školy.",
+  ogDescription:
+    "StudentHub je aplikace pro snadnou agregaci veškerých organizačních dat školy.",
+  ogImage: "https://studenthub.bruthans.eu/logo-light.svg",
+  robots: "noindex,nofollow",
+});
 </script>
