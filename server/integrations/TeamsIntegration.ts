@@ -3,14 +3,13 @@ import type { Result } from "../helpers/Result";
 import { type EventWithoutId, type Integration } from "../models/Integration";
 import { RegisteredIntegrationNames } from "~~/shared/types/RegisteredIntegrationNames";
 import {
-  scopes,
   redirectUri,
   tenant,
   client_id,
   CreateTeamsSourceCredentialsSchema,
   formattedScopes,
 } from "#shared/types/integrations/teams/AuthorizationFlow";
-import z, { success } from "zod";
+import z from "zod";
 import { ValidationException } from "../exceptions/ValidationException";
 import { ImplementationException } from "../exceptions/ImplementationException";
 import { UnknownException } from "../exceptions/UnknownException";
@@ -23,11 +22,13 @@ import { EventType } from "#imports";
 let integrationActive = true;
 
 // Per documentation: https://learn.microsoft.com/en-us/graph/auth-v2-user?tabs=http
-const client_secret = process.env.TEAMS_CLIENT_SECRET || "";
-if (!process.env.TEAMS_CLIENT_SECRET) {
-  console.error("Teams client secret undefined, Teams integration disabled");
+if (!process.env.SHUB_TEAMS_CLIENT_SECRET || !client_id) {
+  console.error(
+    "Teams client secret or id undefined, Teams integration disabled",
+  );
   integrationActive = false;
 }
+const client_secret = process.env.SHUB_TEAMS_CLIENT_SECRET || "";
 
 export class TeamsIntegration implements Integration {
   public readonly serviceName: RegisteredIntegrationNames =
@@ -91,7 +92,7 @@ export class TeamsIntegration implements Integration {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: new URLSearchParams({
-            client_id: client_id,
+            client_id: client_id!,
             grant_type: "refresh_token",
             scope: formattedScopes,
             refresh_token: credentials.refresh_token,
@@ -151,7 +152,7 @@ export class TeamsIntegration implements Integration {
         ),
       };
 
-    if (!client_secret)
+    if (!client_secret || !client_id)
       return {
         success: false,
         error: new ImplementationException(
@@ -166,12 +167,12 @@ export class TeamsIntegration implements Integration {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: new URLSearchParams({
-            client_id: client_id,
+            client_id: client_id!,
             grant_type: "authorization_code",
             scope: formattedScopes,
             code: validation.data.authorizationToken,
             redirect_uri: redirectUri,
-            client_secret: client_secret,
+            client_secret: client_secret!,
           }),
         },
       );

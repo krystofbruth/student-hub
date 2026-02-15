@@ -1,5 +1,7 @@
 import z from "zod";
 
+// TODO - DONT IMPORT FROM HERE! WHAT IF YOU WANT TO CHANGE ANYTHING? YOU HAVE TO REBUILD BECAUSE ENVs ARE NOT AVAILABLE CLIENT SIDE!
+
 // Exposed values
 export const scopes = [
   "EduAssignments.ReadBasic",
@@ -7,8 +9,11 @@ export const scopes = [
   "User.Read",
 ];
 
-// Dev, override in prod
-export const redirectUri = "http://localhost:3000/register-integration/teams";
+// Prod
+export const redirectUri =
+  "https://studenthub.bruthans.eu/register-integration/teams";
+// Dev
+// export const redirectUri = "http://localhost:3000/register-integration/teams";
 
 export const client_id = "e6886ff2-5a69-4858-8d0f-eb5f040ea436";
 

@@ -59,9 +59,11 @@ export default defineNitroErrorHandler((error, event) => {
   if (error.cause instanceof Exception) exception = error.cause;
   else exception = new UnknownException(error.cause);
 
-  if (exception instanceof UnknownException) console.error(exception);
-
   const response = mapExceptionToErrorResponse(exception);
+
+  if (exception instanceof UnknownException || response.status >= 500)
+    console.error(exception);
+
   setResponseHeader(event, "Content-Type", "application/json");
   setResponseStatus(event, response.status);
   return send(event, JSON.stringify(response));
