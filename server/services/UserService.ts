@@ -8,6 +8,7 @@ import { generatePasswordHash } from "./PasswordService";
 import { ImplementationException } from "../exceptions/ImplementationException";
 import { MongoServerError } from "mongodb";
 import { ConflictException } from "../exceptions/ConflictException";
+import { ValidationException } from "../exceptions/ValidationException";
 
 /** Registers an initially unverified User. */
 export const registerUser = async (
@@ -20,6 +21,24 @@ export const registerUser = async (
   let user: IUser;
 
   try {
+    const allowedDomains = useRuntimeConfig().allowedDomains;
+    if (allowedDomains.length > 0) {
+      const domainPart = /@.+/.exec(email);
+      if (!domainPart)
+        return {
+          success: false,
+          error: new ValidationException({ email: ["invalid-email-format"] }),
+        };
+
+      const domain = domainPart[0].slice(1, domainPart[0].length);
+
+      if (!allowedDomains.some((d) => d === domain))
+        return {
+          success: false,
+          error: new ValidationException({ email: ["domain-not-allowed"] }),
+        };
+    }
+
     const passwordHashAttempt = await generatePasswordHash(password);
     if (!passwordHashAttempt.success) return passwordHashAttempt;
 

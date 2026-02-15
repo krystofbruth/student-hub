@@ -83,6 +83,10 @@
         "conflict": {
           "title": "E-mail registrovaný",
           "description": "Tento e-mail již někdo využívá."
+        },
+        "domain-not-allowed": {
+          "title": "Doména není povolena",
+          "description": "Doména vaší e-mailové adresy není povolena. Obraťte se, prosím, na podporu."
         }
       }
     },

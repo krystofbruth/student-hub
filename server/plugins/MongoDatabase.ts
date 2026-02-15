@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export default defineNitroPlugin(async (nitroApp) => {
-  const dbUri = useRuntimeConfig().dbUri;
+  const dbUri = process.env.DB_URI || useRuntimeConfig().dbUri;
 
   console.info("Connecting to the specified MongoDB database deployment");
   await mongoose.connect(dbUri);

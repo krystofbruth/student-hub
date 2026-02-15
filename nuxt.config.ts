@@ -16,10 +16,11 @@ export default defineNuxtConfig({
     dbUri: process.env.DB_URI || "mongodb://127.0.0.1:27017",
     emailVerification: false,
     appVersion: pkg.version,
+    allowedDomains: ["skola.ssps.cz", "ssps.cz"],
   },
   nitro: {
     experimental: {
-      openAPI: true,
+      openAPI: false,
     },
     openAPI: {
       meta: {

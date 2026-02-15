@@ -190,6 +190,20 @@ const handleSubmit = async (
         description: $t("pages.register.errorResponses.conflict.description"),
         color: "error",
       });
+    } else if (
+      res.error.details.response &&
+      res.error.details.response.code === ErrorCodes.VALIDATION_ERROR &&
+      (res.error.details.response as ValidationErrorResponse).issues.email?.at(
+        0,
+      ) === "domain-not-allowed"
+    ) {
+      toast.add({
+        title: $t("pages.register.errorResponses.domain-not-allowed.title"),
+        description: $t(
+          "pages.register.errorResponses.domain-not-allowed.description",
+        ),
+        color: "error",
+      });
     } else {
       apiExceptionHandler.handleException(res.error);
     }

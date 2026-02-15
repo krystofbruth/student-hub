@@ -82,6 +82,10 @@
         "conflict": {
           "title": "E-mail already registered",
           "description": "There's an account already using this e-mail address."
+        },
+        "domain-not-allowed": {
+          "title": "Domain not allowed",
+          "description": "The provided domain in your isn't allowed. Please contact support for more information."
         }
       }
     },
