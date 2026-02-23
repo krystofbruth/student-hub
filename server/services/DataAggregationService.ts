@@ -95,7 +95,9 @@ const synchronizeSourceEvents = async (
   }
 };
 
-const SYNC_INTERVAL_MS = 1;
+let SYNC_INTERVAL_MS: number;
+if (process.env.NODE_ENV === "development") SYNC_INTERVAL_MS = 1;
+else SYNC_INTERVAL_MS = 1000 * 60 * 5;
 
 /** Handles synchronization as well as synchronization intervals. */
 export const synchronize = async (
