@@ -13,6 +13,7 @@ import {
   SubstitutionsResponse,
 } from "../models/integrations/bakalari/External-SubstitutionsResponse";
 import { BakalariOriginCredentials } from "../models/integrations/bakalari/BakalariCredentials";
+import { Provider } from "../models/Provider";
 
 interface Change {
   description: Record<SupportedLanguages, string>;
