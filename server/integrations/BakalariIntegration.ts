@@ -110,6 +110,7 @@ class BakalariIntegration implements Integration {
           .toISOString()
           .replace(/T.+/, "")
           .replaceAll(/-/g, "");
+        const eventDateString = date.toISOString();
 
         date.setDate(date.getDate() + 1);
 
@@ -153,10 +154,16 @@ class BakalariIntegration implements Integration {
           descriptionsFinalized.cs = `${descriptionsFinalized.cs}**${description.className}**\n${substitutionsStringCs}\n\n---\n\n`;
         }
 
+        if (
+          descriptionsFinalized.cs.length === 0 &&
+          descriptionsFinalized.en.length === 0
+        )
+          continue;
+
         const event: EventWithoutId = {
           sourceId,
           type: EventType.ALTERNATION,
-          dueAt: date,
+          dueAt: new Date(eventDateString),
           uri: originCredentials.publicUri,
           targetId: formattedDate,
           userId,
