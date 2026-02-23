@@ -109,6 +109,9 @@ class BakalariIntegration implements Integration {
           .toISOString()
           .replace(/T.+/, "")
           .replaceAll(/-/g, "");
+
+        date.setDate(date.getDate() + 1);
+
         const res = await fetch(
           `${originCredentials.baseUri}/substitutions/public/${formattedDate}`,
           {
@@ -129,7 +132,6 @@ class BakalariIntegration implements Integration {
           };
 
         const body = (await res.json()) as SubstitutionsResponse;
-        if (body.AbsentClasses.length === 0) continue;
 
         const descriptions = this.createSubstitutionsDescription(body);
 
@@ -165,7 +167,6 @@ class BakalariIntegration implements Integration {
         };
 
         events.push(event);
-        date.setDate(date.getDate() + 1);
       }
 
       return { success: true, data: events };

@@ -95,7 +95,7 @@ const synchronizeSourceEvents = async (
   }
 };
 
-const SYNC_INTERVAL_MS = 1000 * 30;
+const SYNC_INTERVAL_MS = 1;
 
 /** Handles synchronization as well as synchronization intervals. */
 export const synchronize = async (
