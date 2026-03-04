@@ -157,6 +157,11 @@
       "date": "Date of the event",
       "link": "Link to the system",
       "actions": "Actions"
+    },
+    "appMeta": {
+      "title": "Information about the app",
+      "appVersion": "App version",
+      "buildId": "Build"
     }
   },
   "integrations": {
