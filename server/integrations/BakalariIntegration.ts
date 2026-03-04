@@ -22,7 +22,7 @@ interface Change {
 
 interface Substitutions {
   className: string;
-  subsitutions: Change[];
+  changes: Change[];
 }
 
 const translations: Record<SupportedLanguages, Record<ChangeTypes, string>> = {
@@ -100,16 +100,16 @@ class BakalariIntegration implements Integration {
       ).toString("base64");
       const authorization = `Basic ${encodedUsernamePassword}`;
 
-      const date = this.getStartingMonday();
-      // const date = new Date("2026-02-10");
+      const date = new Date();
 
       const events: EventWithoutId[] = [];
 
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 7; i++) {
         const formattedDate = date
           .toISOString()
           .replace(/T.+/, "")
           .replaceAll(/-/g, "");
+
         const eventDateString = date.toISOString();
 
         date.setDate(date.getDate() + 1);
@@ -137,27 +137,7 @@ class BakalariIntegration implements Integration {
 
         const descriptions = this.createSubstitutionsDescription(body);
 
-        const descriptionsFinalized: Record<SupportedLanguages, string> = {
-          en: "",
-          cs: "",
-        };
-
-        for (const description of descriptions) {
-          let substitutionsStringEn = "";
-          let substitutionsStringCs = "";
-          for (const sub of description.subsitutions) {
-            substitutionsStringEn = `${substitutionsStringEn}\n\n${sub.description["en"]}`;
-            substitutionsStringCs = `${substitutionsStringCs}\n\n${sub.description["cs"]}`;
-          }
-
-          descriptionsFinalized.en = `${descriptionsFinalized.en}**${description.className}**\n${substitutionsStringEn}\n\n---\n\n`;
-          descriptionsFinalized.cs = `${descriptionsFinalized.cs}**${description.className}**\n${substitutionsStringCs}\n\n---\n\n`;
-        }
-
-        if (
-          descriptionsFinalized.cs.length === 0 &&
-          descriptionsFinalized.en.length === 0
-        )
+        if (descriptions.cs.length === 0 && descriptions.en.length === 0)
           continue;
 
         const event: EventWithoutId = {
@@ -171,9 +151,8 @@ class BakalariIntegration implements Integration {
             en: `Timetable alternations`,
             cs: "Změny v rozvrhu",
           },
-          description: descriptionsFinalized,
+          description: descriptions,
         };
-
         events.push(event);
       }
 
@@ -182,22 +161,10 @@ class BakalariIntegration implements Integration {
       return { success: false, error: new UnknownException(error) };
     }
   }
-  public async createSource(credentials: any): Promise<Result<any>> {
-    // Doesn't return any specific user info at this time.
-    return { success: true, data: undefined };
-  }
-  public async unlinkSource(source: ISource): Promise<void> {
-    return;
-  }
-
-  private mapHourToIndex(hourLabels: string[], hour: string): number {
-    const index = hourLabels.findIndex((p) => p === hour);
-    return index;
-  }
 
   private createSubstitutionsDescription(
     substitutionsResponse: SubstitutionsResponse,
-  ): Substitutions[] {
+  ): Record<SupportedLanguages, string> {
     const subsitutions: Substitutions[] = [];
 
     for (const classValue of substitutionsResponse.ChangesForClasses) {
@@ -208,8 +175,20 @@ class BakalariIntegration implements Integration {
           lesson.Hour,
         );
         const descriptions = {
-          cs: `${lesson.Hour}. ${hourTranslation.cs} ${lesson.Subject}${lesson.Group.length > 0 ? `-${lesson.Group}` : ""} ${translations.cs[lesson.ChgType1]} ${lesson.Teacher}`,
-          en: `${lesson.Hour}. ${hourTranslation.en} ${lesson.Subject}${lesson.Group.length > 0 ? `-${lesson.Group}` : ""} ${translations.en[lesson.ChgType1]} ${lesson.Teacher}`,
+          cs: this.createChangeDescription(SupportedLanguages.cs, {
+            hour: lesson.Hour,
+            subject: lesson.Subject,
+            changeType1: lesson.ChgType1,
+            group: lesson.Group,
+            teacher: lesson.Teacher,
+          }),
+          en: this.createChangeDescription(SupportedLanguages.en, {
+            hour: lesson.Hour,
+            subject: lesson.Subject,
+            changeType1: lesson.ChgType1,
+            group: lesson.Group,
+            teacher: lesson.Teacher,
+          }),
         };
         changes.push({ hour: hourIndex, description: descriptions });
       }
@@ -220,8 +199,18 @@ class BakalariIntegration implements Integration {
           lesson.Hour,
         );
         const descriptions = {
-          cs: `${lesson.Hour}. ${hourTranslation.cs} ${lesson.Subject}${lesson.Group.length > 0 ? `-${lesson.Group}` : ""} ${translations.cs[lesson.ChgType1]}`,
-          en: `${lesson.Hour}. ${hourTranslation.en} ${lesson.Subject}${lesson.Group.length > 0 ? `-${lesson.Group}` : ""} ${translations.en[lesson.ChgType1]}`,
+          cs: this.createChangeDescription(SupportedLanguages.cs, {
+            hour: lesson.Hour,
+            subject: lesson.Subject,
+            changeType1: lesson.ChgType1,
+            group: lesson.Group,
+          }),
+          en: this.createChangeDescription(SupportedLanguages.en, {
+            hour: lesson.Hour,
+            subject: lesson.Subject,
+            changeType1: lesson.ChgType1,
+            group: lesson.Group,
+          }),
         };
         changes.push({ hour: hourIndex, description: descriptions });
       }
@@ -238,26 +227,54 @@ class BakalariIntegration implements Integration {
 
       subsitutions.push({
         className: classValue.Class.Abbrev,
-        subsitutions: changes,
+        changes,
       });
     }
 
-    return subsitutions;
-  }
+    const descriptionsFinalized: Record<SupportedLanguages, string> = {
+      en: "",
+      cs: "",
+    };
 
-  private getStartingMonday(): Date {
-    const today = new Date();
+    for (const substitution of subsitutions) {
+      let substitutionsStringEn = "";
+      let substitutionsStringCs = "";
+      for (const change of substitution.changes) {
+        substitutionsStringEn = `${substitutionsStringEn}\n\n${change.description["en"]}`;
+        substitutionsStringCs = `${substitutionsStringCs}\n\n${change.description["cs"]}`;
+      }
 
-    const monday: Date = new Date();
-    if (today.getDay() === 0) {
-      monday.setDate(today.getDate() + 1);
-    } else if (today.getDay() === 6) {
-      monday.setDate(today.getDate() + 2);
-    } else {
-      monday.setDate(monday.getDate() - monday.getDay() + 1);
+      descriptionsFinalized.en = `${descriptionsFinalized.en}**${substitution.className}**\n${substitutionsStringEn}\n\n---\n\n`;
+      descriptionsFinalized.cs = `${descriptionsFinalized.cs}**${substitution.className}**\n${substitutionsStringCs}\n\n---\n\n`;
     }
 
-    return monday;
+    return descriptionsFinalized;
+  }
+
+  private createChangeDescription(
+    lang: SupportedLanguages,
+    details: {
+      hour: string;
+      subject: string;
+      group?: string;
+      changeType1: ChangeTypes;
+      teacher?: string;
+    },
+  ) {
+    return `${details.hour}. ${hourTranslation[lang]} ${details.subject}${details.group && details.group.length > 0 ? `-${details.group}` : ""} ${translations[lang][details.changeType1]} ${details.teacher && details.teacher.length > 0 ? details.teacher : ""}`;
+  }
+
+  public async createSource(credentials: any): Promise<Result<any>> {
+    // Doesn't return any specific user info at this time.
+    return { success: true, data: undefined };
+  }
+  public async unlinkSource(source: ISource): Promise<void> {
+    return;
+  }
+
+  private mapHourToIndex(hourLabels: string[], hour: string): number {
+    const index = hourLabels.findIndex((p) => p === hour);
+    return index;
   }
 }
 
