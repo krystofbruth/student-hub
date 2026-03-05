@@ -7,7 +7,9 @@
         {{ $t("pages.user-registration-result.success.description") }}
       </p>
 
-      <NuxtLink to="/login" class="font-bold flex items-center gap-1"
+      <NuxtLink
+        to="/login"
+        class="font-bold flex items-center gap-1 self-center"
         >{{ $t("pages.user-registration-result.success.loginButton") }}
         <UIcon name="lucide:arrow-right" class="size-5"
       /></NuxtLink>

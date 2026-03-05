@@ -33,8 +33,8 @@
           class="flex flex-col gap-3 items-stretch"
           :validate-on="['blur']"
           :validate="handleValidation"
-          @submit="handleSubmit"
-          :disabled="loadingResponse"
+          @submit="loginStateHandler.handle"
+          :disabled="loginStateHandler.isLoading.value"
         >
           <UFormField :label="$t('pages.login.emailLabel')" name="email">
             <UInput
@@ -53,7 +53,7 @@
           </UFormField>
 
           <UButton
-            v-if="!loadingResponse"
+            v-if="!loginStateHandler.isLoading.value"
             type="submit"
             class="hover:cursor-pointer flex justify-between items-center"
           >
@@ -93,16 +93,45 @@ import { ApiException, AuthReason } from "~/types/Exceptions";
 import { useApiExceptionErrorHandler } from "~/composables/ApiExceptionErrorHandler";
 import { getRedirectFromLoginPath } from "~/utils/loginRedirectPath";
 
+const handleSubmit = async (submission: FormSubmitEvent<LoginRequest>) => {
+  const res = await request<LoginRequest, LoginResponse>("/api/session", {
+    method: "POST",
+    body: submission.data,
+  });
+
+  if (!res.success) {
+    if (
+      res.error instanceof ApiException &&
+      res.error.details.response &&
+      res.error.details.response.status === 400
+    )
+      toast.add({
+        title: i18n.t("toasts.login.invalid-credentials.title"),
+        description: i18n.t("toasts.login.invalid-credentials.description"),
+        color: "error",
+      });
+    else apiExceptionHandler.handleException(res.error);
+    return;
+  }
+
+  saveCredentials(
+    res.data.tokens.accessToken,
+    new Date(res.data.accessTokenExpiration),
+    res.data.tokens.refreshToken,
+  );
+  router.push(getRedirectFromLoginPath());
+};
+
 const state = reactive<Partial<LoginRequest>>({
   email: "",
   password: "",
 });
-const loadingResponse = ref(false);
 const i18n = useI18n();
 const router = useRouter();
 const loginForm = useTemplateRef("login-form");
 const toast = useToast();
 const apiExceptionHandler = useApiExceptionErrorHandler();
+const loginStateHandler = useStateHandler(handleSubmit);
 
 // If locale changes, the errors need to be refreshed :C
 watch(i18n.locale, () => {
@@ -160,37 +189,4 @@ onMounted(async () => {
       break;
   }
 });
-
-const handleSubmit = async (submission: FormSubmitEvent<LoginRequest>) => {
-  if (loadingResponse.value) return;
-
-  loadingResponse.value = true;
-  const res = await request<LoginRequest, LoginResponse>("/api/session", {
-    method: "POST",
-    body: submission.data,
-  });
-  loadingResponse.value = false;
-
-  if (!res.success) {
-    if (
-      res.error instanceof ApiException &&
-      res.error.details.response &&
-      res.error.details.response.status === 400
-    )
-      toast.add({
-        title: i18n.t("toasts.login.invalid-credentials.title"),
-        description: i18n.t("toasts.login.invalid-credentials.description"),
-        color: "error",
-      });
-    else apiExceptionHandler.handleException(res.error);
-    return;
-  }
-
-  saveCredentials(
-    res.data.tokens.accessToken,
-    new Date(res.data.accessTokenExpiration),
-    res.data.tokens.refreshToken,
-  );
-  router.push(getRedirectFromLoginPath());
-};
 </script>

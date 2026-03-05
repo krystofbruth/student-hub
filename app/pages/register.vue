@@ -42,7 +42,8 @@
           :validate="handleValidation"
           :validate-on="['blur']"
           :schema="registerFormSchema"
-          @submit="handleSubmit"
+          @submit="registerStateHandler.handle"
+          :disabled="registerStateHandler.isLoading.value"
           ref="registerForm"
         >
           <UFormField
@@ -90,12 +91,11 @@
             ></UInput>
           </UFormField>
 
-          <UButton
-            class="flex justify-between items-center cursor-pointer"
+          <XButton
+            title-key="pages.register.registerButton"
             type="submit"
-            >{{ $t("pages.register.registerButton")
-            }}<UIcon class="size-4" name="lucide:arrow-right"
-          /></UButton>
+            :is-loading="registerStateHandler.isLoading.value"
+          />
         </UForm>
       </div>
     </template>
@@ -108,6 +108,7 @@ import z from "zod";
 import Logo from "~/components/brand/Logo.vue";
 import ShortDescription from "~/components/brand/ShortDescription.vue";
 import PasswordChecker from "~/components/utilities/PasswordChecker.vue";
+import XButton from "~/components/utilities/XButton.vue";
 import { ApiException } from "~/types/Exceptions";
 
 const registerFormSchema = CreateUserRequestSchema.extend({
@@ -226,4 +227,6 @@ const handleSubmit = async (
 
   router.push(redirectionUri);
 };
+
+const registerStateHandler = useStateHandler(handleSubmit);
 </script>
