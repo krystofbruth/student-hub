@@ -6,18 +6,22 @@
     <nav>
       <ul class="flex flex-col gap-5 items-start pt-14">
         <li>
-          <NuxtLink to="/dashboard">{{ $t("navigation.dashboard") }}</NuxtLink>
+          <NuxtLink class="flex h-full" to="/dashboard">{{
+            $t("navigation.dashboard")
+          }}</NuxtLink>
         </li>
         <li>
-          <NuxtLink to="/integrations">{{
+          <NuxtLink class="flex h-full" to="/integrations">{{
             $t("navigation.integrations")
           }}</NuxtLink>
         </li>
         <li>
-          <NuxtLink to="/settings">{{ $t("navigation.settings") }}</NuxtLink>
+          <NuxtLink class="flex h-full" to="/settings">{{
+            $t("navigation.settings")
+          }}</NuxtLink>
         </li>
         <li>
-          <a class="hover:cursor-pointer" @mouseup="handleLogout">{{
+          <a class="hover:cursor-pointer flex h-full" @mouseup="handleLogout">{{
             $t("navigation.log-out")
           }}</a>
         </li>
