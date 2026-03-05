@@ -18,14 +18,19 @@
             label-key="modals.eventDetail.dueDate"
           >
             <p>
-              {{ event.dueAt.toLocaleString($i18n.locale) }}
+              {{
+                event.dueAt.toLocaleString($i18n.locale, {
+                  weekday: "long",
+                  month: "long",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "2-digit",
+                })
+              }}
             </p>
           </CardProperty>
 
-          <CardProperty
-            v-else="props.event.type === EventType.ASSIGNMENT"
-            label-key="modals.eventDetail.date"
-          >
+          <CardProperty v-else label-key="modals.eventDetail.date">
             <p>
               {{ event.dueAt.toLocaleDateString($i18n.locale) }}
             </p>
@@ -65,6 +70,7 @@
 </template>
 
 <script setup lang="ts">
+import { min } from "moment";
 import type { Event } from "../../stores/EventStore";
 import Card from "../cards/Card.vue";
 import SourceCard from "../cards/SourceCard.vue";
@@ -74,8 +80,6 @@ import showdown from "showdown";
 const emits = defineEmits(["close"]);
 const props = defineProps<{ event: Event }>();
 const i18n = useI18n();
-
-console.log(props.event);
 
 const description = computed(() => {
   const converter = new showdown.Converter();

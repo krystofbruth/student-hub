@@ -14,7 +14,7 @@ export const useTimeDurationHandler = () => {
       const months = Math.floor(deltaSeconds / 60 / 60 / 24 / 30) % 12;
       const years = Math.floor(deltaSeconds / 60 / 60 / 24 / 30 / 12);
 
-      //@ts-ignore Incomplete definitions, for docs visit https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DurationFormat/DurationFormat#browser_compatibility
+      //@ts-ignore Incomplete definitions, for docs visit https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DurationFormat/DurationFormat
       const intl = new Intl.DurationFormat(locale, { style: "long" });
 
       if (years > 0) return intl.format({ years, months });
