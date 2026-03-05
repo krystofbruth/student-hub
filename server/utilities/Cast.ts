@@ -1,8 +1,10 @@
 import mongoose from "mongoose";
 import { UtilityResult } from "./UtilityResult";
+import type { H3Event } from "h3";
 
 export const CastStringToObjectId = (
-  input: string
+  event: H3Event,
+  input: string,
 ): UtilityResult<mongoose.Types.ObjectId> => {
   try {
     return { success: true, data: new mongoose.Types.ObjectId(input) };
@@ -14,6 +16,7 @@ export const CastStringToObjectId = (
       success: false,
       issues: { id: ["Not a valid ObjectId"] },
     };
+    setResponseStatus(event, 400);
     return { success: false, errorResponse };
   }
 };

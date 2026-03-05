@@ -50,4 +50,11 @@ export default defineNuxtConfig({
       title: "StudentHub",
     },
   },
+  typescript: {
+    tsConfig: {
+      compilerOptions: {
+        verbatimModuleSyntax: false,
+      },
+    },
+  },
 });

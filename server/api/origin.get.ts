@@ -52,7 +52,10 @@ export default defineEventHandler(
 
     let providerId: mongoose.Types.ObjectId | undefined = undefined;
     if (queryValidation.data.providerId) {
-      const castAttempt = CastStringToObjectId(queryValidation.data.providerId);
+      const castAttempt = CastStringToObjectId(
+        event,
+        queryValidation.data.providerId,
+      );
       if (!castAttempt.success) return castAttempt.errorResponse;
       providerId = castAttempt.data;
     }

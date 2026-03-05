@@ -26,7 +26,7 @@ export default defineEventHandler(
       };
     }
 
-    const sourceIdCast = CastStringToObjectId(sourceIdParam);
+    const sourceIdCast = CastStringToObjectId(event, sourceIdParam);
     if (!sourceIdCast.success) return sourceIdCast.errorResponse;
     const sourceId = sourceIdCast.data;
 

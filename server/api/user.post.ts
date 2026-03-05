@@ -46,7 +46,7 @@ export default defineEventHandler(
   async (event): Promise<CreateUserResponse | ErrorResponse> => {
     const validation = await ValidateRequestBody<CreateUserRequest>(
       event,
-      CreateUserRequestSchema
+      CreateUserRequestSchema,
     );
     if (!validation.success) return validation.errorResponse;
 
@@ -56,12 +56,13 @@ export default defineEventHandler(
       body.email,
       body.displayName,
       body.email,
-      body.password
+      body.password,
     );
     if (!result.success) throw result.error;
 
+    setResponseStatus(event, 201);
     const response: CreateUserResponse = { success: true, status: 201 };
 
     return response;
-  }
+  },
 );

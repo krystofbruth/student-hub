@@ -15,7 +15,7 @@ export default defineEventHandler(
     const authAttempt = await Authorize(event);
     if (!authAttempt.success) return authAttempt.errorResponse;
 
-    const userId = CastStringToObjectId(authAttempt.data.userId);
+    const userId = CastStringToObjectId(event, authAttempt.data.userId);
     if (!userId.success)
       throw new Error(
         `Unpacked authorization token contained invalid userId ${authAttempt.data.userId}`,

@@ -8,7 +8,7 @@ import { UtilityResult } from "./UtilityResult";
 
 export async function ValidateRequestBody<T>(
   event: H3Event,
-  schema: z.ZodObject
+  schema: z.ZodObject,
 ): Promise<UtilityResult<T>> {
   const validation = schema.safeParse(await readBody(event));
 
@@ -20,6 +20,7 @@ export async function ValidateRequestBody<T>(
       success: false,
       issues: z.flattenError(validation.error).fieldErrors,
     };
+    setResponseStatus(event, 400);
     return { success: false, errorResponse };
   }
 
@@ -28,7 +29,7 @@ export async function ValidateRequestBody<T>(
 
 export async function ValidateQueryParameters<T>(
   event: H3Event,
-  schema: z.ZodObject
+  schema: z.ZodObject,
 ): Promise<UtilityResult<T>> {
   const validation = schema.safeParse(getQuery(event));
 
@@ -40,6 +41,7 @@ export async function ValidateQueryParameters<T>(
       success: false,
       issues: z.flattenError(validation.error).fieldErrors,
     };
+    setResponseStatus(event, 400);
     return { success: false, errorResponse };
   }
 

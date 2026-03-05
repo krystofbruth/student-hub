@@ -22,7 +22,7 @@ export default defineEventHandler(
     if (!bodyValidation.success) return bodyValidation.errorResponse;
     const body = bodyValidation.data;
 
-    const originIdCast = CastStringToObjectId(body.originId);
+    const originIdCast = CastStringToObjectId(event, body.originId);
     if (!originIdCast.success) return originIdCast.errorResponse;
     const originId = originIdCast.data;
 

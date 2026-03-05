@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { EventType } from "./Event";
+import { EventType } from "#shared/types/FetchEventsResponse";
 
 export interface IGroupEvent {
   _id: mongoose.Types.ObjectId;

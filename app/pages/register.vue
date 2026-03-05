@@ -212,10 +212,11 @@ const handleSubmit = async (
   }
 
   let redirectionUri: string;
-  switch (res.data.registrationStatus) {
-    case UserRegistrationStatus.EMAIL_VERIFICATION_REQUIRED:
-      redirectionUri = "/user-registration-result/active";
-      break;
+  // switch (res.data.registrationStatus) {
+  switch (UserRegistrationStatus.USER_ACTIVE) {
+    // case UserRegistrationStatus.EMAIL_VERIFICATION_REQUIRED:
+    //   redirectionUri = "/user-registration-result/active";
+    //   break;
     default:
       console.error("No user registration status advised in response!");
     case UserRegistrationStatus.USER_ACTIVE:
