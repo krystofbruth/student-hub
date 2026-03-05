@@ -26,10 +26,7 @@
             ><UIcon name="lucide:info" />
             {{ $t("components.Source.actions.moreInfo") }}</UButton
           >
-          <SourceDeletionModal
-            :source-title="source.origin.name"
-            :callback="handleSourceDeletion"
-          />
+          <SourceDeletionModal :source="source" />
         </footer>
       </div>
     </div>
@@ -81,17 +78,4 @@ onBeforeMount(async () => {
 
   origin.value = source.value.origin;
 });
-
-const handleSourceDeletion = async (confirmed: boolean) => {
-  if (!confirmed) return;
-
-  const res = await sourceStore.deleteSource(props.sourceId);
-  if (!res.success) apiExceptionHandler.handleException(res.error);
-  else
-    toast.add({
-      color: "success",
-      title: $t("toasts.sources.deletionSuccess.title"),
-      description: $t("toasts.sources.deletionSuccess.description"),
-    });
-};
 </script>
