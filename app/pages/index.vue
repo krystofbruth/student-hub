@@ -4,5 +4,5 @@
 
 <script setup lang="ts">
 // To be changed
-navigateTo("/login");
+await navigateTo("/login");
 </script>

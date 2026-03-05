@@ -73,6 +73,10 @@ onBeforeMount(async () => {
     origin.value = originStore.origins.find((o) => o._id === props.originId);
   }
 
-  await sourceStore.fetchSources();
+  if (
+    !sourceStore.lastSync ||
+    Date.now() - sourceStore.lastSync.getTime() > 30 * 60 * 1000
+  )
+    sourceStore.fetchSources();
 });
 </script>

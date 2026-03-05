@@ -75,6 +75,7 @@ const open = ref(false);
 const emits = defineEmits(["connected"]);
 const toast = useToast();
 const darkModeStore = useDarkModeStore();
+const sourceStore = useSourceStore();
 
 const handleModalClose = () => {
   open.value = false;
@@ -83,6 +84,7 @@ const handleModalClose = () => {
     description: $t("toasts.sources.creationSuccess.description"),
     color: "success",
   });
+  sourceStore.fetchSources();
 };
 
 const modalMap: Record<RegisteredIntegrationNames, Component> = {

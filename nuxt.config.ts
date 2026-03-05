@@ -57,4 +57,9 @@ export default defineNuxtConfig({
       },
     },
   },
+  vite: {
+    optimizeDeps: {
+      exclude: ["@nuxt/ui"],
+    },
+  },
 });

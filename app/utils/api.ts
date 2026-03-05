@@ -1,4 +1,4 @@
-import { ApiException, AuthReason } from "~/types/Exceptions";
+import { ApiException, AuthReason } from "../types/Exceptions";
 import type { Result } from "~/types/Result";
 
 const LOCAL_STORAGE_REFRESH_TOKEN_KEY = "auth_refresh-token";

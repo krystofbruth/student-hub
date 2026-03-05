@@ -66,6 +66,8 @@ const handleSourceDeletion = async () => {
       description: $t("toasts.sources.deletionSuccess.description"),
     });
     overlay.closeAll();
+    open.value = false;
+    sourceStore.fetchSources();
   }
 };
 
