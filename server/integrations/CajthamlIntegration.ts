@@ -70,7 +70,7 @@ class CajthamlIntegration implements Integration {
         { method: "GET", headers: { "User-Agent": USER_AGENT } },
       );
       if (!res.ok) {
-        if (res.status === 400)
+        if (res.status === 400 || res.status === 401)
           return {
             success: false,
             error: new ValidationException({

@@ -26,7 +26,7 @@
 
     <UForm
       class="flex flex-col gap-2"
-      @submit="handleSubmit"
+      @submit="creationStateHandler.handle"
       :state="state"
       :schema="CreateSSPSCajthamlSourceCredentialsSchema"
     >
@@ -52,17 +52,22 @@
         />
       </UFormField>
 
-      <UButton color="info" class="cursor-pointer w-fit" type="submit"
-        ><UIcon name="lucide:link" />{{
-          $t("integrations.ssps_cajthaml.sourceCreation.submitButton")
-        }}</UButton
-      >
+      <XButton
+        title-key="integrations.ssps_cajthaml.sourceCreation.submitButton"
+        icon-key="lucide:link"
+        color="info"
+        type="submit"
+        :is-loading="creationStateHandler.isLoading.value"
+        icon-position="before"
+        class="w-fit"
+      />
     </UForm>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { FormError, FormSubmitEvent } from "@nuxt/ui";
+import XButton from "~/components/utilities/XButton.vue";
 import { ApiException } from "~/types/Exceptions";
 import {
   CreateSSPSCajthamlSourceCredentialsSchema,
@@ -107,4 +112,6 @@ const handleSubmit = async (
 
   props.closeSuccess();
 };
+
+const creationStateHandler = useStateHandler(handleSubmit);
 </script>
