@@ -18,9 +18,12 @@
 
       <p
         class="text-muted text-sm cursor-pointer flex items-center gap-0.5 hover:text-inherit transition"
-        @click="forceSyncEvents"
+        @click="forceSyncEventsHandler.handle"
       >
-        <UIcon name="lucide:refresh-cw" />
+        <UIcon
+          name="lucide:refresh-cw"
+          :class="{ 'animate-spin': forceSyncEventsHandler.isLoading.value }"
+        />
         {{ $t("modules.EventView.refresh") }}
       </p>
     </header>
@@ -65,6 +68,8 @@ const syncEvents = async () => {
   if (!res.success) apiExceptionHandler.handleException(res.error);
   return res;
 };
+
+const forceSyncEventsHandler = useStateHandler(forceSyncEvents);
 
 onMounted(async () => {
   await syncEvents();
