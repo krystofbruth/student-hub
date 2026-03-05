@@ -25,7 +25,10 @@
         <slot></slot>
       </div>
       <footer class="w-full">
-        <SourceCreationModal :origin="origin" />
+        <SourceCreationModal v-if="!sourceLimitReached" :origin="origin" />
+        <p v-else class="text-warning">
+          {{ $t("components.Origin.limitReached") }}
+        </p>
       </footer>
     </div>
     <div v-else class="flex flex-col items-center gap-4 p-2 box-border h-full">
@@ -43,11 +46,19 @@ import SourceCreationModal from "../modals/SourceCreationModal.vue";
 import CardProperty from "../utilities/CardProperty.vue";
 
 const originStore = useOriginStore();
+const sourceStore = useSourceStore();
 const apiExceptionHandler = useApiExceptionErrorHandler();
 const props = defineProps<{
   originId: string;
 }>();
 const darkModeStore = useDarkModeStore();
+const sourceLimitReached = computed(() => {
+  const sources = sourceStore.sources.filter(
+    (s) => s.origin._id === props.originId,
+  );
+  if (sources.length >= origin.value!.maxSources) return true;
+  else return false;
+});
 
 const origin = ref<OriginView | undefined>();
 
@@ -61,5 +72,7 @@ onBeforeMount(async () => {
     }
     origin.value = originStore.origins.find((o) => o._id === props.originId);
   }
+
+  await sourceStore.fetchSources();
 });
 </script>

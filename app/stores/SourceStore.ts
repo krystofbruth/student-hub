@@ -1,11 +1,18 @@
 import type { Result } from "~/types/Result";
 import type { CreateSourceResponse } from "~~/shared/types/CreateSourceResponse";
 
+const SYNC_LIMIT_MS = 15 * 1000;
+
 export const useSourceStore = defineStore("source", () => {
   // TODO: Use a transformated object with types such as `Date`
   const sources = ref<SourceView[]>([]);
+  let lastSync: Date | undefined;
 
   const fetchSources = async (): Promise<Result<undefined>> => {
+    if (lastSync && Date.now() - lastSync.getTime() < SYNC_LIMIT_MS)
+      return { success: true, data: undefined };
+    lastSync = new Date();
+
     const res = await request<undefined, ListSourcesResponse>("/api/source", {
       method: "GET",
       body: undefined,

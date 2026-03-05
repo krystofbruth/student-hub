@@ -15,6 +15,7 @@ export interface OriginView {
   };
   logoUri: string;
   logoUriDark?: string;
+  maxSources: number;
 }
 
 export interface FetchOriginsResponse {

@@ -23,7 +23,8 @@
     "Origin": {
       "actions": {
         "connect": "Connect"
-      }
+      },
+      "limitReached": "You have reached the maximum limit of connections."
     },
     "Source": {
       "provider": "Provider",

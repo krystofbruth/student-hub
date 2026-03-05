@@ -24,7 +24,8 @@
     "Origin": {
       "actions": {
         "connect": "Připojit"
-      }
+      },
+      "limitReached": "Naplnili jste maximální limit možných připojení."
     },
     "Source": {
       "provider": "Poskytovatel",
