@@ -6,6 +6,7 @@ import { UnknownException } from "../exceptions/UnknownException";
 import { NotFoundException } from "../exceptions/NotFoundException";
 import { getOrigin } from "./OriginService";
 import { synchronize } from "./DataAggregationService";
+import { LimitReachedException } from "../exceptions/LimitReachedException";
 
 export const getSource = async (
   sourceId: mongoose.Types.ObjectId,
@@ -50,6 +51,16 @@ export const createSource = async (
     if (!originLookup.success) return originLookup;
 
     const origin = originLookup.data;
+
+    const sourcesOfOriginCount = await Source.countDocuments({
+      originId: origin._id,
+      userId,
+    });
+    if (sourcesOfOriginCount >= origin.maxSources)
+      return {
+        success: false,
+        error: new LimitReachedException(origin.maxSources),
+      };
 
     const integration = await IntegrationMap[origin.integrationName]();
     const credentialsAttempt = await integration.createSource(credentials);

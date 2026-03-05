@@ -35,8 +35,10 @@ export const useApiExceptionErrorHandler = () => {
       exception.details.response.status <= 599
     ) {
       toastKey = "toasts.errors.server";
-    } else {
+    } else if (exception.reason === "error_response") {
       toastKey = "toasts.errors.unknown";
+    } else {
+      toastKey = "toasts.errors.network";
     }
 
     toast.add({

@@ -24,6 +24,7 @@ export interface IOrigin {
   logoUri: string;
   logoUriDark?: string;
   credentials?: any;
+  maxSources: number;
 }
 
 const originSchema = new mongoose.Schema<IOrigin>({
@@ -73,6 +74,10 @@ const originSchema = new mongoose.Schema<IOrigin>({
   credentials: {
     type: Object,
     required: false,
+  },
+  maxSources: {
+    type: Number,
+    required: true,
   },
 });
 

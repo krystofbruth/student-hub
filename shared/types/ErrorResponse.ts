@@ -8,6 +8,7 @@ export enum ErrorCodes {
   AUTHENTICATION_ERROR = "AUTHENTICATION_ERROR",
   SYNCHRONIZATION_ERROR = "SYNCHRONIZATION_ERROR",
   THIRD_PARTY_API = "THIRD_PARTY_API",
+  LIMIT_REACHED = "LIMIT_REACHED",
 }
 
 export interface ErrorResponse {
@@ -19,4 +20,8 @@ export interface ErrorResponse {
 
 export interface ValidationErrorResponse extends ErrorResponse {
   issues: { [key: string]: string[] | undefined };
+}
+
+export interface LimitErrorResponse extends ErrorResponse {
+  limit: number;
 }

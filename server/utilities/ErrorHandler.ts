@@ -1,9 +1,11 @@
 import {
   ErrorCodes,
   ErrorResponse,
+  LimitErrorResponse,
   ValidationErrorResponse,
 } from "#shared/types/ErrorResponse";
 import { Exception } from "../exceptions/Exception";
+import { LimitReachedException } from "../exceptions/LimitReachedException";
 import { UnknownException } from "../exceptions/UnknownException";
 import { ValidationException } from "../exceptions/ValidationException";
 
@@ -28,6 +30,15 @@ const mapExceptionToErrorResponse = (exception: Exception): ErrorResponse => {
       issues: exception.errors,
     };
     return validationErrorResponse;
+  } else if (exception instanceof LimitReachedException) {
+    const limitErrorResponse: LimitErrorResponse = {
+      success: false,
+      status,
+      code,
+      message,
+      limit: exception.limit,
+    };
+    return limitErrorResponse;
   }
 
   return { status, success: false, code, message };
@@ -43,6 +54,7 @@ export const mapErrorCodeToHTTPStatus = (code: ErrorCodes): number => {
       return 409;
     case ErrorCodes.VALIDATION_ERROR:
     case ErrorCodes.AUTHENTICATION_ERROR:
+    case ErrorCodes.LIMIT_REACHED:
       return 400;
     case ErrorCodes.INTERNAL_SERVER_ERROR:
     default:
