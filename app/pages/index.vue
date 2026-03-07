@@ -3,6 +3,7 @@
 </template>
 
 <script setup lang="ts">
-// To be changed
-await navigateTo("/login");
+definePageMeta({
+  middleware: () => navigateTo("/login"),
+});
 </script>
