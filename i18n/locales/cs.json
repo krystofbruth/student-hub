@@ -132,7 +132,17 @@
       }
     },
     "settings": {
-      "profile-title": "Profil"
+      "profile-title": "Profil",
+      "security": {
+        "title": "Zabezpečení",
+        "current-password-input": "Aktuální heslo",
+        "new-password-input": "Nové heslo",
+        "new-password-repeat-input": "Zopakujte nové heslo"
+      },
+      "displayNameLabel": "Zobrazované jméno",
+      "title": "Nastavení",
+      "saveButton": "Uložit",
+      "changePasswordButton": "Změnit heslo"
     }
   },
   "modals": {

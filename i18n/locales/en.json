@@ -131,7 +131,17 @@
       }
     },
     "settings": {
-      "profile-title": "Profile"
+      "profile-title": "Profile",
+      "security": {
+        "title": "Security",
+        "current-password-input": "Current password",
+        "new-password-input": "New password",
+        "new-password-repeat-input": "Repeat new password"
+      },
+      "displayNameLabel": "Display name",
+      "title": "Settings",
+      "saveButton": "Uložit",
+      "changePasswordButton": "Change password"
     }
   },
   "modals": {

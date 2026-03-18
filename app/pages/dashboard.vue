@@ -1,9 +1,7 @@
 <template>
   <NuxtLayout name="protected-layout">
-    <div class="flex flex-col gap-3">
-      <h1>{{ $t("pages.dashboard.title") }}</h1>
-      <EventView />
-    </div>
+    <h1>{{ $t("pages.dashboard.title") }}</h1>
+    <EventView />
   </NuxtLayout>
 </template>
 

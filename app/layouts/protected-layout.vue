@@ -20,7 +20,7 @@
         </template>
       </ProfileCard>
     </header>
-    <main class="box-border p-5">
+    <main class="box-border p-5 flex flex-col gap-5">
       <slot />
     </main>
   </div>
