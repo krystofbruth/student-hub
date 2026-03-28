@@ -135,6 +135,7 @@
       "profile-title": "Profil",
       "security": {
         "title": "Zabezpečení",
+        "change-password-title": "Změna hesla",
         "current-password-input": "Aktuální heslo",
         "new-password-input": "Nové heslo",
         "new-password-repeat-input": "Zopakujte nové heslo"

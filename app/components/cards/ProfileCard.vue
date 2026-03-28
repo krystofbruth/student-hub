@@ -1,10 +1,10 @@
 <template>
   <article
-    class="rounded-md box-border flex items-center h-fit gap-3 select-none"
+    class="rounded-md box-border flex items-center h-8 gap-3 select-none"
   >
     <p class="font-bold">{{ profile?.displayName }}</p>
     <img
-      class="object-fill rounded-full h-8"
+      class="object-fill rounded-full h-full"
       src="/unknown-user.jpg"
       alt="User's profile picture"
     />

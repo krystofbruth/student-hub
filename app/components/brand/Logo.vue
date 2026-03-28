@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 box-border flex justify-center">
+  <div class="box-border flex justify-center">
     <img
       v-if="darkModeStore.darkMode"
       src="/logo-dark.svg"
@@ -7,7 +7,7 @@
     />
     <img
       v-else
-      src="/logo-light.svg"
+      src="/favicon-light.svg"
       alt="Logo of the StudentHub app (light variant)"
       class="h-full w-full bg-contain max-w-full"
     />

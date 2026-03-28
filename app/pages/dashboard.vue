@@ -1,6 +1,5 @@
 <template>
   <NuxtLayout name="protected-layout">
-    <h1>{{ $t("pages.dashboard.title") }}</h1>
     <EventView />
   </NuxtLayout>
 </template>

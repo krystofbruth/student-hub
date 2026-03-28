@@ -1,7 +1,5 @@
 <template>
   <NuxtLayout name="protected-layout">
-    <h1>{{ $t("pages.integrations.title") }}</h1>
-
     <article
       class="bg-accented rounded-md p-3 box-border flex flex-col gap-2.5"
     >
