@@ -1,22 +1,21 @@
 <template>
   <div class="box-border flex justify-center">
-    <img
-      v-if="darkModeStore.darkMode"
-      src="/logo-dark.svg"
+    <UColorModeImage
+      :light="`/${logoVariant}-light.svg`"
+      :dark="`/${logoVariant}-dark.svg`"
       alt="Logo of the StudentHub app (dark variant)"
-    />
-    <img
-      v-else
-      src="/favicon-light.svg"
-      alt="Logo of the StudentHub app (light variant)"
       class="h-full w-full bg-contain max-w-full"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { useDarkModeStore } from "~/stores/DarkModeStore";
+const props = defineProps<{
+  full?: boolean;
+}>();
 
-const darkModeStore = useDarkModeStore();
+const logoVariant = computed((): "logo" | "favicon" => {
+  if (props.full) return "logo";
+  else return "favicon";
+});
 </script>

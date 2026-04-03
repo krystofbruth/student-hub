@@ -133,6 +133,11 @@
     },
     "settings": {
       "profile-title": "Profil",
+
+      "appearance": {
+        "title": "Vzhled aplikace",
+        "color-scheme": "Barevné schéma"
+      },
       "security": {
         "title": "Zabezpečení",
         "change-password-title": "Změna hesla",

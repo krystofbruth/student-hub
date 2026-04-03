@@ -1,12 +1,14 @@
 <template>
   <UButton
     class="flex justify-between items-center cursor-pointer"
+    :color="props.color || 'primary'"
+    :variant="props.variant"
     :class="{
       'grayscale-25': props.isLoading,
       'cursor-not-allowed': props.isLoading,
     }"
     type="submit"
-    >{{ $t(props.titleKey)
+    >{{ props.titleKey ? $t(props.titleKey) : ""
     }}<UIcon
       class="size-4"
       :class="{
@@ -24,10 +26,19 @@
 <script setup lang="ts">
 // Named XButton to not be confused with UButton & regular button elements
 const props = defineProps<{
-  titleKey: string;
+  titleKey?: string;
   iconKey?: string;
   iconPosition?: "before" | "after";
   type?: "button" | "submit" | "reset";
   isLoading?: boolean;
+  color?:
+    | "error"
+    | "primary"
+    | "secondary"
+    | "success"
+    | "info"
+    | "warning"
+    | "neutral";
+  variant?: "link" | "outline" | "soft" | "subtle" | "ghost" | "solid";
 }>();
 </script>

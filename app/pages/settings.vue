@@ -1,8 +1,60 @@
 <template>
   <NuxtLayout v-if="profile" name="protected-layout">
     <section
-      class="grid grid-cols-1 md:grid-cols-[repeat(2,var(--container-md))] items-start justify-center w-full gap-4 align-top"
+      class="grid grid-cols-1 md:grid-cols-[repeat(2,var(--container-md))] items-stretch justify-center w-full gap-4 align-top"
     >
+      <Container>
+        <template #header>
+          <section class="flex items-center gap-2">
+            <UIcon name="lucide:paintbrush" class="size-6" />
+            <p class="font-bold text-lg">
+              {{ $t("pages.settings.appearance.title") }}
+            </p>
+          </section>
+        </template>
+
+        <template #body>
+          <UForm class="box-border flex flex-col gap-2">
+            <section>
+              <UFormField :label="$t('pages.settings.appearance.color-scheme')">
+                <section class="flex justify-start gap-2">
+                  <XButton
+                    icon-key="lucide:sun"
+                    :color="
+                      $colorMode.preference === 'light' ? 'primary' : 'neutral'
+                    "
+                    :variant="
+                      $colorMode.preference === 'light' ? 'solid' : 'outline'
+                    "
+                    @click="selectColorScheme('light')"
+                  />
+                  <XButton
+                    icon-key="lucide:moon"
+                    :color="
+                      $colorMode.preference === 'dark' ? 'primary' : 'neutral'
+                    "
+                    :variant="
+                      $colorMode.preference === 'dark' ? 'solid' : 'outline'
+                    "
+                    @click="selectColorScheme('dark')"
+                  />
+                  <XButton
+                    icon-key="lucide:settings"
+                    :color="
+                      $colorMode.preference === 'system' ? 'primary' : 'neutral'
+                    "
+                    :variant="
+                      $colorMode.preference === 'system' ? 'solid' : 'outline'
+                    "
+                    @click="selectColorScheme('system')"
+                  />
+                </section>
+              </UFormField>
+            </section>
+          </UForm>
+        </template>
+      </Container>
+
       <Container>
         <template #header>
           <section class="flex items-center gap-2">
@@ -95,6 +147,12 @@ definePageMeta({
 
 const profileStore = useProfileStore();
 const profile = storeToRefs(profileStore).profile;
+
+const colorMode = useColorMode();
+
+const selectColorScheme = (scheme: "light" | "dark" | "system") => {
+  colorMode.preference = scheme;
+};
 
 onBeforeMount(async () => {
   if (!profile.value) await profileStore.fetchProfile();

@@ -132,6 +132,10 @@
     },
     "settings": {
       "profile-title": "Profile",
+      "appearance": {
+        "title": "Appearance",
+        "color-scheme": "Color scheme"
+      },
       "security": {
         "title": "Security",
         "change-password-title": "Change password",
