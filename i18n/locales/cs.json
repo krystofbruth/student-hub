@@ -145,6 +145,13 @@
         "new-password-input": "Nové heslo",
         "new-password-repeat-input": "Zopakujte nové heslo"
       },
+      "account-info": {
+        "title": "Informace o účtu",
+        "account-id": "Identifikátor účtu",
+        "email": "Emailová adresa",
+        "language": "Nastavený jazyk",
+        "last-sync": "Poslední synchronizace"
+      },
       "displayNameLabel": "Zobrazované jméno",
       "title": "Nastavení",
       "saveButton": "Uložit",

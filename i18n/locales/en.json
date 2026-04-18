@@ -143,6 +143,13 @@
         "new-password-input": "New password",
         "new-password-repeat-input": "Repeat new password"
       },
+      "account-info": {
+        "title": "Account information",
+        "account-id": "Account identifier",
+        "email": "Email address",
+        "language": "Language preference",
+        "last-sync": "Last synchronization"
+      },
       "displayNameLabel": "Display name",
       "title": "Settings",
       "saveButton": "Uložit",

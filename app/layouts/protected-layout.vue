@@ -24,7 +24,7 @@
       </ProfileCard>
     </header>
     <hr class="text-neutral-400" />
-    <main class="box-border p-5 flex flex-col gap-5 w-full">
+    <main class="box-border p-5 flex flex-col gap-5 w-full items-center">
       <slot />
     </main>
   </div>

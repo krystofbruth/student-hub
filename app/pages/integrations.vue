@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout name="protected-layout">
     <article
-      class="bg-accented rounded-md p-3 box-border flex flex-col gap-2.5"
+      class="bg-accented rounded-md p-3 box-border flex flex-col gap-2.5 w-full"
     >
       <h2 class="text-xl font-bold">
         {{ $t("pages.integrations.my-sources") }}
@@ -51,7 +51,7 @@
 
     <!-- </section> -->
 
-    <article class="flex flex-col gap-2.5 grow basis-0">
+    <article class="flex flex-col gap-2.5 grow basis-0 w-full">
       <h2 class="text-xl font-bold">
         {{ $t("pages.integrations.available-integrations") }}
       </h2>
