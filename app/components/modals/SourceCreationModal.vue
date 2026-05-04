@@ -8,22 +8,20 @@
     <template #body>
       <div class="flex flex-col items-center gap-4">
         <div class="grid grid-cols-2 gap-4 h-20 justify-center">
-          <img
+          <UColorModeImage
             v-if="origin.provider"
-            :src="
-              darkModeStore.darkMode && origin.provider.logoUriDark
+            :light="origin.provider.logoUri"
+            :dark="
+              origin.provider.logoUriDark
                 ? origin.provider.logoUriDark
                 : origin.provider.logoUri
             "
             :alt="`${origin.provider.name} logo`"
             class="h-full w-auto max-h-20"
           />
-          <img
-            :src="
-              darkModeStore.darkMode && origin.logoUriDark
-                ? origin.logoUriDark
-                : origin.logoUri
-            "
+          <UColorModeImage
+            :light="origin.logoUri"
+            :dark="origin.logoUriDark ? origin.logoUriDark : origin.logoUri"
             :alt="`${origin.name[locale]} logo`"
             class="h-full w-auto max-h-20"
           />
@@ -74,7 +72,6 @@ const locale = i18n.locale;
 const open = ref(false);
 const emits = defineEmits(["connected"]);
 const toast = useToast();
-const darkModeStore = useDarkModeStore();
 const sourceStore = useSourceStore();
 
 const handleModalClose = () => {

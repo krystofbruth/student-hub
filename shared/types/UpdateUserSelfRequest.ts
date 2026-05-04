@@ -2,7 +2,7 @@ import z from "zod";
 import { SupportedLanguages } from "./SupportedLanguages";
 
 export const UpdateUserSelfRequestSchema = z.object({
-  displayName: z.string().optional(),
+  displayName: z.string().trim().min(3).optional(),
   language: z.enum(SupportedLanguages).optional(),
 });
 

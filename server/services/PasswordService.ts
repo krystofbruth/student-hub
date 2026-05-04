@@ -5,7 +5,7 @@ import { UnknownException } from "../exceptions/UnknownException";
 const SALT_ROUNDS = 10;
 
 export const generatePasswordHash = async (
-  plainText: string
+  plainText: string,
 ): Promise<Result<string>> => {
   try {
     const hash = await bcrypt.hash(plainText, SALT_ROUNDS);
@@ -17,7 +17,7 @@ export const generatePasswordHash = async (
 
 export const checkPassword = async (
   input: string,
-  passwordHash: string
+  passwordHash: string,
 ): Promise<Result<boolean>> => {
   try {
     const result = await bcrypt.compare(input, passwordHash);

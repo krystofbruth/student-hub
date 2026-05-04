@@ -132,7 +132,44 @@
       }
     },
     "settings": {
-      "profile-title": "Profil"
+      "profile-title": "Profil",
+
+      "appearance": {
+        "title": "Vzhled aplikace",
+        "color-scheme": "Barevné schéma"
+      },
+      "security": {
+        "title": "Zabezpečení",
+        "change-password-title": "Změna hesla",
+        "current-password-input": "Aktuální heslo",
+        "new-password-input": "Nové heslo",
+        "new-password-repeat-input": "Zopakujte nové heslo",
+        "errors": {
+          "oldPassword": "Aktuální heslo je povinné",
+          "newPassword": "Nové heslo je povinné",
+          "repeatPassword": "Zopakujte nové heslo",
+          "newPasswordStrength": "Zvolte silné heslo vyhovující kritériím",
+          "passwordsMismatch": "Hesla se neshodují"
+        },
+        "errorResponses": {
+          "passwordMismatch": {
+            "title": "Nesprávné aktuální heslo",
+            "description": "Zadané heslo neodpovídá vašemu aktuálnímu heslu."
+          }
+        }
+      },
+      "account-info": {
+        "title": "Informace o účtu",
+        "account-id": "Identifikátor účtu",
+        "email": "Emailová adresa",
+        "language": "Nastavený jazyk",
+        "last-sync": "Poslední synchronizace"
+      },
+      "displayNameLabel": "Zobrazované jméno",
+      "displayNameError": "Zobrazované jméno musí mít alespoň 3 znaky.",
+      "title": "Nastavení",
+      "saveButton": "Uložit",
+      "changePasswordButton": "Změnit heslo"
     }
   },
   "modals": {
@@ -230,6 +267,12 @@
       "updateSuccess": {
         "title": "Aktualizace úspěšná",
         "description": "Aktualizace profilu proběhla úspěšně."
+      }
+    },
+    "password": {
+      "updateSuccess": {
+        "title": "Heslo změněno",
+        "description": "Vaše heslo bylo úspěšně změněno."
       }
     },
     "auth": {

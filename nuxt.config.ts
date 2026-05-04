@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@nuxtjs/i18n",
   ],
-  css: ["~/assets/css/main.css"],
+  css: ["~/assets/css/reset.css", "~/assets/css/main.css"],
   runtimeConfig: {
     dbUri: process.env.DB_URI || "mongodb://127.0.0.1:27017",
     emailVerification: false,
