@@ -5,15 +5,13 @@
         v-if="provider"
         class="flex flex-col md:flex-row gap-6 items-center w-full"
       >
-        <img
-          :src="
-            darkModeStore.darkMode && provider.logoUriDark
-              ? provider.logoUriDark
-              : provider.logoUri
-          "
+        <UColorModeImage
           :alt="`${provider.name} logo`"
           class="h-full box-border max-h-20"
+          :light="provider.logoUri"
+          :dark="provider.logoUriDark ? provider.logoUriDark : provider.logoUri"
         />
+
         <p class="font-bold grow">
           {{ provider.name }}
         </p>
@@ -40,7 +38,6 @@ const props = defineProps<{
   providerId: string;
 }>();
 const providerStore = useProviderStore();
-const darkModeStore = useDarkModeStore();
 
 const provider = ref<ProviderView | undefined>();
 

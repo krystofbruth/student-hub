@@ -131,7 +131,43 @@
       }
     },
     "settings": {
-      "profile-title": "Profile"
+      "profile-title": "Profile",
+      "appearance": {
+        "title": "Appearance",
+        "color-scheme": "Color scheme"
+      },
+      "security": {
+        "title": "Security",
+        "change-password-title": "Change password",
+        "current-password-input": "Current password",
+        "new-password-input": "New password",
+        "new-password-repeat-input": "Repeat new password",
+        "errors": {
+          "oldPassword": "Current password is required",
+          "newPassword": "New password is required",
+          "repeatPassword": "Repeat the new password",
+          "newPasswordStrength": "Choose a strong password according to the criteria",
+          "passwordsMismatch": "Passwords don't match"
+        },
+        "errorResponses": {
+          "passwordMismatch": {
+            "title": "Wrong current password",
+            "description": "The password you entered does not match your current password."
+          }
+        }
+      },
+      "account-info": {
+        "title": "Account information",
+        "account-id": "Account identifier",
+        "email": "Email address",
+        "language": "Language preference",
+        "last-sync": "Last synchronization"
+      },
+      "displayNameLabel": "Display name",
+      "displayNameError": "Display name must be at least 3 characters long.",
+      "title": "Settings",
+      "saveButton": "Uložit",
+      "changePasswordButton": "Change password"
     }
   },
   "modals": {
@@ -229,6 +265,12 @@
       "updateSuccess": {
         "title": "Update success",
         "description": "Profile update processed successfully."
+      }
+    },
+    "password": {
+      "updateSuccess": {
+        "title": "Password updated",
+        "description": "Your password has been updated successfully."
       }
     },
     "auth": {

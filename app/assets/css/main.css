@@ -5,7 +5,16 @@
   --font-sans: "Public Sans", sans-serif;
 
   --color-primary: #18b9c4;
-  --color-secondary: #e0e0e0;
+  --color-secondary: #18b9c4;
+}
+
+body {
+  width: 100vw;
+  min-height: 100vh;
+}
+
+div#__nuxt {
+  width: 100%;
 }
 
 .disabled {

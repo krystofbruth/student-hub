@@ -4,15 +4,13 @@
       v-if="origin"
       class="flex flex-col items-center gap-4 p-2 box-border h-full"
     >
-      <img
+      <UColorModeImage
         class="w-18 h-18 object-contain"
-        :src="
-          darkModeStore.darkMode && origin.logoUriDark
-            ? origin.logoUriDark
-            : origin.logoUri
-        "
         :alt="`${origin.name[$i18n.locale]} logo`"
+        :light="origin.logoUri"
+        :dark="origin.logoUriDark ? origin.logoUriDark : origin.logoUri"
       />
+
       <div class="w-full flex flex-col gap-4 grow">
         <p class="font-bold text-xl">{{ origin.name[$i18n.locale] }}</p>
         <p>{{ origin.description[$i18n.locale] }}</p>
@@ -51,7 +49,6 @@ const apiExceptionHandler = useApiExceptionErrorHandler();
 const props = defineProps<{
   originId: string;
 }>();
-const darkModeStore = useDarkModeStore();
 const sourceLimitReached = computed(() => {
   const sources = sourceStore.sources.filter(
     (s) => s.origin._id === props.originId,

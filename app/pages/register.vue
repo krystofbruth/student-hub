@@ -3,10 +3,8 @@
     <template #left>
       <div class="h-full md:max-w-xl flex flex-col gap-4 justify-between">
         <section class="flex flex-col gap-4 w-full">
-          <Logo class="max-h-25 md:max-h-20" />
-          <p class="font-bold text-4xl max-w-full text-center">
-            INSERT SOME COOL INFOGRAPHIC
-          </p>
+          <Logo class="h-20 p-4 md:p-8 max-h-30 md:h-fit" :full="true" />
+
           <ShortDescription class="hidden md:block" />
         </section>
 
