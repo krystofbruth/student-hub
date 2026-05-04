@@ -143,7 +143,20 @@
         "change-password-title": "Změna hesla",
         "current-password-input": "Aktuální heslo",
         "new-password-input": "Nové heslo",
-        "new-password-repeat-input": "Zopakujte nové heslo"
+        "new-password-repeat-input": "Zopakujte nové heslo",
+        "errors": {
+          "oldPassword": "Aktuální heslo je povinné",
+          "newPassword": "Nové heslo je povinné",
+          "repeatPassword": "Zopakujte nové heslo",
+          "newPasswordStrength": "Zvolte silné heslo vyhovující kritériím",
+          "passwordsMismatch": "Hesla se neshodují"
+        },
+        "errorResponses": {
+          "passwordMismatch": {
+            "title": "Nesprávné aktuální heslo",
+            "description": "Zadané heslo neodpovídá vašemu aktuálnímu heslu."
+          }
+        }
       },
       "account-info": {
         "title": "Informace o účtu",
@@ -254,6 +267,12 @@
       "updateSuccess": {
         "title": "Aktualizace úspěšná",
         "description": "Aktualizace profilu proběhla úspěšně."
+      }
+    },
+    "password": {
+      "updateSuccess": {
+        "title": "Heslo změněno",
+        "description": "Vaše heslo bylo úspěšně změněno."
       }
     },
     "auth": {

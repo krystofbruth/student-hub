@@ -4,11 +4,12 @@ import { Result } from "../helpers/Result";
 import mongoose from "mongoose";
 import { NotFoundException } from "../exceptions/NotFoundException";
 import { UnknownException } from "../exceptions/UnknownException";
-import { generatePasswordHash } from "./PasswordService";
+import { generatePasswordHash, checkPassword } from "./PasswordService";
 import { ImplementationException } from "../exceptions/ImplementationException";
 import { MongoServerError } from "mongodb";
 import { ConflictException } from "../exceptions/ConflictException";
 import { ValidationException } from "../exceptions/ValidationException";
+import { AuthenticationException } from "../exceptions/AuthenticationException";
 
 /** Registers an initially unverified User. */
 export const registerUser = async (
@@ -128,6 +129,36 @@ export const updateUser = async (
         ),
       };
     return { success: true, data: updatedUser };
+  } catch (err) {
+    return { success: false, error: new UnknownException(err) };
+  }
+};
+
+export const updateUserPassword = async (
+  userId: mongoose.Types.ObjectId,
+  oldPassword: string,
+  newPassword: string,
+): Promise<Result<IUser>> => {
+  try {
+    const user = await User.findById(userId);
+    if (!user)
+      return {
+        success: false,
+        error: new NotFoundException(userId.toString()),
+      };
+
+    const passwordCheck = await checkPassword(oldPassword, user.passwordHash);
+    if (!passwordCheck.success) return passwordCheck;
+    if (!passwordCheck.data)
+      return { success: false, error: new AuthenticationException() };
+
+    const hashAttempt = await generatePasswordHash(newPassword);
+    if (!hashAttempt.success) return hashAttempt;
+
+    user.passwordHash = hashAttempt.data;
+    await user.save();
+
+    return { success: true, data: user };
   } catch (err) {
     return { success: false, error: new UnknownException(err) };
   }

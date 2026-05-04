@@ -60,59 +60,7 @@
           </template>
         </Container>
 
-        <Container>
-          <template #header>
-            <section class="flex items-center gap-2">
-              <UIcon name="lucide:lock-keyhole" class="size-6" />
-              <p class="font-bold text-lg">
-                {{ $t("pages.settings.security.title") }}
-              </p>
-            </section>
-          </template>
-
-          <template #body>
-            <UForm class="box-border flex flex-col gap-2">
-              <header class="flex items-center gap-2"></header>
-              <section class="flex flex-col gap-4">
-                <!-- <p class="font-bold">Activity</p>
-                <section>
-                  <p>Review sign-in activity</p>
-                </section>
-                <hr class="text-neutral-400" /> -->
-                <p class="font-bold">
-                  {{ $t("pages.settings.security.change-password-title") }}
-                </p>
-                <section class="flex flex-col gap-3">
-                  <UFormField
-                    :label="
-                      $t('pages.settings.security.current-password-input')
-                    "
-                  >
-                    <UInput type="password" class="w-full" />
-                  </UFormField>
-                  <UFormField
-                    :label="$t('pages.settings.security.new-password-input')"
-                  >
-                    <UInput type="password" class="w-full" />
-                  </UFormField>
-                  <UFormField
-                    :label="
-                      $t('pages.settings.security.new-password-repeat-input')
-                    "
-                  >
-                    <UInput type="password" class="w-full" />
-                  </UFormField>
-                </section>
-                <footer class="w-full flex justify-end">
-                  <XButton
-                    title-key="pages.settings.changePasswordButton"
-                    icon-key="lucide:check"
-                  />
-                </footer>
-              </section>
-            </UForm>
-          </template>
-        </Container>
+        <SecuritySettings />
       </section>
 
       <section class="flex flex-col gap-4 w-full">
@@ -146,6 +94,7 @@
 import Container from "~/components/containers/Container.vue";
 import XButton from "~/components/utilities/XButton.vue";
 import ProfileSettings from "~/components/settings/ProfileSettings.vue";
+import SecuritySettings from "~/components/settings/SecuritySettings.vue";
 
 definePageMeta({
   middleware: "auth",
