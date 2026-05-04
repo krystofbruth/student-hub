@@ -116,32 +116,7 @@
       </section>
 
       <section class="flex flex-col gap-4 w-full">
-        <Container>
-          <template #header>
-            <section class="flex items-center gap-2">
-              <UIcon name="lucide:square-user-round" class="size-6" />
-              <p class="font-bold text-lg">
-                {{ $t("pages.settings.profile-title") }}
-              </p>
-            </section>
-          </template>
-
-          <template #body>
-            <UForm class="box-border flex flex-col gap-2">
-              <section>
-                <UFormField :label="$t('pages.settings.displayNameLabel')">
-                  <UInput v-model="displayNameInput" class="w-full" />
-                </UFormField>
-              </section>
-              <footer class="w-full flex justify-end">
-                <XButton
-                  title-key="pages.settings.saveButton"
-                  icon-key="lucide:check"
-                />
-              </footer>
-            </UForm>
-          </template>
-        </Container>
+        <ProfileSettings />
 
         <Container>
           <template #header>
@@ -170,6 +145,7 @@
 <script setup lang="ts">
 import Container from "~/components/containers/Container.vue";
 import XButton from "~/components/utilities/XButton.vue";
+import ProfileSettings from "~/components/settings/ProfileSettings.vue";
 
 definePageMeta({
   middleware: "auth",
@@ -182,10 +158,7 @@ const selectColorScheme = (scheme: "light" | "dark" | "system") => {
   colorMode.preference = scheme;
 };
 
-const displayNameInput = ref("");
-
 onBeforeMount(async () => {
   if (!profileStore.profile) await profileStore.fetchProfile();
-  displayNameInput.value = profileStore.profile!.displayName;
 });
 </script>

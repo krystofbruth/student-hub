@@ -153,6 +153,7 @@
         "last-sync": "Poslední synchronizace"
       },
       "displayNameLabel": "Zobrazované jméno",
+      "displayNameError": "Zobrazované jméno musí mít alespoň 3 znaky.",
       "title": "Nastavení",
       "saveButton": "Uložit",
       "changePasswordButton": "Změnit heslo"

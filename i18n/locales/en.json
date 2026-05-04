@@ -151,6 +151,7 @@
         "last-sync": "Last synchronization"
       },
       "displayNameLabel": "Display name",
+      "displayNameError": "Display name must be at least 3 characters long.",
       "title": "Settings",
       "saveButton": "Uložit",
       "changePasswordButton": "Change password"
