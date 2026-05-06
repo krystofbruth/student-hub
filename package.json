@@ -1,10 +1,10 @@
 {
   "name": "student-hub",
   "type": "module",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "scripts": {
-    "build": "nuxt typecheck && nuxt build && echo \"\n\n !! Don't forget to bump up the version number in shared/utils/AppMeta.ts!\"",
+    "build": "nuxt typecheck && nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
