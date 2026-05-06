@@ -81,7 +81,12 @@
               <p class="text-sm">
                 {{ $t("pages.settings.account-info.account-id") }}
               </p>
-              <p class="font-mono">{{ profileStore.profile!._id }}</p>
+              <p
+                class="font-mono"
+                v-if="typeof profileStore.profile !== 'undefined'"
+              >
+                {{ profileStore.profile._id }}
+              </p>
             </section>
           </template>
         </Container>
