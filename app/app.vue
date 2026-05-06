@@ -2,7 +2,7 @@
   <UApp :locale="nuxtUiLocales[$i18n.locale]">
     <NuxtPage />
     <footer class="fixed bottom-4 right-4 z-99">
-      <!-- <AppMetaModal /> -->
+      <AppMetaModal />
     </footer>
   </UApp>
 </template>
@@ -10,6 +10,7 @@
 <script setup lang="ts">
 import { cs, en } from "@nuxt/ui/locale";
 import type { Messages, Locale as NuxtUILocale } from "@nuxt/ui";
+import AppMetaModal from "./components/modals/AppMetaModal.vue";
 const i18n = useI18n();
 
 const nuxtUiLocales: Record<
