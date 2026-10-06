@@ -1,4 +1,4 @@
-![StudentHub dark mode logo](https://raw.githubusercontent.com/krystofbruth/student-hub/refs/heads/main/public/logo-light.svg)
+![StudentHub dark mode logo](https://raw.githubusercontent.com/krystofbruth/student-hub/refs/heads/main/public/logo-dark.svg)
 
 # StudentHub
 
