@@ -4,6 +4,13 @@
 
 StudentHub is an aggregation tool (a dashboard, if you will) for getting an overview of your upcoming assignments, events and other study-related information. While the tool was made primarily for students of Smíchov Secondary Technical School, it's still very modular and in-development. If your school utilizes systems such as Microsoft 365, Bakaláři or the system uses RSS (upcoming feature!), you're in luck - StudentHub probably supports it.
 
+<table>
+  <tr>
+    <td width="50%"><img src="https://github.com/krystofbruth/student-hub/blob/main/public/presentation_01.png?raw=true" alt="Presentation 1" width="100%"></td>
+    <td width="50%"><img src="https://github.com/krystofbruth/student-hub/blob/main/public/presentation_02.png?raw=true" alt="Presentation 2" width="100%"></td>
+  </tr>
+</table>
+
 **Disclaimer: For actual integration, refer to your school IT department and get in touch with me, as there are specific approval processes needed for accessing sensitive information such as your assignments, timetable and the like.**
 
 ### Technologies
