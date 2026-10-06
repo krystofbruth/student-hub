@@ -1,7 +1,5 @@
 ![StudentHub dark mode logo](https://raw.githubusercontent.com/krystofbruth/student-hub/refs/heads/main/public/logo-dark.svg)
 
-# StudentHub
-
 ## What?
 
 StudentHub is an aggregation tool (a dashboard, if you will) for getting an overview of your upcoming assignments, events and other study-related information. While the tool was made primarily for students of Smíchov Secondary Technical School, it's still very modular and in-development. If your school utilizes systems such as Microsoft 365, Bakaláři or the system uses RSS (upcoming feature!), you're in luck - StudentHub probably supports it.
