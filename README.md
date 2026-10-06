@@ -18,6 +18,8 @@ A user registers and creates an account, then links the services they'd like.
 
 I've been frustrated with my school's various information systems, especially their apparent redundancy in many cases. However once upon a time, an important piece of information (such as assignment or exam date) lands on this system, and then bad luck that you're not checking every single system every single day.
 
+That's exactly what StudentHub solves - instead of checking every single system individually, it compiles for you in a comprehensive dashboard every piece of information you might need.
+
 ## How (to use)?
 
 Make sure to install dependencies:
