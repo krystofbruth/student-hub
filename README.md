@@ -66,3 +66,7 @@ Locally preview production build:
 ```bash
 npm run preview
 ```
+
+## Contributor documentation
+
+For contributor onboarding, project structure, configuration details and contribution workflow, see [`/docs`](./docs/README.md).
